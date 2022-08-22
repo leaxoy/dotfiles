@@ -1,4 +1,4 @@
-vim.g.theme = "tokyonight"
+vim.g.theme = "catppuccin"
 
 -- treesitter config --
 vim.g.ts_syntaxes = {

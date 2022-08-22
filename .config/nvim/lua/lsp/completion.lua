@@ -11,7 +11,7 @@ local function setup()
   local cmp = require("cmp")
 
   cmp.setup({
-    view = { entries = { name = "custom", selection_order = "near_cursor" } },
+    view = { entries = { name = "custom" } },
     window = {
       completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
@@ -121,7 +121,7 @@ local function setup()
   -- Use cmdline & path source for ':'.
   cmp.setup.cmdline(":", {
     view = { entries = { name = "wildmenu" } },
-    sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
+    sources = { { name = "path" }, { name = "cmdline" } },
   })
 end
 

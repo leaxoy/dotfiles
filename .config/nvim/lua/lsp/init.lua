@@ -89,9 +89,9 @@ local function resolve_server_capabilities(client, buffer)
   -- if client.server_capabilities.selectionRangeProvider then
   -- end
   if client.server_capabilities.documentSymbolProvider then
-    local status, _ = pcall(require, "lspsaga")
+    local status, outline = pcall(require, "lspsaga.outline")
     if status then
-      map("n", "go", "<Cmd>LSoutlineToggle<CR>", { desc = "Document Symbol" })
+      map("n", "go", function() outline:render_outline(true) end, { desc = "Document Symbol" })
     else
       map("n", "go", vim.lsp.buf.document_symbol, { desc = "Document Symbol" })
     end
@@ -107,7 +107,7 @@ local function resolve_server_capabilities(client, buffer)
   -- if client.server_capabilities.inlineValueProvider then
   -- end
   if client.server_capabilities.inlayHintProvider then
-    require("lsp-inlayhints").on_attach(buffer, client, true)
+    require("lsp-inlayhints").on_attach(buffer, client, false)
   end
   -- if client.server_capabilities.monikerProvider then
   -- end
@@ -119,8 +119,8 @@ local function resolve_server_capabilities(client, buffer)
     map("n", "gs", vim.lsp.buf.signature_help, { desc = "Signature Help" })
   end
   if client.server_capabilities.codeActionProvider then
-    local ca = function() vim.lsp.buf.code_action({ apply = true }) end
-    map({ "n", "v" }, "gaa", ca, { desc = "Code Action" })
+    local code_action = function() vim.lsp.buf.code_action({ apply = true }) end
+    map({ "n", "v" }, "gaa", code_action, { desc = "Code Action" })
   end
   -- if client.server_capabilities.colorProvider then
   -- end

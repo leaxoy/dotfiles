@@ -61,7 +61,7 @@ if catppuccin_status then
     transparent_background = true,
     term_colors = true,
     compile = {
-      enabled = false,
+      enabled = true,
       path = vim.fn.stdpath "cache" .. "/catppuccin",
     },
     styles = {
@@ -103,25 +103,11 @@ if catppuccin_status then
       gitsigns = true,
       leap = false,
       telescope = true,
-      nvimtree = {
-        enabled = true,
-        show_root = true,
-        transparent_panel = false,
-      },
-      neotree = {
-        enabled = false,
-        show_root = true,
-        transparent_panel = false,
-      },
-      dap = {
-        enabled = true,
-        enable_ui = true,
-      },
+      nvimtree = { enabled = true, show_root = true, transparent_panel = false, },
+      neotree = { enabled = false, show_root = true, transparent_panel = false, },
+      dap = { enabled = true, enable_ui = true, },
       which_key = true,
-      indent_blankline = {
-        enabled = true,
-        colored_indent_levels = true,
-      },
+      indent_blankline = { enabled = true, colored_indent_levels = true, },
       dashboard = true,
       neogit = false,
       vim_sneak = false,
