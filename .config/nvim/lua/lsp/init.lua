@@ -97,10 +97,12 @@ local function resolve_server_capabilities(client, buffer)
     end
   end
   if client.server_capabilities.semanticTokensProvider then
-    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-      pattern = "*",
-      callback = vim.lsp.buf.semantic_tokens_full,
-    })
+    if client.server_capabilities.semanticTokensProvider.full then
+      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+        pattern = "*",
+        callback = vim.lsp.buf.semantic_tokens_full,
+      })
+    end
   end
   -- if client.server_capabilities.inlineValueProvider then
   -- end
@@ -158,34 +160,23 @@ local function resolve_server_capabilities(client, buffer)
   end
 end
 
-local function resolve_client_capabilities(...)
-  local cfg = ... or {}
+local function resolve_client_capabilities()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  local if_nil = vim.F.if_nil
+  local text_document = capabilities.textDocument
+  local workspace = capabilities.workspace
   local completionItem = capabilities.textDocument.completion.completionItem
 
-  completionItem.snippetSupport = if_nil(cfg.snippetSupport, true)
-  completionItem.preselectSupport = if_nil(cfg.preselectSupport, true)
-  completionItem.insertReplaceSupport = if_nil(cfg.insertReplaceSupport, true)
-  completionItem.labelDetailsSupport = if_nil(cfg.labelDetailsSupport, true)
-  completionItem.deprecatedSupport = if_nil(cfg.deprecatedSupport, true)
-  completionItem.commitCharactersSupport = if_nil(cfg.commitCharactersSupport, true)
-  completionItem.tagSupport = if_nil(cfg.tagSupport, { valueSet = { 1 } })
-  completionItem.resolveSupport = if_nil(cfg.resolveSupport, {
-    properties = {
-      "documentation",
-      "detail",
-      "additionalTextEdits",
-    },
-  })
-  capabilities.textDocument.foldingRange = {
-    dynamicRegistration = false,
-    lineFoldingOnly = true
-  }
-  capabilities.textDocument.typeHierarchy = {
-    dynamicRegistration = false,
-  }
-  capabilities.workspace.semanticTokens = { refreshSupport = true }
+  completionItem.snippetSupport = true
+  completionItem.preselectSupport = true
+  completionItem.insertReplaceSupport = true
+  completionItem.labelDetailsSupport = true
+  completionItem.deprecatedSupport = true
+  completionItem.commitCharactersSupport = true
+  completionItem.tagSupport = { valueSet = { 1 } }
+  completionItem.resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } }
+  text_document.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
+  text_document.typeHierarchy = { dynamicRegistration = false, }
+  workspace.semanticTokens = { refreshSupport = true }
   return capabilities
 end
 
@@ -199,7 +190,7 @@ local function setup_lspsaga()
       enable = true,
       in_custom = false,
       click_support = false,
-      show_file = false,
+      show_file = true,
       separator = "  "
     },
     finder_action_keys = {
@@ -242,14 +233,11 @@ end
 
 M.activate = function(client, bufnr)
   client.offset_encoding = "utf-16"
-  setup_lsp_inlayhint()
-  setup_lspsaga()
-  setup_lsp_semantic_tokens()
   resolve_server_capabilities(client, bufnr)
 end
 
-M.lsp_capabitities = function(cfg)
-  return resolve_client_capabilities(cfg)
+M.lsp_capabitities = function()
+  return resolve_client_capabilities()
 end
 
 M.lsp_settings = {
@@ -357,6 +345,9 @@ M.lsp_init_options = {
 }
 
 M.setup = function()
+  setup_lsp_inlayhint()
+  setup_lspsaga()
+  setup_lsp_semantic_tokens()
   require("lsp/completion").setup()
 
   local lsp_center = require("mason-lspconfig")

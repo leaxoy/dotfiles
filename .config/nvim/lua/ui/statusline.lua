@@ -61,21 +61,29 @@ require("lualine").setup({
 
 if vim.fn.has("nvim-0.8") then
   vim.api.nvim_create_autocmd(
-    { "BufEnter", "BufWinEnter", "CursorMoved" },
+    { "BufEnter", "BufWinEnter", "CursorMoved", "CursorHold", "CursorHoldI" },
     {
       pattern = "*",
       callback = function()
-        local excludes = { "", "toggleterm", "prompt", "NvimTree", "help", "netrw", "lspsagaoutline", "qf", "packer",
-          "git" }
+        local excludes = {
+          "",
+          "toggleterm",
+          "prompt",
+          "NvimTree",
+          "help",
+          "netrw",
+          "lspsagaoutline",
+          "qf",
+          "packer",
+          "git"
+        }
         if vim.api.nvim_win_get_config(0).zindex or vim.tbl_contains(excludes, vim.bo.filetype) then
           vim.wo.winbar = ""
         else
           local win_text
           local status, symbol = pcall(require, "lspsaga.symbolwinbar")
           if status then
-            win_text = symbol:get_symbol_node() or "..."
-          else
-            win_text = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+            win_text = symbol:get_symbol_node()
           end
           vim.wo.winbar = win_text
         end

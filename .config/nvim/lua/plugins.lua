@@ -31,7 +31,7 @@ return require("packer").startup({
     use({ "norcalli/nvim-colorizer.lua" })
     use("Mofiqul/vscode.nvim") -- theme
     use("folke/tokyonight.nvim")
-    use({ "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" })
+    use({ "catppuccin/nvim", as = "catppuccin" })
     use({ "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" }) -- file explorer
     use({ "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" }) -- buffer line
     use({ "nvim-lualine/lualine.nvim", requires = "kyazdani42/nvim-web-devicons" }) -- statusline
