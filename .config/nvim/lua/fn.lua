@@ -17,12 +17,4 @@ local cmd_fn = function(cmd, args)
   return function() vim.cmd({ cmd = cmd, args = args }) end
 end
 
-local hl_create = function(hl_group, hl_info)
-  vim.api.nvim_set_hl(0, hl_group, hl_info)
-end
-
-local hl_link = function(hl_group, link_to)
-  vim.api.nvim_set_hl(0, hl_group, { link = link_to, default = true })
-end
-
-return { lsp_notify = lsp_notify, cmd_fn = cmd_fn, hl_link = hl_link, hl_create = hl_create }
+return { lsp_notify = lsp_notify, cmd_fn = cmd_fn }

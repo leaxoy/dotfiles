@@ -71,12 +71,6 @@ local function resolve_server_capabilities(client, buffer)
     map("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
   end
   if client.server_capabilities.codeLensProvider and client.server_capabilities.codeLensProvider.resolveProvider then
-    local hl_link = require("fn").hl_link
-    hl_link("LspCodeLens", "WarningMsg")
-    hl_link("LspCodeLensText", "WarningMsg")
-    hl_link("LspCodeLensTextSign", "LspCodeLensText")
-    hl_link("LspCodeLensTextSeparator", "Boolean")
-
     vim.api.nvim_create_autocmd({ "BufEnter", "TextChanged" }, {
       pattern = "*", callback = vim.lsp.codelens.refresh
     })
@@ -97,17 +91,18 @@ local function resolve_server_capabilities(client, buffer)
     end
   end
   if client.server_capabilities.semanticTokensProvider then
-    if client.server_capabilities.semanticTokensProvider.full then
-      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-        pattern = "*",
-        callback = vim.lsp.buf.semantic_tokens_full,
-      })
-    end
+    -- if client.server_capabilities.semanticTokensProvider.full and
+    --     client.supports_method("textDocument/semanticTokens/full") then
+    --   vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+    --     pattern = "*",
+    --     callback = vim.lsp.buf.semantic_tokens_full,
+    --   })
+    -- end
   end
   -- if client.server_capabilities.inlineValueProvider then
   -- end
   if client.server_capabilities.inlayHintProvider then
-    require("lsp-inlayhints").on_attach(buffer, client, false)
+    require("lsp-inlayhints").on_attach(client, buffer, false)
   end
   -- if client.server_capabilities.monikerProvider then
   -- end
@@ -177,59 +172,11 @@ local function resolve_client_capabilities()
   text_document.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
   text_document.typeHierarchy = { dynamicRegistration = false, }
   workspace.semanticTokens = { refreshSupport = true }
+  capabilities = require("nvim-semantic-tokens").extend_capabilities(capabilities)
   return capabilities
 end
 
 local M = {}
-
-local function setup_lspsaga()
-  require("lspsaga").init_lsp_saga({
-    border_style = "double",
-    max_preview_lines = 20,
-    symbol_in_winbar = {
-      enable = true,
-      in_custom = false,
-      click_support = false,
-      show_file = true,
-      separator = "  "
-    },
-    finder_action_keys = {
-      open = { "o", "<CR>" },
-      quit = { "q", "<Esc>" },
-      vsplit = "v",
-      split = "s",
-      scroll_down = "<C-d>",
-      scroll_up = "<C-u>",
-    },
-    finder_request_timeout = 5000,
-    finder_icons = { def = " ", imp = " ", ref = " " },
-    definition_preview_icon = " ",
-    code_action_lightbulb = { enable = false },
-  })
-end
-
-local function setup_lsp_inlayhint()
-  vim.api.nvim_set_hl(0, "LspInlayHint", { link = "LspCodeLens" })
-  require("lsp-inlayhints").setup({
-    inlay_hints = {
-      -- highlight = "CustomLspInlayHint",
-      type_hints = { prefix = " " },
-      parameter_hints = { prefix = " " }
-    }
-  })
-end
-
-local function setup_lsp_semantic_tokens()
-  require("nvim-semantic-tokens").setup({
-    preset = "default",
-    -- highlighters is a list of modules following the interface of nvim-semantic-tokens.table-highlighter or
-    -- function with the signature: highlight_token(ctx, token, highlight) where
-    --        ctx (as defined in :h lsp-handler)
-    --        token  (as defined in :h vim.lsp.semantic_tokens.on_full())
-    --        highlight (a helper function that you can call (also multiple times) with the determined highlight group(s) as the only parameter)
-    highlighters = { require("nvim-semantic-tokens.table-highlighter") }
-  })
-end
 
 M.activate = function(client, bufnr)
   client.offset_encoding = "utf-16"
@@ -323,6 +270,32 @@ M.lsp_settings = {
       workspace = { checkThirdParty = false, },
     },
   },
+  ["tsserver"] = {
+    ["tsserver"] = {
+      typescript = {
+        inlayHints = {
+          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        }
+      },
+      javascript = {
+        inlayHints = {
+          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        }
+      }
+    }
+  }
 }
 
 M.lsp_init_options = {
@@ -345,16 +318,8 @@ M.lsp_init_options = {
 }
 
 M.setup = function()
-  setup_lsp_inlayhint()
-  setup_lspsaga()
-  setup_lsp_semantic_tokens()
-  require("lsp/completion").setup()
-
   local lsp_center = require("mason-lspconfig")
-  lsp_center.setup({
-    ensure_installed = vim.g.lsp_servers,
-    automatic_installation = true,
-  })
+  lsp_center.setup({ ensure_installed = vim.g.lsp_servers, automatic_installation = true })
 
   local lspconfig = require("lspconfig")
   for _, server_name in pairs(lsp_center.get_installed_servers()) do

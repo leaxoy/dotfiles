@@ -62,3 +62,8 @@ vim.api.nvim_create_user_command(
   function() rust_expand_macro() end,
   { desc = "Rust Expand Macro" }
 )
+
+vim.api.nvim_create_autocmd("BufRead", {
+  pattern = "Cargo.toml",
+  callback = require("crates").setup
+})

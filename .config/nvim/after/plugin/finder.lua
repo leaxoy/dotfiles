@@ -1,12 +1,15 @@
-require("telescope").load_extension("file_browser")
-require("telescope").load_extension("live_grep_args")
-require("telescope").load_extension("dap")
-require("telescope").load_extension("goimpl")
-require("telescope").load_extension("packer")
-require("telescope").load_extension("todo-comments")
-require("telescope").load_extension("notify")
+local status, telescope = pcall(require, "telescope")
+if not status then return end
 
-require("telescope").setup({
+telescope.load_extension("file_browser")
+telescope.load_extension("live_grep_args")
+telescope.load_extension("dap")
+telescope.load_extension("goimpl")
+telescope.load_extension("packer")
+telescope.load_extension("todo-comments")
+telescope.load_extension("notify")
+
+telescope.setup({
   defaults = {
     -- winblend = 15,
     prompt_prefix = "🔍 ",

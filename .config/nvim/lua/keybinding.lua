@@ -89,6 +89,7 @@ map("n", "<leader>xh", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 map("n", "<leader>x[", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 
 -- Edit
+map("n", "<leader><CR>", "o<Esc>", { desc = "New Line" })
 map("n", "<leader>;", "i<CR><Esc>", { desc = "Break Line" })
 map("n", "<leader>p", popup("<leader>p"), { desc = "+Preview" })
 map("n", "<leader>pm", cmd_fn "Glow", { desc = "Preview Markdow" })

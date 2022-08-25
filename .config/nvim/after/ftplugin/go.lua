@@ -1,3 +1,7 @@
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.expandtab = true
+
 local dap = require("dap")
 local ts_utils = require("nvim-treesitter.ts_utils")
 

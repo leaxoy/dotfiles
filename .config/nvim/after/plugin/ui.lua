@@ -1,7 +1,10 @@
-local hl = function(group, val) vim.api.nvim_set_hl(0, group, val) end
+require("dressing").setup({
+  input = { enabled = true, prompt_align = "center",
+    winhighlight = "NormalFloat:Normal,FloatTitle:Normal,FloatBorder:Normal" },
+  select = { enabled = true },
+})
 
-hl("WinBar", { fg = "#458e88", undercurl = true })
-hl("WinBarNC", { fg = "#666777", undercurl = true })
+require("nvim-web-devicons").setup({ default = true })
 
 -- gruvbox material config
 vim.g.gruvbox_material_background = "hard" -- hard, medium or soft
