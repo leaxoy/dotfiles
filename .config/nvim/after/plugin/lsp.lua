@@ -6,7 +6,7 @@ require("lspsaga").init_lsp_saga({
     in_custom = false,
     click_support = false,
     show_file = true,
-    separator = "  "
+    separator = "  "
   },
   finder_action_keys = {
     open = { "o", "<CR>" },

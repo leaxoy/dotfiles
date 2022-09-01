@@ -50,6 +50,10 @@ map("n", "<leader>7", cmd_fn("BufferLineGoToBuffer", { "7" }), { desc = "Goto Bu
 map("n", "<leader>8", cmd_fn("BufferLineGoToBuffer", { "8" }), { desc = "Goto Buffer 8" })
 map("n", "<leader>9", cmd_fn("BufferLineGoToBuffer", { "9" }), { desc = "Goto Buffer 9" })
 
+map("n", "<M-t>", cmd_fn("Lspsaga", { "open_floaterm", "/usr/local/bin/fish" }), { desc = "Open terminal" })
+map("t", "<M-t>", cmd_fn("Lspsaga", { "close_floaterm" }), { desc = "Close terminal" })
+map("n", "<M-g>", cmd_fn("Lspsaga", { "open_floaterm", "lazygit" }), { desc = "Open Git Window" })
+
 -- LSP or DAP or Linter or Formatter
 map("n", "<leader>l", popup("<leader>l"), { desc = "+Mason" })
 map("n", "<leader>lm", cmd_fn "Mason", { desc = "Manage Mason" })
@@ -61,7 +65,8 @@ map("n", "gp", cmd_fn("Lspsaga", { "preview_definition" }), { desc = "Lsp Previe
 
 -- Debug
 map("n", "<leader>d", popup("<leader>d"), { desc = "+Debug" })
-map("n", "<leader>db", function() require("dap").toggle_breakpoint() end, { desc = "Toggle Breakpoint" })
+-- map("n", "<leader>db", function() require("dap").toggle_breakpoint() end, { desc = "Toggle Breakpoint" })
+map("n", "<leader>db", require("persistent-breakpoints.api").toggle_breakpoint, { desc = "Toggle Breakpoint" })
 map("n", "<leader>dc", function() require("dap").continue() end, { desc = "Run | Countine" })
 map("n", "<leader>de", function() require("dapui").eval(nil, {}) end, { desc = "Eval Expression" })
 map("n", "<leader>df", function() require("dapui").float_element("stacks", {}) end, { desc = "Show Floating Window" })

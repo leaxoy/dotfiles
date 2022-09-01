@@ -35,9 +35,10 @@ return require("packer").startup({
     use({ "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" }) -- file explorer
     use({ "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" }) -- buffer line
     use({ "nvim-lualine/lualine.nvim", requires = "kyazdani42/nvim-web-devicons" }) -- statusline
+    use({ "j-hui/fidget.nvim" })
     use("akinsho/toggleterm.nvim")
     use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }) -- syntax highlighting
-    use({ "lukas-reineke/indent-blankline.nvim" })
+    -- use({ "lukas-reineke/indent-blankline.nvim" })
     use({ "rcarriga/nvim-notify", config = function() require("notify").setup({ background_colour = "#FFFFFF" }) end })
 
     -- Lang specifies
@@ -70,6 +71,7 @@ return require("packer").startup({
     use("mfussenegger/nvim-dap")
     use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
     use({ "theHamsta/nvim-dap-virtual-text", requires = { "mfussenegger/nvim-dap" } })
+    use({ "Weissle/persistent-breakpoints.nvim", requires = "mfussenegger/nvim-dap" })
     use({
       "nvim-neotest/neotest",
       requires = {

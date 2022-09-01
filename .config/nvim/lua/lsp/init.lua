@@ -191,10 +191,9 @@ M.lsp_settings = {
   gopls = {
     gopls = {
       -- more settings: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
-      -- flags = {allow_incremental_sync = true, debounce_text_changes = 500},
-      -- not supported
       allExperiments = true,
       deepCompletion = true,
+      linkTarget = "godoc.byted.org/pkg",
       hints = {
         assignVariableTypes = true,
         compositeLiteralFields = true,
@@ -207,6 +206,7 @@ M.lsp_settings = {
       analyses = {
         unusedparams = true,
         unusedwrite = true,
+        unusedvariable = true,
         fieldalignment = true,
         nilness = true,
         shadow = true,
@@ -223,8 +223,6 @@ M.lsp_settings = {
         upgrade_dependency = true,
       },
       templateExtensions = { ".tmpl", ".html", ".gohtml", ".tmpl.html" },
-      experimentalWorkspaceModule = true,
-      hoverKind = "SynopsisDocumentation",
       usePlaceholders = true,
       completeUnimported = true,
       staticcheck = true,
@@ -233,10 +231,7 @@ M.lsp_settings = {
       diagnosticsDelay = "500ms",
       experimentalWatchedFileDelay = "100ms",
       symbolMatcher = "fuzzy",
-      ["local"] = "",
-      gofumpt = true, -- true, -- turn on for new repos, gofmpt is good but also create code turmoils
-      buildFlags = { "-tags", "integration" },
-      -- buildFlags = {"-tags", "functional"}
+      gofumpt = true,
     },
   },
   jsonls = { json = { schemas = require("schemastore").json.schemas() } },

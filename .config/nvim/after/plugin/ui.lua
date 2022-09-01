@@ -1,30 +1,9 @@
 require("dressing").setup({
-  input = { enabled = true, prompt_align = "center",
-    winhighlight = "NormalFloat:Normal,FloatTitle:Normal,FloatBorder:Normal" },
+  input = { enabled = true, prompt_align = "center", winhighlight = "NormalFloat:Normal" },
   select = { enabled = true },
 })
 
 require("nvim-web-devicons").setup({ default = true })
-
--- gruvbox material config
-vim.g.gruvbox_material_background = "hard" -- hard, medium or soft
-vim.g.gruvbox_material_foreground = "material" -- material, mix or original
-vim.g.gruvbox_material_better_performance = 1
-vim.g.gruvbox_material_enable_bold = 1
-vim.g.gruvbox_material_enable_italic = 1
-vim.g.gruvbox_material_cursor = "auto"
-vim.g.gruvbox_material_transparent_background = 2
-vim.g.gruvbox_material_menu_selection_background = "grey"
--- vim.g.gruvbox_material_sign_column_background = "grey"
-vim.g.gruvbox_material_spell_foreground = "colored"
-vim.g.gruvbox_material_ui_contrast = "high"
-vim.g.gruvbox_material_show_eob = 0
-vim.g.gruxbox_material_diagnostic_text_highlight = 1
-vim.g.gruvbox_material_diagnostic_line_highlight = 1
-vim.g.gruvbox_material_diagnostic_virtual_text = "colored"
-vim.g.gruvbox_material_current_word = "grey background"
-vim.g.gruvbox_material_disable_terminal_colors = 1
-vim.g.gruvbox_material_statusline_style = "default"
 
 -- tokyonight config
 vim.g.tokyonight_style = "night"
@@ -54,6 +33,7 @@ end
 
 local catppuccin_status, catppuccin = pcall(require, "catppuccin")
 if catppuccin_status then
+  local colors = require("catppuccin.palettes").get_palette()
   vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
   catppuccin.setup({
     dim_inactive = {
@@ -132,6 +112,26 @@ if catppuccin_status then
       overseer = false,
     },
     color_overrides = {},
+    custom_highlights = {
+      Normal = { fg = "NONE" },
+      -- NormalFloat = { link = "Normal" },
+      Comment = { italic = true },
+      FloatTitle = { link = "Normal" },
+      FloatBorder = { link = "Normal" },
+      LspInlayHint = { link = "Comment" },
+      LspFloatWinNormal = { link = "Normal" },
+
+      CursorLine = { link = "CursorColumn" },
+
+      Pmenu = { link = "Normal" },
+
+      WhichKeyFloat = { link = "Normal" },
+
+      LspCodeLens = { link = "WarningMsg" },
+      LspCodeLensText = { link = "WarningMsg" },
+      LspCodeLensTextSign = { link = "WarningMsg" },
+      LspCodeLensTextSeparator = { link = "Boolean" },
+    },
     highlight_overrides = {},
   })
 end
@@ -139,4 +139,4 @@ end
 local colorizer_status, colorizer = pcall(require, "colorizer")
 if colorizer_status then colorizer.setup({ "*" }) end
 
-vim.cmd({ cmd = "colorscheme", args = { vim.g.theme or "habamax" } })
+vim.cmd.color(vim.g.theme or "habamax")

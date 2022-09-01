@@ -1,3 +1,14 @@
+require("persistent-breakpoints").setup { save_dir = vim.fn.stdpath("data") .. "/dap" }
+
+local breakpoints = require("dap.breakpoints")
+
+local get_project_name = function()
+  local cp_filename = (vim.fn.getcwd()):gsub("/", "_") .. ".json"
+  return vim.fn.stdpath("data") .. "/dap/" .. cp_filename
+end
+
+vim.api.nvim_create_autocmd({ "BufReadPost" }, { callback = require("persistent-breakpoints.api").load_breakpoints })
+
 local dap, dapui = require("dap"), require("dapui");
 
 require("nvim-dap-virtual-text").setup({})
