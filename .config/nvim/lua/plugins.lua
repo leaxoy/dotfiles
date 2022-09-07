@@ -32,7 +32,11 @@ return require("packer").startup({
     use("Mofiqul/vscode.nvim") -- theme
     use("folke/tokyonight.nvim")
     use({ "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" })
-    use({ "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" }) -- file explorer
+    -- use({ "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" }) -- file explorer
+    use {
+      "nvim-neo-tree/neo-tree.nvim",
+      requires = { "nvim-lua/plenary.nvim", "kyazdani42/nvim-web-devicons", "MunifTanjim/nui.nvim" }
+    }
     use({ "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" }) -- buffer line
     use({ "nvim-lualine/lualine.nvim", requires = "kyazdani42/nvim-web-devicons" }) -- statusline
     use({ "j-hui/fidget.nvim" })
@@ -88,6 +92,7 @@ return require("packer").startup({
     -- VCS
     use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
     use({ "dinhhuy258/git.nvim" })
+    use({ "akinsho/git-conflict.nvim" })
 
     -- Code edit
     use("numToStr/Comment.nvim")

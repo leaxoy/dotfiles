@@ -19,6 +19,7 @@ require("lspsaga").init_lsp_saga({
   finder_request_timeout = 5000,
   finder_icons = { def = " ", imp = " ", ref = " " },
   definition_preview_icon = " ",
+  definition_action_keys = { quit = "q" },
   code_action_lightbulb = { enable = false },
 })
 

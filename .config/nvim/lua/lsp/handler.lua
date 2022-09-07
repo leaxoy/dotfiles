@@ -8,6 +8,7 @@ return {
       return lvl == "ERROR" or lvl == "WARN"
     end)
   end,
+  ["textDocument/publishDiagnostics"] = vim.lsp.diagnostic.on_publish_diagnostics,
   ["typeHierarchy/supertypes"] = function(err, result, ctx)
     print("supertypes not support currently")
   end,

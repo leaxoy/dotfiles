@@ -4,14 +4,14 @@ local map = function(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-local lazygit = function()
-  local lazygit = require("toggleterm.terminal").Terminal:new({
-    cmd = "lazygit",
+local termprog = function(program)
+  local prog = require("toggleterm.terminal").Terminal:new({
+    cmd = program,
     hidden = true,
     direction = "float",
     float_opts = { border = "double" },
   })
-  lazygit:toggle()
+  prog:toggle()
 end
 
 local cmd_fn = require("fn").cmd_fn
@@ -31,6 +31,7 @@ map("n", "<M-l>", "<c-w>10>", { desc = "Increase Width" })
 map("n", "<M-j>", "<c-w>10+", { desc = "Increase Height" })
 map("n", "<M-k>", "<c-w>10-", { desc = "Decrease Height" })
 map("n", "<M-=>", "<c-w>=", { desc = "Equally high and wide" })
+map("n", "<C-=>", "<c-w>=", { desc = "Equally high and wide" })
 
 -- Movement
 map("n", "<c-h>", cmd_fn("wincmd", { "h" }), { desc = "Goto Left Window" })
@@ -50,9 +51,12 @@ map("n", "<leader>7", cmd_fn("BufferLineGoToBuffer", { "7" }), { desc = "Goto Bu
 map("n", "<leader>8", cmd_fn("BufferLineGoToBuffer", { "8" }), { desc = "Goto Buffer 8" })
 map("n", "<leader>9", cmd_fn("BufferLineGoToBuffer", { "9" }), { desc = "Goto Buffer 9" })
 
-map("n", "<M-t>", cmd_fn("Lspsaga", { "open_floaterm", "/usr/local/bin/fish" }), { desc = "Open terminal" })
-map("t", "<M-t>", cmd_fn("Lspsaga", { "close_floaterm" }), { desc = "Close terminal" })
-map("n", "<M-g>", cmd_fn("Lspsaga", { "open_floaterm", "lazygit" }), { desc = "Open Git Window" })
+-- map("n", "<M-t>", cmd_fn("Lspsaga", { "open_floaterm", "/usr/local/bin/fish" }), { desc = "Open terminal" })
+-- map("t", "<M-t>", cmd_fn("Lspsaga", { "close_floaterm" }), { desc = "Close terminal" })
+-- map("n", "<M-g>", cmd_fn("Lspsaga", { "open_floaterm", "lazygit" }), { desc = "Open Git Window" })
+map("n", "<leader>tp", function() termprog("ipython") end, { desc = "IPython" })
+map("n", "<leader>tt", function() termprog("tig") end, { desc = "Tig" })
+map("n", "<leader>f", cmd_fn "NeoTreeShowToggle", { desc = "File Explorer" })
 
 -- LSP or DAP or Linter or Formatter
 map("n", "<leader>l", popup("<leader>l"), { desc = "+Mason" })
@@ -80,7 +84,7 @@ map("n", "<leader>du", require("dapui").toggle, { desc = "Debug Window" })
 map("n", "<leader>v", popup("<leader>v"), { desc = "+VCS" })
 map("n", "<leader>vd", cmd_fn("Gitsigns", { "diffthis" }), { desc = "Diff" })
 map("n", "<leader>vp", cmd_fn("Gitsigns", { "preview_hunk" }), { desc = "Preview Diff" })
-map("n", "<leader>vv", lazygit, { desc = "LazyGit" })
+map("n", "<leader>vv", function() termprog("lazygit") end, { desc = "LazyGit" })
 
 -- Diagnostic
 map("n", "<leader>x", popup("<leader>x"), { desc = "+Diagnostic" })
@@ -94,8 +98,8 @@ map("n", "<leader>xh", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 map("n", "<leader>x[", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 
 -- Edit
+map("n", ";", "i<CR><Esc>", { desc = "Break Line" })
 map("n", "<leader><CR>", "o<Esc>", { desc = "New Line" })
-map("n", "<leader>;", "i<CR><Esc>", { desc = "Break Line" })
 map("n", "<leader>p", popup("<leader>p"), { desc = "+Preview" })
 map("n", "<leader>pm", cmd_fn "Glow", { desc = "Preview Markdow" })
 map("n", "<leader>im", cmd_fn("Telescope", { "goimpl" }), { desc = "Impl Golang Interface" })
@@ -104,7 +108,7 @@ map("n", "<leader>im", cmd_fn("Telescope", { "goimpl" }), { desc = "Impl Golang 
 map("n", "f", popup("f"), { desc = "+Finder" })
 map("n", "fw", cmd_fn("Telescope"), { desc = "Open Telescope Window" })
 map("n", "ff", cmd_fn("Telescope", { "find_files" }), { desc = "File Finder" })
-map("n", "fl", cmd_fn("Telescope", { "file_browser" }), { desc = "File Browser" })
+map("n", "fl", cmd_fn("Telescope", { "file_browser", "grouped=true" }), { desc = "File Browser" })
 map("n", "fg", cmd_fn("Telescope", { "live_grep_args" }), { desc = "Live Grep" })
 map("n", "fc", cmd_fn("Telescope", { "grep_string" }), { desc = "Grep Cursor String" })
 map("n", "fb", cmd_fn("Telescope", { "buffers" }), { desc = "All Buffers" })
@@ -122,6 +126,7 @@ map("n", "t", popup("t"), { desc = "+Test" })
 map("n", "tf", function() require("neotest").run.run() end, { desc = "Test Current Function" })
 map("n", "tr", function() require("neotest").run.run(vim.fn.expand("%s")) end, { desc = "Test Current File" })
 map("n", "tt", function() require("neotest").run.run(vim.fn.getcwd()) end, { desc = "Test Project" })
+map("n", "td", function() require("neotest").run.run({ strategy = "dap" }) end, { desc = "Debug Test" })
 map("n", "ts", function() require("neotest").summary.toggle() end, { desc = "Toggle Test Summary Panel" })
 map("n", "to", function() require("neotest").output.open({ enter = true }) end, { desc = "Open Test Output Panel" })
 map("n", "tj", function() require("neotest").jump.next({ status = "failed" }) end, { desc = "Next Failed Test" })

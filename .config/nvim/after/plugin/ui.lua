@@ -110,14 +110,15 @@ if catppuccin_status then
       beacon = true,
       navic = false,
       overseer = false,
+      fidget = true,
     },
     color_overrides = {},
     custom_highlights = {
       Normal = { fg = "NONE" },
-      -- NormalFloat = { link = "Normal" },
+      NormalFloat = { link = "Normal" },
       Comment = { italic = true },
-      FloatTitle = { link = "Normal" },
-      FloatBorder = { link = "Normal" },
+      -- FloatTitle = { link = "Normal" },
+      -- FloatBorder = { link = "Normal" },
       LspInlayHint = { link = "Comment" },
       LspFloatWinNormal = { link = "Normal" },
 

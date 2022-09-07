@@ -57,10 +57,11 @@ local function modify_tags(action)
     local executable = vim.fn.stdpath("data") .. "/mason/bin/gomodifytags"
     local file = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
     local cmd = executable .. " -file " .. file .. " -struct " .. struct_name
+    local arg = opts.fargs and table.concat(opts.fargs, ",") or opts.arg
     if action == "clear" then
       cmd = cmd .. " -" .. action .. "-tags " .. " -w"
     else
-      cmd = cmd .. " -" .. action .. "-tags " .. opts.args .. " -w"
+      cmd = cmd .. " -" .. action .. "-tags " .. arg .. " -w"
     end
     vim.fn.system(cmd)
     vim.cmd({ cmd = "edit" })
@@ -98,14 +99,12 @@ local function switch_test_file(bang, cmd)
   end
 end
 
-function _G.go_tag_list(a, l, p)
-  return { "json", "yaml", "xml", "db" }
-end
+local function go_tag_list(a, l, p) return { "json", "yaml", "xml", "db" } end
 
 vim.api.nvim_create_user_command("GoAddTags", modify_tags("add"),
-  { nargs = 1, desc = "Add tags to struct", complete = _G.go_tag_list })
+  { nargs = "+", desc = "Add tags to struct", complete = go_tag_list })
 vim.api.nvim_create_user_command("GoRemoveTags", modify_tags("remove"),
-  { nargs = 1, desc = "Remove tags from struct", complete = _G.go_tag_list })
+  { nargs = "+", desc = "Remove tags from struct", complete = go_tag_list })
 vim.api.nvim_create_user_command("GoClearTags", modify_tags("clear"), { desc = "Clear all tags from struct" })
 vim.api.nvim_create_user_command("GoSwitchTest", function(opts) switch_test_file(opts.bang) end,
   { desc = "Switch to test file" })

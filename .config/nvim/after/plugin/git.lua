@@ -73,3 +73,5 @@ require("git").setup({
   },
   default_branch = "master",
 })
+
+require("git-conflict").setup { default_mappings = false }

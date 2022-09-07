@@ -14,7 +14,7 @@ telescope.setup({
     -- winblend = 15,
     prompt_prefix = "🔍 ",
     file_ignore_patterns = { "kitex_gen", "node_modules", "vendor", "target", "build", "output" },
-    path_display = { shorten = 6 },
+    path_display = { shorten = 1 },
     dynamic_preview_title = true,
     -- layout_strategy = "horizontal",
     layout_strategy = "bottom_pane",

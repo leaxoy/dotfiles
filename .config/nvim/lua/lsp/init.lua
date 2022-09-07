@@ -151,13 +151,13 @@ local function resolve_server_capabilities(client, buffer)
     map("n", "gwa", vim.lsp.buf.add_workspace_folder, { desc = "Add Workspace" })
     map("n", "gwr", vim.lsp.buf.remove_workspace_folder, { desc = "Remove Workspace" })
     local print_workspaces = function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end
-    map("n", "gwl", print_workspaces, { desc = "Add Workspace" })
+    map("n", "gwl", print_workspaces, { desc = "List Workspace" })
   end
 end
 
 local function resolve_client_capabilities()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  local text_document = capabilities.textDocument
+  local textDocument = capabilities.textDocument
   local workspace = capabilities.workspace
   local completionItem = capabilities.textDocument.completion.completionItem
 
@@ -169,8 +169,8 @@ local function resolve_client_capabilities()
   completionItem.commitCharactersSupport = true
   completionItem.tagSupport = { valueSet = { 1 } }
   completionItem.resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } }
-  text_document.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
-  text_document.typeHierarchy = { dynamicRegistration = false, }
+  textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
+  textDocument.typeHierarchy = { dynamicRegistration = false, }
   workspace.semanticTokens = { refreshSupport = true }
   capabilities = require("nvim-semantic-tokens").extend_capabilities(capabilities)
   return capabilities
@@ -265,8 +265,8 @@ M.lsp_settings = {
       workspace = { checkThirdParty = false, },
     },
   },
-  ["tsserver"] = {
-    ["tsserver"] = {
+  tsserver = {
+    tsserver = {
       typescript = {
         inlayHints = {
           includeInlayParameterNameHints = "all",
@@ -348,6 +348,15 @@ M.setup = function()
       lspconfig[server_name].setup(opts)
     end
   end
+
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      local buf = args.buf
+      M.activate(client, buf)
+    end,
+    desc = "setup lsp functions"
+  })
 end
 
 return M
