@@ -1,6 +1,8 @@
 vim.api.nvim_create_autocmd("Filetype", {
   pattern = {
-    -- "go",
+    "c",
+    "cpp",
+    "go",
     "html",
     "javascriptreact",
     "javascript",
@@ -12,7 +14,10 @@ vim.api.nvim_create_autocmd("Filetype", {
     "typescript",
     "vue",
   },
-  command = "setlocal tabstop=2 shiftwidth=2 expandtab",
+  callback = function()
+    vim.bo.tabstop = 2
+    vim.bo.shiftwidth = 2
+  end,
   desc = "set tabstop and shiftwidth for specific filetypes",
 })
 
@@ -30,22 +35,4 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
     vim.diagnostic.open_float(opts)
   end,
   desc = "automatic open float diagnostic window"
-})
-
-vim.api.nvim_create_autocmd("ColorScheme", {
-  pattern = "*",
-  callback = function()
-    vim.api.nvim_set_hl(0, "NormalFloat", { link = "Normal" })
-    vim.api.nvim_set_hl(0, "FloatTitle", { link = "Normal" })
-    vim.api.nvim_set_hl(0, "FloatBorder", { link = "Normal" })
-    vim.api.nvim_set_hl(0, "LspInlayHint", { link = "Comment" })
-    vim.api.nvim_set_hl(0, "LspFloatWinNormal", { link = "Normal" })
-    -- vim.api.nvim_set_hl(0, "WinBar", { fg = "#458e88", undercurl = true })
-    -- vim.api.nvim_set_hl(0, "WinBarNC", { fg = "#666777", undercurl = true })
-    vim.api.nvim_set_hl(0, "WhichKeyFloat", { link = "Normal" })
-    vim.api.nvim_set_hl(0, "LspCodeLens", { link = "WarningMsg" })
-    vim.api.nvim_set_hl(0, "LspCodeLensText", { link = "WarningMsg" })
-    vim.api.nvim_set_hl(0, "LspCodeLensTextSign", { link = "LspCodeLensText" })
-    vim.api.nvim_set_hl(0, "LspCodeLensTextSeparator", { link = "Boolean" })
-  end
 })
