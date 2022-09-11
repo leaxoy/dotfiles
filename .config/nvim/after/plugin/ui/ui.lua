@@ -1,24 +1,36 @@
-require("dressing").setup({
-  input = { enabled = true, prompt_align = "center", winhighlight = "NormalFloat:Normal", winblend = 0 },
-  select = { enabled = true },
-})
+local dressing_status, dressing = pcall(require, "dressing")
+if dressing_status then
+  dressing.setup {
+    input = { enabled = true, prompt_align = "center", winhighlight = "NormalFloat:Normal", winblend = 0 },
+    select = { enabled = true },
+  }
+end
 
--- tokyonight config
-vim.g.tokyonight_style = "night"
-vim.g.tokyonight_terminal_colors = true
-vim.g.tokyonight_italic_comments = true
-vim.g.tokyonight_italic_keywords = true
-vim.g.tokyonight_italic_functions = true
-vim.g.tokyonight_italic_variables = true
-vim.g.tokyonight_transparent = true
-vim.g.tokyonight_hide_inactive_statusline = true
-vim.g.tokyonight_sidebars = { "qf", "lspsagaoutline", "terminal", "packer", "toggleterm" }
-vim.g.tokyonight_transparent_sidebar = true
-vim.g.tokyonight_dark_sidebar = true
-vim.g.tokyonight_dark_float = true
-vim.g.tokyonight_colors = {}
-vim.g.tokyonight_day_brightness = 0.3
-vim.g.tokyonight_lualine_bold = true -- default false
+
+local tokyonight_status, tokyonight = pcall(require, "tokyonight")
+if tokyonight_status then
+  tokyonight.setup {
+    style = "night",
+    transparent = true,
+    terminal_colors = true,
+    styles = {
+      comments = "italic",
+      keywords = "italic",
+      functions = "NONE",
+      variables = "NONE",
+      -- Background styles. Can be "dark", "transparent" or "normal"
+      sidebars = "dark", -- style for sidebars, see below
+      floats = "dark", -- style for floating windows
+    },
+    sidebars = { "help", "qf", "lspsagaoutline", "terminal", "packer", "toggleterm" },
+    day_brightness = 0.3,
+    hide_inactive_statusline = false,
+    dim_inactive = true,
+    lualine_bold = true,
+    on_colors = function(colors) end,
+    on_highlights = function(highlights, colors) end,
+  }
+end
 
 local vscode_status, vscode = pcall(require, "vscode")
 if vscode_status then
