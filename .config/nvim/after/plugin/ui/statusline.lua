@@ -22,15 +22,20 @@ lualine.setup({
           local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
           local clients = vim.lsp.get_active_clients()
           if next(clients) == nil then return msg end
+          local names = {}
           for _, client in ipairs(clients) do
             local filetypes = client.config.filetypes
-            if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then return client.name end
+            if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 and not vim.tbl_contains(names, client.name) then
+              table.insert(names, client.name)
+            end
           end
-          return msg
+          table.sort(names)
+          return names and table.concat(names, " & ") or msg
         end,
         icon = " LSP:",
         color = { fg = "#006611", gui = "bold" },
-      }
+      },
+      { "lsp_progress" },
     },
     lualine_x = {
       {

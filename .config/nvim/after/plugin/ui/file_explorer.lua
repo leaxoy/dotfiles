@@ -32,7 +32,7 @@ local config = {
     max_lines = 10000, -- How many lines of git status results to process. Anything after this will be dropped.
     -- Anything before this will be used. The last items to be processed are the untracked files.
   },
-  hide_root_node = false, -- Hide the root node.
+  hide_root_node = true, -- Hide the root node.
   retain_hidden_root_indent = false, -- IF the root node is hidden, keep the indentation anyhow.
   -- This is needed if you use expanders because they render in the indent.
   log_level = "info", -- "trace", "debug", "info", "warn", "error", "fatal"
@@ -48,7 +48,7 @@ local config = {
   use_default_mappings = true,
   -- source_selector provides clickable tabs to switch between sources.
   source_selector = {
-    winbar = false, -- toggle to show selector on winbar
+    winbar = true, -- toggle to show selector on winbar
     statusline = false, -- toggle to show selector on statusline
     show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
     -- of the top visible node when scrolled down.
@@ -171,7 +171,7 @@ local config = {
     },
     indent = {
       indent_size = 2,
-      padding = 1,
+      padding = 0,
       -- indent guides
       with_markers = true,
       indent_marker = "│",
@@ -314,7 +314,7 @@ local config = {
         "add",
         -- some commands may take optional config options, see `:h neo-tree-mappings` for details
         config = {
-          show_path = "none" -- "none", "relative", "absolute"
+          show_path = "relative" -- "none", "relative", "absolute"
         }
       },
       ["A"] = "add_directory", -- also accepts the config.show_path option.
@@ -364,7 +364,7 @@ local config = {
       visible = false, -- when true, they will just be displayed differently than normal items
       force_visible_in_empty_folder = false, -- when true, hidden files will be shown if the root folder is otherwise empty
       show_hidden_count = true, -- when true, the number of hidden items in each folder will be shown as the last entry
-      hide_dotfiles = true,
+      hide_dotfiles = false,
       hide_gitignored = true,
       hide_hidden = true, -- only works on Windows for hidden files/directories
       hide_by_name = {
@@ -417,7 +417,7 @@ local config = {
     --  end
     --  return args
     --end,
-    group_empty_dirs = false, -- when true, empty folders will be grouped together
+    group_empty_dirs = true, -- when true, empty folders will be grouped together
     search_limit = 50, -- max number of search results when using filters
     follow_current_file = false, -- This will find and focus the file in the active buffer every time
     -- the current file is changed while the tree is open.

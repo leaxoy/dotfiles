@@ -9,10 +9,4 @@ return {
     end)
   end,
   ["textDocument/publishDiagnostics"] = vim.lsp.diagnostic.on_publish_diagnostics,
-  ["typeHierarchy/supertypes"] = function(err, result, ctx)
-    print("supertypes not support currently")
-  end,
-  ["typeHierarchy/subtypes"] = function(err, result)
-    print("subtypes not support currently")
-  end,
 }

@@ -21,5 +21,6 @@ bufferline.setup({
     left_trunc_marker = "",
     right_trunc_marker = "",
     color_icons = true,
+    hover = { enabled = true, delay = 250, reveal = { "close" } },
   },
 })

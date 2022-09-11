@@ -1,8 +1,6 @@
--- map create new keymap
-local map = function(mode, lhs, rhs, opts)
-  opts = vim.tbl_extend("keep", opts or vim.empty_dict(), { noremap = true, silent = true })
-  vim.keymap.set(mode, lhs, rhs, opts)
-end
+local map = require("fn").map_fn
+local cmd = require("fn").cmd_fn
+local popup = function(key) return function() require("which-key").show(key) end end
 
 local termprog = function(program)
   local prog = require("toggleterm.terminal").Terminal:new({
@@ -14,126 +12,133 @@ local termprog = function(program)
   prog:toggle()
 end
 
-local cmd_fn = require("fn").cmd_fn
-local popup = function(key) return function() require("which-key").show(key) end end
-
 -- Welcome
-map("n", "<M-a>", cmd_fn "intro", { desc = "Greeting" })
+map("n", "<M-a>", cmd "intro", { desc = "Greeting" })
 
 -- Window
 map("n", "<leader>w", popup("<leader>w"), { desc = "+Window" })
-map("n", "<leader>wc", cmd_fn("wincmd", { "x" }), { desc = "Close Current Window" })
-map("n", "<leader>wo", cmd_fn("wincmd", { "o" }), { desc = "Close Other Window" })
-map("n", "<leader>wv", cmd_fn "vsplit", { desc = "Split Vertically" })
-map("n", "<leader>ws", cmd_fn "split", { desc = "Split Horizonally" })
+map("n", "<leader>wc", cmd("wincmd", { "x" }), { desc = "Close Current Window" })
+map("n", "<leader>wo", cmd("wincmd", { "o" }), { desc = "Close Other Window" })
+map("n", "<leader>wv", cmd "vsplit", { desc = "Split Vertically" })
+map("n", "<leader>ws", cmd "split", { desc = "Split Horizonally" })
 map("n", "<M-h>", "<c-w>10<", { desc = "Decrease Width" })
 map("n", "<M-l>", "<c-w>10>", { desc = "Increase Width" })
 map("n", "<M-j>", "<c-w>10+", { desc = "Increase Height" })
 map("n", "<M-k>", "<c-w>10-", { desc = "Decrease Height" })
 map("n", "<M-=>", "<c-w>=", { desc = "Equally high and wide" })
 map("n", "<C-=>", "<c-w>=", { desc = "Equally high and wide" })
-
--- Movement
-map("n", "<c-h>", cmd_fn("wincmd", { "h" }), { desc = "Goto Left Window" })
-map("n", "<c-l>", cmd_fn("wincmd", { "l" }), { desc = "Goto Right Window" })
-map("n", "<c-j>", cmd_fn("wincmd", { "j" }), { desc = "Goto Bottom Window" })
-map("n", "<c-k>", cmd_fn("wincmd", { "k" }), { desc = "Goto Top Window" })
+map("n", "<C-h>", cmd("wincmd", { "h" }), { desc = "Goto Left Window" })
+map("n", "<C-l>", cmd("wincmd", { "l" }), { desc = "Goto Right Window" })
+map("n", "<C-j>", cmd("wincmd", { "j" }), { desc = "Goto Bottom Window" })
+map("n", "<C-k>", cmd("wincmd", { "k" }), { desc = "Goto Top Window" })
 
 -- Buffer
-map("n", "<leader>$", cmd_fn("BufferLineGoToBuffer", { "-1" }), { desc = "Goto Last Buffer" })
-map("n", "<leader>1", cmd_fn("BufferLineGoToBuffer", { "1" }), { desc = "Goto Buffer 1" })
-map("n", "<leader>2", cmd_fn("BufferLineGoToBuffer", { "2" }), { desc = "Goto Buffer 2" })
-map("n", "<leader>3", cmd_fn("BufferLineGoToBuffer", { "3" }), { desc = "Goto Buffer 3" })
-map("n", "<leader>4", cmd_fn("BufferLineGoToBuffer", { "4" }), { desc = "Goto Buffer 4" })
-map("n", "<leader>5", cmd_fn("BufferLineGoToBuffer", { "5" }), { desc = "Goto Buffer 5" })
-map("n", "<leader>6", cmd_fn("BufferLineGoToBuffer", { "6" }), { desc = "Goto Buffer 6" })
-map("n", "<leader>7", cmd_fn("BufferLineGoToBuffer", { "7" }), { desc = "Goto Buffer 7" })
-map("n", "<leader>8", cmd_fn("BufferLineGoToBuffer", { "8" }), { desc = "Goto Buffer 8" })
-map("n", "<leader>9", cmd_fn("BufferLineGoToBuffer", { "9" }), { desc = "Goto Buffer 9" })
+local bl_status, bl = pcall(require, "bufferline")
+if bl_status then
+  map("n", "<C-b>", function() bl.go_to(vim.api.nvim_get_vvar("count") or -1) end, { desc = "Goto Buffer" })
+  map("n", "<leader>bp", bl.toggle_pin, { desc = "Pin Buffer" })
+end
 
--- map("n", "<M-t>", cmd_fn("Lspsaga", { "open_floaterm", "/usr/local/bin/fish" }), { desc = "Open terminal" })
--- map("t", "<M-t>", cmd_fn("Lspsaga", { "close_floaterm" }), { desc = "Close terminal" })
--- map("n", "<M-g>", cmd_fn("Lspsaga", { "open_floaterm", "lazygit" }), { desc = "Open Git Window" })
 map("n", "<leader>tp", function() termprog("ipython") end, { desc = "IPython" })
 map("n", "<leader>tt", function() termprog("tig") end, { desc = "Tig" })
-map("n", "<leader>f", cmd_fn "NeoTreeShowToggle", { desc = "File Explorer" })
+map("n", "<leader>f", cmd "NeoTreeShowToggle", { desc = "File Explorer" })
 
 -- LSP or DAP or Linter or Formatter
 map("n", "<leader>l", popup("<leader>l"), { desc = "+Mason" })
-map("n", "<leader>lm", cmd_fn "Mason", { desc = "Manage Mason" })
-map("n", "<leader>lr", cmd_fn "LspRestart", { desc = "Restart LSP" })
-map("n", "<leader>li", cmd_fn "LspInfo", { desc = "Show Server Info" })
+map("n", "<leader>lm", cmd "Mason", { desc = "Manage Mason" })
+map("n", "<leader>lr", cmd "LspRestart", { desc = "Restart LSP" })
+map("n", "<leader>li", cmd "LspInfo", { desc = "Show Server Info" })
 
-map("n", "gf", cmd_fn("Lspsaga", { "lsp_finder" }), { desc = "Lsp Finder" })
-map("n", "gp", cmd_fn("Lspsaga", { "preview_definition" }), { desc = "Lsp Preview Definition" })
-
--- Debug
-map("n", "<leader>d", popup("<leader>d"), { desc = "+Debug" })
--- map("n", "<leader>db", function() require("dap").toggle_breakpoint() end, { desc = "Toggle Breakpoint" })
-map("n", "<leader>db", require("persistent-breakpoints.api").toggle_breakpoint, { desc = "Toggle Breakpoint" })
-map("n", "<leader>dc", function() require("dap").continue() end, { desc = "Run | Countine" })
-map("n", "<leader>de", function() require("dapui").eval(nil, {}) end, { desc = "Eval Expression" })
-map("n", "<leader>df", function() require("dapui").float_element("stacks", {}) end, { desc = "Show Floating Window" })
-map("n", "<leader>di", function() require("dap").step_into() end, { desc = "Step Into" })
-map("n", "<leader>dn", function() require("dap").step_over() end, { desc = "Step Over" })
-map("n", "<leader>do", function() require("dap").step_out() end, { desc = "Step Out" })
-map("n", "<leader>dr", function() require("dap").repl.toggle() end, { desc = "Repl" })
-map("n", "<leader>du", require("dapui").toggle, { desc = "Debug Window" })
-
--- VCS
 map("n", "<leader>v", popup("<leader>v"), { desc = "+VCS" })
-map("n", "<leader>vd", cmd_fn("Gitsigns", { "diffthis" }), { desc = "Diff" })
-map("n", "<leader>vp", cmd_fn("Gitsigns", { "preview_hunk" }), { desc = "Preview Diff" })
+map("n", "<leader>vd", cmd("Gitsigns", { "diffthis" }), { desc = "Diff" })
+map("n", "<leader>vp", cmd("Gitsigns", { "preview_hunk" }), { desc = "Preview Diff" })
 map("n", "<leader>vv", function() termprog("lazygit") end, { desc = "LazyGit" })
+map("n", "<leader>vc", [[<CMD>DiffviewOpen<CR>]], { desc = "Git Diff" })
+
+local lspsaga_status, _ = pcall(require, "lspsaga")
+if lspsaga_status then
+  map("n", "gf", cmd("Lspsaga", { "lsp_finder" }), { desc = "Lsp Finder" })
+  map("n", "gp", cmd("Lspsaga", { "peek_definition" }), { desc = "Lsp Peek Definition" })
+end
 
 -- Diagnostic
 map("n", "<leader>x", popup("<leader>x"), { desc = "+Diagnostic" })
-map("n", "<leader>xt", cmd_fn "TodoQuickFix", { desc = "Workspace Todos" })
 map("n", "<leader>xb", vim.diagnostic.setloclist, { desc = "Buffer Diagnostic" })
 map("n", "<leader>xw", vim.diagnostic.setqflist, { desc = "Workspace Diagnostic" })
 map("n", "<leader>xx", vim.diagnostic.open_float, { desc = "Line Diagnostic" })
-map("n", "<leader>xl", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
 map("n", "<leader>x]", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
-map("n", "<leader>xh", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 map("n", "<leader>x[", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
+map("n", "<leader>e]", function()
+  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Next Error" })
+map("n", "<leader>e[", function()
+  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Prev Error" })
 
 -- Edit
 map("n", ";", "i<CR><Esc>", { desc = "Break Line" })
 map("n", "<leader><CR>", "o<Esc>", { desc = "New Line" })
 map("n", "<leader>p", popup("<leader>p"), { desc = "+Preview" })
-map("n", "<leader>pm", cmd_fn "Glow", { desc = "Preview Markdow" })
-map("n", "<leader>im", cmd_fn("Telescope", { "goimpl" }), { desc = "Impl Golang Interface" })
+map("n", "<leader>pm", cmd "Glow", { desc = "Preview Markdow" })
+map("n", "<leader>im", cmd("Telescope", { "goimpl" }), { desc = "Impl Golang Interface" })
 
--- Finder
-map("n", "f", popup("f"), { desc = "+Finder" })
-map("n", "fw", cmd_fn("Telescope"), { desc = "Open Telescope Window" })
-map("n", "ff", cmd_fn("Telescope", { "find_files" }), { desc = "File Finder" })
-map("n", "fl", cmd_fn("Telescope", { "file_browser", "grouped=true" }), { desc = "File Browser" })
-map("n", "fg", cmd_fn("Telescope", { "live_grep_args" }), { desc = "Live Grep" })
-map("n", "fc", cmd_fn("Telescope", { "grep_string" }), { desc = "Grep Cursor String" })
-map("n", "fb", cmd_fn("Telescope", { "buffers" }), { desc = "All Buffers" })
-map("n", "fn", cmd_fn("Telescope", { "notify" }), { desc = "Notifications" })
-map("n", "fd", cmd_fn("Telescope", { "diagnostics" }), { desc = "Diagnostics" })
-map("n", "fr", cmd_fn("Telescope", { "lsp_references" }), { desc = "[LSP] References" })
-map("n", "fi", cmd_fn("Telescope", { "lsp_implementations" }), { desc = "[LSP] Implementations" })
-map("n", "fs", cmd_fn("Telescope", { "lsp_document_symbols" }), { desc = "[LSP] Document Symbols" })
-map("n", "fo", cmd_fn("Telescope", { "lsp_dynamic_workspace_symbols" }), { desc = "[LSP] Workspace Symbols" })
-map("n", "fe", cmd_fn("Telescope", { "packer" }), { desc = "List Packer Plugins" })
-map("n", "ft", cmd_fn("TodoTelescope"), { desc = "Todo List" })
+local telescope_status, _ = pcall(require, "telescope")
+if telescope_status then
+  map("n", "f", popup("f"), { desc = "+Finder" })
+  map("n", "fw", cmd("Telescope"), { desc = "Open Telescope Window" })
+  map("n", "ff", cmd("Telescope", { "find_files" }), { desc = "File Finder" })
+  map("n", "fl", cmd("Telescope", { "file_browser", "grouped=true" }), { desc = "File Browser" })
+  map("n", "fg", cmd("Telescope", { "live_grep_args" }), { desc = "Live Grep" })
+  map("n", "fc", cmd("Telescope", { "grep_string" }), { desc = "Grep Cursor String" })
+  map("n", "fb", cmd("Telescope", { "buffers" }), { desc = "All Buffers" })
+  map("n", "fn", cmd("Telescope", { "notify" }), { desc = "Notifications" })
+  map("n", "fd", cmd("Telescope", { "diagnostics" }), { desc = "Diagnostics" })
+  map("n", "fr", cmd("Telescope", { "lsp_references" }), { desc = "[LSP] References" })
+  map("n", "fi", cmd("Telescope", { "lsp_implementations" }), { desc = "[LSP] Implementations" })
+  map("n", "fs", cmd("Telescope", { "lsp_document_symbols" }), { desc = "[LSP] Document Symbols" })
+  map("n", "fO", cmd("Telescope", { "lsp_dynamic_workspace_symbols" }), { desc = "[LSP] Workspace Symbols" })
+  map("n", "fe", cmd("Telescope", { "packer" }), { desc = "List Packer Plugins" })
+  map("n", "ft", cmd("TodoTelescope"), { desc = "Todo List" })
+end
 
--- Test
-map("n", "t", popup("t"), { desc = "+Test" })
-map("n", "tf", function() require("neotest").run.run() end, { desc = "Test Current Function" })
-map("n", "tr", function() require("neotest").run.run(vim.fn.expand("%s")) end, { desc = "Test Current File" })
-map("n", "tt", function() require("neotest").run.run(vim.fn.getcwd()) end, { desc = "Test Project" })
-map("n", "td", function() require("neotest").run.run({ strategy = "dap" }) end, { desc = "Debug Test" })
-map("n", "ts", function() require("neotest").summary.toggle() end, { desc = "Toggle Test Summary Panel" })
-map("n", "to", function() require("neotest").output.open({ enter = true }) end, { desc = "Open Test Output Panel" })
-map("n", "tj", function() require("neotest").jump.next({ status = "failed" }) end, { desc = "Next Failed Test" })
-map("n", "tk", function() require("neotest").jump.prev({ status = "failed" }) end, { desc = "Prev Failed Test" })
+local neotest_status, neotest = pcall(require, "neotest")
+if neotest_status then
+  map("n", "t", popup("t"), { desc = "+Test" })
+  map("n", "tf", function() neotest.run.run() end, { desc = "Test Current Function" })
+  map("n", "tr", function() neotest.run.run(vim.fn.expand("%s")) end, { desc = "Test Current File" })
+  map("n", "tt", function() neotest.run.run(vim.fn.getcwd()) end, { desc = "Test Project" })
+  map("n", "td", function() neotest.run.run({ strategy = "dap" }) end, { desc = "Debug Test" })
+  map("n", "ts", function() neotest.summary.toggle() end, { desc = "Toggle Test Summary Panel" })
+  map("n", "to", function() neotest.output.open({ enter = true }) end, { desc = "Open Test Output Panel" })
+  map("n", "tj", function() neotest.jump.next({ status = "failed" }) end, { desc = "Next Failed Test" })
+  map("n", "tk", function() neotest.jump.prev({ status = "failed" }) end, { desc = "Prev Failed Test" })
+end
 
-map({ "n", "i" }, "<c-t>", cmd_fn "ToggleTerm", { desc = "Toggle Terminal" })
-map({ "n", "i" }, "<c-s>", cmd_fn "w", { desc = "Save Current Buffer" })
+
+local dap_status, dap = pcall(require, "dap")
+if dap_status then
+  -- Debug
+  map("n", "<leader>d", popup("<leader>d"), { desc = "+Debug" })
+
+  local pb_status, pb = pcall(require, "persistent-breakpoints.api")
+  map("n", "<leader>db", function()
+    if pb_status then pb.toggle_breakpoint() else dap.toggle_breakpoint() end
+  end, { desc = "Toggle Breakpoint" })
+  map("n", "<leader>dc", function() dap.continue() end, { desc = "Run | Countine" })
+  map("n", "<leader>di", function() dap.step_into() end, { desc = "Step Into" })
+  map("n", "<leader>dn", function() dap.step_over() end, { desc = "Step Over" })
+  map("n", "<leader>do", function() dap.step_out() end, { desc = "Step Out" })
+  map("n", "<leader>dr", function() dap.repl.toggle() end, { desc = "Repl" })
+  local ui_status, ui = pcall(require, "dapui")
+  if ui_status then
+    map("n", "<leader>de", function() ui.eval(nil, {}) end, { desc = "Eval Expression" })
+    map("n", "<leader>df", function() ui.float_element("stacks", {}) end, { desc = "Show Floating Window" })
+    map("n", "<leader>du", ui.toggle, { desc = "Debug Window" })
+  end
+end
+
+map({ "n", "i" }, "<c-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]], { desc = "Toggle Terminal" })
+map({ "n", "i" }, "<c-s>", [[<CMD>w<CR>]], { desc = "Save Current Buffer" })
 map({ "n", "i" }, "<c-x>", function() require("bufdelete").bufdelete(0) end, { desc = "Close Current Buffer" })
 
 map("i", "jk", "<Esc>", { desc = "Escape Insert Mode" })

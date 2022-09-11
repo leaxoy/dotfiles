@@ -45,33 +45,7 @@ require("gitsigns").setup({
     row = 0,
     col = 1,
   },
-  yadm = { enable = false },
+  yadm = { enable = true },
 })
 
-require("git").setup({
-  keymaps = {
-    -- Open blame window
-    blame = "<Leader>vb",
-    -- Close blame window
-    quit_blame = "q",
-    -- Open blame commit
-    blame_commit = "<CR>",
-    -- Open file/folder in git repository
-    browse = "<Leader>vo",
-    -- Open pull request of the current branch
-    open_pull_request = "<Leader>vm",
-    -- Create a pull request with the target branch is set in the `target_branch` option
-    create_pull_request = "<Leader>vn",
-    -- Opens a new diff that compares against the current index
-    diff = "<Leader>vd",
-    -- Close git diff
-    diff_close = "q",
-    -- Revert to the specific commit
-    revert = "<Leader>vr",
-    -- Revert the current file to the specific commit
-    revert_file = "<Leader>vR",
-  },
-  default_branch = "master",
-})
-
-require("git-conflict").setup { default_mappings = false }
+require("diffview").setup({})

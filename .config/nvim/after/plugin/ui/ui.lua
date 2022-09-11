@@ -1,9 +1,7 @@
 require("dressing").setup({
-  input = { enabled = true, prompt_align = "center", winhighlight = "NormalFloat:Normal" },
+  input = { enabled = true, prompt_align = "center", winhighlight = "NormalFloat:Normal", winblend = 0 },
   select = { enabled = true },
 })
-
-require("nvim-web-devicons").setup({ default = true })
 
 -- tokyonight config
 vim.g.tokyonight_style = "night"
@@ -117,8 +115,10 @@ if catppuccin_status then
       Normal = { fg = "NONE" },
       NormalFloat = { link = "Normal" },
       Comment = { italic = true },
-      -- FloatTitle = { link = "Normal" },
-      -- FloatBorder = { link = "Normal" },
+      FloatTitle = { link = "Normal" },
+      FloatBorder = { link = "Normal" },
+      FloatShadow = { link = "Normal" },
+      FloatShadowThrough = { link = "Normal" },
       LspInlayHint = { link = "Comment" },
       LspFloatWinNormal = { link = "Normal" },
 
@@ -138,6 +138,6 @@ if catppuccin_status then
 end
 
 local colorizer_status, colorizer = pcall(require, "colorizer")
-if colorizer_status then colorizer.setup({ "*" }) end
+if colorizer_status then colorizer.setup({ filetypes = { "*" } }) end
 
 vim.cmd.color(vim.g.theme or "habamax")

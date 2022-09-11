@@ -37,15 +37,3 @@ dap.configurations.python = {
     end,
   },
 }
-
--- pyright not support document format
--- TODO: replace with black directly, remove neoformat
-local format_group = "document_formatting"
-local buffer = vim.api.nvim_get_current_buf()
-vim.api.nvim_create_augroup(format_group, { clear = false })
-vim.api.nvim_clear_autocmds({ buffer = buffer, group = format_group })
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = format_group,
-  buffer = buffer,
-  command = "silent Neoformat black",
-})

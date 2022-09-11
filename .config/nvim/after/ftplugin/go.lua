@@ -3,7 +3,6 @@ vim.o.shiftwidth = 2
 vim.o.expandtab = true
 
 local dap = require("dap")
-local ts_utils = require("nvim-treesitter.ts_utils")
 
 dap.adapters.go = {
   type = "server",
@@ -47,16 +46,20 @@ dap.configurations.go = {
 
 local function modify_tags(action)
   return function(opts)
-    local ts_node = ts_utils.get_node_at_cursor()
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local ts_node = vim.treesitter.get_node_at_position(0, cursor[1] - 1, cursor[2], {})
     if ts_node == nil or ts_node:type() ~= "type_identifier" or ts_node:parent():type() ~= "type_spec" then
       vim.api.nvim_err_writeln("not on go struct")
       return
     end
     local struct_name = vim.treesitter.query.get_node_text(ts_node, 0)
     if struct_name == nil then return end
-    local executable = vim.fn.stdpath("data") .. "/mason/bin/gomodifytags"
+    if not vim.fn.executable("gomodifytags") then
+      vim.api.nvim_err_writeln("gomodifytags not exist in path, please install it, doc at: https://github.com/fatih/gomodifytags")
+      return
+    end
     local file = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
-    local cmd = executable .. " -file " .. file .. " -struct " .. struct_name
+    local cmd = "gomodifytags -file " .. file .. " -struct " .. struct_name
     local arg = opts.fargs and table.concat(opts.fargs, ",") or opts.arg
     if action == "clear" then
       cmd = cmd .. " -" .. action .. "-tags " .. " -w"
@@ -70,6 +73,7 @@ end
 
 local function switch_test_file(bang, cmd)
   local file = vim.fn.expand("%")
+  if not file then return end
   local root = ""
   local alt_file = ""
   if #file <= 1 then
