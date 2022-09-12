@@ -13,7 +13,7 @@ local function resolve_lsp_command(cmds, lang)
   end
 end
 
-local function resolve_server_capabilities(client, buffer)
+local function resolve_text_document_capabilities(client, buffer)
   local map = function(mode, lhs, rhs, opts)
     opts = vim.tbl_extend("force", { noremap = true, silent = true, buffer = buffer }, opts)
     vim.keymap.set(mode, lhs, rhs, opts)
@@ -125,7 +125,6 @@ local function resolve_server_capabilities(client, buffer)
       document_color.buf_attach(buffer)
     end
   end
-
   if caps.documentFormattingProvider then
     local format_group = "document_formatting"
     vim.api.nvim_create_augroup(format_group, { clear = false })
@@ -143,6 +142,15 @@ local function resolve_server_capabilities(client, buffer)
   end
   -- if caps.linkedEditingRangeProvider then
   -- end
+end
+
+local function resolve_workspace_capabilities(client, buffer)
+  local map = function(mode, lhs, rhs, opts)
+    opts = vim.tbl_extend("force", { noremap = true, silent = true, buffer = buffer }, opts)
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
+
+  local caps = client.server_capabilities
 
   --#region workspace start
   if caps.workspaceSymbolProvider then
@@ -161,9 +169,9 @@ local function resolve_server_capabilities(client, buffer)
   end
 end
 
-local activate = function(client, bufnr)
-  client.offset_encoding = "utf-16"
-  resolve_server_capabilities(client, bufnr)
+local function resolve_server_capabilities(client, buffer)
+  resolve_text_document_capabilities(client, buffer)
+  resolve_workspace_capabilities(client, buffer)
 end
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -176,7 +184,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client.server_capabilities.definitionProvider then
       vim.bo[buf].tagfunc = "v:lua.vim.lsp.tagfunc"
     end
-    activate(client, buf)
+    client.offset_encoding = "utf-16"
+    resolve_server_capabilities(client, buf)
   end,
   desc = "setup lsp functions"
 })
