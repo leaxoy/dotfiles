@@ -21,14 +21,21 @@ vim.api.nvim_create_autocmd(
         "neotest-summary",
         "dashboard",
       }
+      local renamed = {
+        ["dap-repl"] = "Dap Repl",
+        dapui_scopes = "Dap Scopes",
+        dapui_breakpoints = "Dap Breakpoints",
+        dapui_stacks = "Dap Stacks",
+        dapui_watches = "Dap Watches",
+        dapui_console = "Dap Console",
+        OverseerList = "Tasks List",
+      }
       if vim.api.nvim_win_get_config(0).zindex or vim.tbl_contains(excludes, vim.bo.filetype) then
         vim.wo.winbar = ""
+      elseif vim.tbl_contains(vim.tbl_keys(renamed), vim.bo.filetype) then
+        vim.wo.winbar = renamed[vim.bo.filetype]
       else
-        if not status then
-          vim.wo.winbar = vim.fn.bufname()
-          return
-        end
-        vim.wo.winbar = symbol:get_symbol_node() or ""
+        vim.wo.winbar = not status and vim.fn.bufname() or symbol:get_symbol_node() or ""
       end
     end
   })

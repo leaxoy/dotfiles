@@ -28,6 +28,7 @@ dapui.setup({
     edit = "e",
     repl = "r",
   },
+  expand_lines = vim.fn.has("nvim-0.7"),
   layouts = {
     {
       elements = { "scopes", "breakpoints", "stacks", "watches" },
@@ -43,16 +44,18 @@ dapui.setup({
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
     max_width = nil, -- Floats will be treated as percentage of your screen.
+    border = "rounded",
     mappings = { close = { "q", "<Esc>" } },
   },
   windows = { indent = 1 },
+  render = {},
 })
 
 vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
 vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
 vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "FoldColumn", linehl = "", numhl = "" })
 vim.fn.sign_define("DapStopped", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" }) --  
-vim.fn.sign_define("DapLogPoint", { text = "L", texthl = "", linehl = "", numhl = "" })
+vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "", linehl = "", numhl = "" })
 
 dap.adapters.lldb = { type = "executable", command = "lldb-vscode" }
 

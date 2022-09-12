@@ -45,8 +45,6 @@ if bl_status then
   map("n", "<leader>bp", bl.toggle_pin, { desc = "Pin Buffer" })
 end
 
-map("n", "<leader>tp", function() termprog("ipython") end, { desc = "IPython" })
-map("n", "<leader>tt", function() termprog("tig") end, { desc = "Tig" })
 map("n", "<leader>f", cmd "NeoTreeShowToggle", { desc = "File Explorer" })
 
 -- LSP or DAP or Linter or Formatter
@@ -59,6 +57,7 @@ map("n", "<leader>v", popup("<leader>v"), { desc = "+VCS" })
 map("n", "<leader>vd", cmd("Gitsigns", { "diffthis" }), { desc = "Diff" })
 map("n", "<leader>vp", cmd("Gitsigns", { "preview_hunk" }), { desc = "Preview Diff" })
 map("n", "<leader>vv", function() termprog("lazygit") end, { desc = "LazyGit" })
+map("n", "<leader>vt", function() termprog("tig") end, { desc = "Tig" })
 map("n", "<leader>vc", [[<CMD>DiffviewOpen<CR>]], { desc = "Git Diff" })
 
 local lspsaga_status, _ = pcall(require, "lspsaga")
@@ -87,6 +86,7 @@ map("n", "<leader><CR>", "o<Esc>", { desc = "New Line" })
 map("n", "<leader>p", popup("<leader>p"), { desc = "+Preview" })
 map("n", "<leader>pm", cmd "Glow", { desc = "Preview Markdow" })
 map("n", "<leader>im", cmd("Telescope", { "goimpl" }), { desc = "Impl Golang Interface" })
+map("n", "<leader>ip", function() termprog("ipython") end, { desc = "IPython" })
 
 local telescope_status, _ = pcall(require, "telescope")
 if telescope_status then
@@ -121,26 +121,32 @@ if neotest_status then
   map("n", "tk", function() neotest.jump.prev({ status = "failed" }) end, { desc = "Prev Failed Test" })
 end
 
+local task_status, task = pcall(require, "overseer")
+if task_status then
+  map("n", "<leader>t", popup("<leader>t"), { desc = "+Tasks" })
+  map("n", "<leader>ta", cmd "OverseerTaskAction", { desc = "Task Action" })
+  map("n", "<leader>tt", cmd "OverseerToggle!", { desc = "Tasks List" })
+  map("n", "<leader>tb", cmd "OverseerBuild", { desc = "New Task" })
+  map("n", "<leader>tr", cmd "OverseerRun", { desc = "Run Task" })
+end
 
 local dap_status, dap = pcall(require, "dap")
 if dap_status then
-  -- Debug
-  map("n", "<leader>d", popup("<leader>d"), { desc = "+Debug" })
-
   local pb_status, pb = pcall(require, "persistent-breakpoints.api")
-  map("n", "<leader>db", function()
+  map({ "n", "v", "i" }, "<F4>", function()
     if pb_status then pb.toggle_breakpoint() else dap.toggle_breakpoint() end
   end, { desc = "Toggle Breakpoint" })
-  map("n", "<leader>dc", function() dap.continue() end, { desc = "Run | Countine" })
-  map("n", "<leader>di", function() dap.step_into() end, { desc = "Step Into" })
-  map("n", "<leader>dn", function() dap.step_over() end, { desc = "Step Over" })
-  map("n", "<leader>do", function() dap.step_out() end, { desc = "Step Out" })
-  map("n", "<leader>dr", function() dap.repl.toggle() end, { desc = "Repl" })
+  map({ "n", "v", "i" }, "<F5>", function() dap.continue() end, { desc = "Run | Countine" })
+  map({ "n", "v", "i" }, "<F6>", function() dap.step_back() end, { desc = "Step Back" })
+  map({ "n", "v", "i" }, "<F7>", function() dap.step_over() end, { desc = "Step Over" })
+  map({ "n", "v", "i" }, "<F8>", function() dap.step_into() end, { desc = "Step Into" })
+  map({ "n", "v", "i" }, "<F9>", function() dap.step_out() end, { desc = "Step Out" })
+  -- map({ "n" }, "<leader>dr", function() dap.repl.toggle() end, { desc = "Repl" })
   local ui_status, ui = pcall(require, "dapui")
   if ui_status then
-    map("n", "<leader>de", function() ui.eval(nil, {}) end, { desc = "Eval Expression" })
-    map("n", "<leader>df", function() ui.float_element("stacks", {}) end, { desc = "Show Floating Window" })
-    map("n", "<leader>du", ui.toggle, { desc = "Debug Window" })
+    map({ "n", "v" }, "<M-e>", function() ui.eval(nil, { enter = true }) end, { desc = "Eval Expression" })
+    map({ "n", "i" }, "<M-f>", function() ui.float_element("scopes", {}) end, { desc = "Show Floating Window" })
+    -- map("n", "<leader>du", ui.toggle, { desc = "Debug Window" })
   end
 end
 

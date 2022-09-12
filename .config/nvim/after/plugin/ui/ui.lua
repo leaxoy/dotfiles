@@ -72,6 +72,7 @@ if catppuccin_status then
     },
     integrations = {
       treesitter = true,
+      treesitter_context = true,
       native_lsp = {
         enabled = true,
         virtual_text = {
@@ -96,7 +97,7 @@ if catppuccin_status then
       leap = false,
       telescope = true,
       nvimtree = { enabled = true, show_root = true, transparent_panel = false, },
-      neotree = { enabled = false, show_root = true, transparent_panel = false, },
+      neotree = { enabled = true, show_root = true, transparent_panel = false, },
       dap = { enabled = true, enable_ui = true, },
       which_key = true,
       indent_blankline = { enabled = true, colored_indent_levels = true, },
@@ -118,7 +119,7 @@ if catppuccin_status then
       vimwiki = true,
       beacon = true,
       navic = false,
-      overseer = false,
+      overseer = true,
       fidget = true,
     },
     color_overrides = {},
@@ -145,6 +146,14 @@ if catppuccin_status then
       LspCodeLensTextSeparator = { link = "Boolean" },
     },
     highlight_overrides = {},
+  })
+
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "PackerCompileDone",
+    callback = function()
+      vim.cmd "CatppuccinCompile"
+      vim.defer_fn(function() vim.cmd.color "catppuccin" end, 0) -- Defered for live reloading
+    end
   })
 end
 

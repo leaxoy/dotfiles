@@ -46,6 +46,7 @@ return require("packer").startup({
     use { "David-Kunz/markid", requires = "nvim-treesitter/nvim-treesitter" } -- semantic highlighting
     use { "NvChad/nvim-colorizer.lua" } -- color highlighting
     use { "rcarriga/nvim-notify", config = function() require("notify").setup({ background_colour = "#FFFFFF" }) end } -- notify component
+    use { "stevearc/overseer.nvim" }
 
     -- Lang specifies
     use { "solarnz/thrift.vim", opt = true, ft = "thrift" }
