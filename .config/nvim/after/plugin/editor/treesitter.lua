@@ -24,4 +24,5 @@ require("nvim-treesitter.configs").setup({
     enable = true,
     extended_mode = true,
   },
+  markid = { enable = true }
 })

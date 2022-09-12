@@ -23,38 +23,50 @@ return require("packer").startup({
     use { "folke/which-key.nvim" }
 
     -- Editor enhancements
-    use { "williamboman/mason.nvim", config = [[ require("mason").setup({ ui = { border = "double" } }) ]] }
+    use { "williamboman/mason.nvim" }
     use { "williamboman/mason-lspconfig.nvim", requires = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" } }
     use { "jayp0521/mason-null-ls.nvim", requires = { "williamboman/mason.nvim", "jose-elias-alvarez/null-ls.nvim" } }
 
     -- UI
+    use { "glepnir/dashboard-nvim" } -- welcome screen
     use "stevearc/dressing.nvim" -- ui component
-    use { "NvChad/nvim-colorizer.lua" }
     use "Mofiqul/vscode.nvim" -- theme
-    use "folke/tokyonight.nvim"
-    use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" }
+    use "folke/tokyonight.nvim" -- theme
+    use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
     use {
       "nvim-neo-tree/neo-tree.nvim",
       requires = { "nvim-lua/plenary.nvim", "kyazdani42/nvim-web-devicons", "MunifTanjim/nui.nvim" }
-    }
+    } -- file explorer
     use { "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" } -- buffer line
     use { "nvim-lualine/lualine.nvim", requires = "kyazdani42/nvim-web-devicons" } -- statusline
-    use { "WhoIsSethDaniel/lualine-lsp-progress" }
-    use "akinsho/toggleterm.nvim"
+    use { "WhoIsSethDaniel/lualine-lsp-progress" } -- statusline show lsp info
+    use { "akinsho/toggleterm.nvim" } -- terminal
+    use { "lukas-reineke/indent-blankline.nvim" } -- indent line
     use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" } -- syntax highlighting
-    use { "rcarriga/nvim-notify", config = function() require("notify").setup({ background_colour = "#FFFFFF" }) end }
+    use { "David-Kunz/markid", requires = "nvim-treesitter/nvim-treesitter" } -- semantic highlighting
+    use { "NvChad/nvim-colorizer.lua" } -- color highlighting
+    use { "rcarriga/nvim-notify", config = function() require("notify").setup({ background_colour = "#FFFFFF" }) end } -- notify component
 
     -- Lang specifies
     use { "solarnz/thrift.vim", opt = true, ft = "thrift" }
     use { "saecki/crates.nvim", requires = "nvim-lua/plenary.nvim" }
     use { "krady21/compiler-explorer.nvim", requires = "nvim-lua/plenary.nvim" }
 
-    -- Lsp config
-    use { "neovim/nvim-lspconfig" }
+    -- TextDocument Capabilities
+    use { "neovim/nvim-lspconfig" } -- lsp adapters
+    use { "jose-elias-alvarez/null-ls.nvim", requires = "nvim-lua/plenary.nvim" } -- enchance lsp client
     use { "glepnir/lspsaga.nvim", requires = "neovim/nvim-lspconfig" }
+    -- inlayhint support
     use { "lvimuser/lsp-inlayhints.nvim" }
+    -- semantic tokens support
     use { "theHamsta/nvim-semantic-tokens" }
+    -- type hierarchy support
+    use { "slyces/hierarchy.nvim", requires = "nvim-treesitter/nvim-treesitter" }
+    -- document color support
+    use { "mrshmllow/document-color.nvim" }
+    -- completion support
     use { "hrsh7th/nvim-cmp" }
+    -- completion plugins
     use { "hrsh7th/cmp-nvim-lsp", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-buffer", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-vsnip", requires = "hrsh7th/nvim-cmp" }
@@ -63,21 +75,18 @@ return require("packer").startup({
     use { "onsails/lspkind-nvim", requires = "hrsh7th/nvim-cmp" }
     use { "lukas-reineke/cmp-under-comparator", requires = "hrsh7th/nvim-cmp" }
     use { "David-Kunz/cmp-npm", requires = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" } }
-    use { "slyces/hierarchy.nvim", requires = "nvim-treesitter/nvim-treesitter" }
-    use { "jose-elias-alvarez/null-ls.nvim", requires = "nvim-lua/plenary.nvim" }
-    use { "ThePrimeagen/refactoring.nvim" }
     use { "b0o/SchemaStore.nvim" }
     use { "folke/lua-dev.nvim" }
-
-    -- Snippet config
+    -- snippet config
     use { "hrsh7th/vim-vsnip" }
     use { "rafamadriz/friendly-snippets", requires = "hrsh7th/vim-vsnip" }
 
-    -- Debug & Test
+    -- Debuggers
     use { "mfussenegger/nvim-dap" }
     use { "rcarriga/nvim-dap-ui", requires = "mfussenegger/nvim-dap" }
     use { "theHamsta/nvim-dap-virtual-text", requires = "mfussenegger/nvim-dap" }
     use { "Weissle/persistent-breakpoints.nvim", requires = "mfussenegger/nvim-dap" }
+    -- Testing
     use {
       "nvim-neotest/neotest",
       requires = {
@@ -86,6 +95,7 @@ return require("packer").startup({
         "antoinemadec/FixCursorHold.nvim",
       },
     }
+    -- testing plugins
     use { "nvim-neotest/neotest-vim-test", requires = { "nvim-neotest/neotest", "vim-test/vim-test" } }
     use { "nvim-neotest/neotest-go", requires = "nvim-neotest/neotest" }
     use { "nvim-neotest/neotest-python", requires = "nvim-neotest/neotest" }
@@ -101,6 +111,7 @@ return require("packer").startup({
     use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
     use { "famiu/bufdelete.nvim" }
     use { "ellisonleao/glow.nvim" } -- markdown render
+    use { "ThePrimeagen/refactoring.nvim" }
 
     -- Telescope Finder
     use {

@@ -42,3 +42,8 @@ if tokens_status then
     highlighters = { require("nvim-semantic-tokens.table-highlighter") }
   })
 end
+
+local document_color_status, document_color = pcall(require, "document-color")
+if document_color_status then
+  document_color.setup { mode = "background" }
+end

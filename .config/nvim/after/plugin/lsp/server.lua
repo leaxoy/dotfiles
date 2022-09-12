@@ -119,8 +119,12 @@ local function resolve_server_capabilities(client, buffer)
     local code_action = function() vim.lsp.buf.code_action({ apply = true }) end
     map({ "n", "v" }, "gaa", code_action, { desc = "Code Action" })
   end
-  -- if caps.colorProvider then
-  -- end
+  if caps.colorProvider then
+    local document_color_status, document_color = pcall(require, "document-color")
+    if document_color_status then
+      document_color.buf_attach(buffer)
+    end
+  end
 
   if caps.documentFormattingProvider then
     local format_group = "document_formatting"

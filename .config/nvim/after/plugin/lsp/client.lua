@@ -20,7 +20,8 @@ local base_opts = {
     completionItem.tagSupport = { valueSet = { 1 } }
     completionItem.resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } }
     textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
-    textDocument.typeHierarchy = { dynamicRegistration = false, }
+    textDocument.typeHierarchy = { dynamicRegistration = false }
+    textDocument.colorProvider = { dynamicRegistration = true }
     workspace.semanticTokens = { refreshSupport = true }
     capabilities = require("nvim-semantic-tokens").extend_capabilities(capabilities)
     return capabilities

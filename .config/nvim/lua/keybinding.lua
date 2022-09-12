@@ -14,6 +14,12 @@ end
 
 -- Welcome
 map("n", "<M-a>", cmd "intro", { desc = "Greeting" })
+map("n", "<M-d>", cmd "Dashboard", { desc = "Dashboard" })
+
+map({ "n", "v", "i" }, "<F3>", [[<CMD>echo synIDattr(synID(line('.'), col('.'), 1), 'name')<CR>]],
+  { desc = "Highlight Group" })
+map("n", "<leader>sl", cmd "SessionLoad", { desc = "Load Session" })
+map("n", "<leader>ss", cmd "SessionSave", { desc = "Save Session" })
 
 -- Window
 map("n", "<leader>w", popup("<leader>w"), { desc = "+Window" })
@@ -90,6 +96,7 @@ if telescope_status then
   map("n", "fl", cmd("Telescope", { "file_browser", "grouped=true" }), { desc = "File Browser" })
   map("n", "fg", cmd("Telescope", { "live_grep_args" }), { desc = "Live Grep" })
   map("n", "fc", cmd("Telescope", { "grep_string" }), { desc = "Grep Cursor String" })
+  map("n", "fh", cmd("Telescope", { "help_tags" }), { desc = "Help" })
   map("n", "fb", cmd("Telescope", { "buffers" }), { desc = "All Buffers" })
   map("n", "fn", cmd("Telescope", { "notify" }), { desc = "Notifications" })
   map("n", "fd", cmd("Telescope", { "diagnostics" }), { desc = "Diagnostics" })

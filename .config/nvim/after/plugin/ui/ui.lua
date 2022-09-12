@@ -1,11 +1,10 @@
 local dressing_status, dressing = pcall(require, "dressing")
 if dressing_status then
   dressing.setup {
-    input = { enabled = true, prompt_align = "center", winhighlight = "NormalFloat:Normal", winblend = 0 },
+    input = { enabled = true, prompt_align = "center", winblend = 0 },
     select = { enabled = true },
   }
 end
-
 
 local tokyonight_status, tokyonight = pcall(require, "tokyonight")
 if tokyonight_status then
@@ -150,6 +149,6 @@ if catppuccin_status then
 end
 
 local colorizer_status, colorizer = pcall(require, "colorizer")
-if colorizer_status then colorizer.setup({ filetypes = { "*" } }) end
+if colorizer_status then colorizer.setup({ filetypes = { "*"; "!tsx"; "!jsx"; "!html"; "!css" } }) end
 
 vim.cmd.color(vim.g.theme or "habamax")
