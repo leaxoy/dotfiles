@@ -39,4 +39,5 @@ if mason_status then
       { "isort" },
     },
   }
+  mason_adapter.check_install(true)
 end
