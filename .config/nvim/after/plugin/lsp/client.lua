@@ -120,6 +120,12 @@ mason_adapter.setup_handlers {
         }
       },
       use_lombok_agent = true,
+      settings = {
+        java = {
+          inlayHints = { parameterNames = { enabled = "all" } },
+          typeHierarchy = { lazyLoad = true },
+        }
+      },
     }
     lsp["jdtls"].setup(local_opts)
   end,
@@ -136,7 +142,7 @@ mason_adapter.setup_handlers {
   rust_analyzer = function()
     local local_opts = extend_opts {
       settings = {
-        rust_analyzer = {
+        ["rust-analyzer"] = {
           checkOnSave = { command = "clippy" },
           imports = {
             granularity = { group = "module", },
@@ -144,7 +150,8 @@ mason_adapter.setup_handlers {
           },
           cargo = {
             buildScripts = { enable = true, },
-            allFeatures = true, features = { "all" }
+            allFeatures = true,
+            features = { "all" }
           },
           procMacro = { enable = true },
         },
