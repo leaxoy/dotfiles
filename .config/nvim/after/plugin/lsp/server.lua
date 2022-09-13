@@ -169,23 +169,13 @@ local function resolve_workspace_capabilities(client, buffer)
   end
 end
 
-local function resolve_server_capabilities(client, buffer)
-  resolve_text_document_capabilities(client, buffer)
-  resolve_workspace_capabilities(client, buffer)
-end
-
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     local buf = args.buf
-    if client.server_capabilities.completionProvider then
-      vim.bo[buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-    end
-    if client.server_capabilities.definitionProvider then
-      vim.bo[buf].tagfunc = "v:lua.vim.lsp.tagfunc"
-    end
-    client.offset_encoding = "utf-16"
-    resolve_server_capabilities(client, buf)
+
+    resolve_text_document_capabilities(client, buf)
+    resolve_workspace_capabilities(client, buf)
   end,
   desc = "setup lsp functions"
 })
