@@ -143,7 +143,7 @@ mason_adapter.setup_handlers {
     local local_opts = extend_opts {
       settings = {
         ["rust-analyzer"] = {
-          checkOnSave = { command = "clippy" },
+          -- checkOnSave = { command = "clippy" },
           imports = {
             granularity = { group = "module", },
             prefix = "self",
@@ -151,7 +151,8 @@ mason_adapter.setup_handlers {
           cargo = {
             buildScripts = { enable = true, },
             allFeatures = true,
-            features = { "all" }
+            features = { "all" },
+            autoReload = true,
           },
           procMacro = { enable = true },
         },
@@ -161,6 +162,7 @@ mason_adapter.setup_handlers {
   end,
   sumneko_lua = function()
     local local_opts = extend_opts {
+      root_dir = require "lspconfig".util.root_pattern("init.lua", "lua"),
       settings = {
         Lua = {
           format = {

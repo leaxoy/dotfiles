@@ -24,3 +24,7 @@ bufferline.setup({
     hover = { enabled = true, delay = 250, reveal = { "close" } },
   },
 })
+
+local map = require("fn").map_fn
+map("n", "<C-b>", function() bufferline.go_to(vim.api.nvim_get_vvar("count") or -1) end, { desc = "Goto Buffer" })
+map("n", "<leader>bp", bufferline.toggle_pin, { desc = "Pin Buffer" })

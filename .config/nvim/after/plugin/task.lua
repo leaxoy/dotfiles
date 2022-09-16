@@ -1,7 +1,5 @@
 local status, overseer = pcall(require, "overseer")
-if not status then
-  return
-end
+if not status then return end
 
 overseer.setup {
   strategy = "terminal",
@@ -25,5 +23,12 @@ overseer.setup {
   task_editor = {},
   task_win = {},
   preload_components = {},
-  default_template_prompt = "always"
 }
+
+local fn = require("fn")
+local cmd, map, popup = fn.cmd_fn, fn.map_fn, fn.popup_fn
+map("n", "<leader>t", popup "<leader>t", { desc = "+Tasks" })
+map("n", "<leader>ta", cmd "OverseerTaskAction", { desc = "Task Action" })
+map("n", "<leader>tt", cmd "OverseerToggle!", { desc = "Tasks List" })
+map("n", "<leader>tb", cmd "OverseerBuild", { desc = "New Task" })
+map("n", "<leader>tr", cmd "OverseerRun", { desc = "Run Task" })

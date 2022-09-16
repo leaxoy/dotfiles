@@ -29,14 +29,10 @@ return require("packer").startup({
 
     -- UI
     use { "glepnir/dashboard-nvim" } -- welcome screen
-    use "stevearc/dressing.nvim" -- ui component
+    -- use "stevearc/dressing.nvim" -- ui component
     use "Mofiqul/vscode.nvim" -- theme
     use "folke/tokyonight.nvim" -- theme
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
-    use {
-      "nvim-neo-tree/neo-tree.nvim",
-      requires = { "nvim-lua/plenary.nvim", "kyazdani42/nvim-web-devicons", "MunifTanjim/nui.nvim" }
-    } -- file explorer
     use { "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" } -- buffer line
     use { "nvim-lualine/lualine.nvim", requires = "kyazdani42/nvim-web-devicons" } -- statusline
     use { "WhoIsSethDaniel/lualine-lsp-progress" } -- statusline show lsp info
@@ -74,7 +70,6 @@ return require("packer").startup({
     use { "hrsh7th/cmp-cmdline", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-nvim-lsp-document-symbol", requires = "hrsh7th/nvim-cmp" }
     use { "onsails/lspkind-nvim", requires = "hrsh7th/nvim-cmp" }
-    use { "lukas-reineke/cmp-under-comparator", requires = "hrsh7th/nvim-cmp" }
     use { "David-Kunz/cmp-npm", requires = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" } }
     use { "b0o/SchemaStore.nvim" }
     use { "folke/lua-dev.nvim" }
@@ -123,9 +118,7 @@ return require("packer").startup({
     use { "nvim-telescope/telescope-file-browser.nvim", requires = "nvim-telescope/telescope.nvim" }
     use { "nvim-telescope/telescope-live-grep-args.nvim", requires = "nvim-telescope/telescope.nvim" }
     use { "nvim-telescope/telescope-dap.nvim", requires = "nvim-telescope/telescope.nvim" }
-    use { "nvim-telescope/telescope-packer.nvim", requires = "nvim-telescope/telescope.nvim" }
-    use { "edolphin-ydf/goimpl.nvim", requires = "nvim-telescope/telescope.nvim" }
-    use { "sudormrfbin/cheatsheet.nvim", requires = "nvim-telescope/telescope.nvim" }
+    use { "nvim-telescope/telescope-ui-select.nvim", requires = "nvim-telescope/telescope.nvim" }
 
     if packer_bootstrap then require("packer").sync() end
   end,

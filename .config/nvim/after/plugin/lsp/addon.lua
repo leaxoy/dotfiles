@@ -1,3 +1,6 @@
+local fn = require("fn")
+local cmd, map = fn.cmd_fn, fn.map_fn
+
 local saga_status, saga = pcall(require, "lspsaga")
 if saga_status then
   saga.init_lsp_saga({
@@ -20,9 +23,13 @@ if saga_status then
     },
     finder_request_timeout = 5000,
     finder_icons = { def = " ", imp = " ", ref = " " },
+    rename_action_quit = "<Esc>",
     definition_action_keys = { quit = "q" },
     code_action_lightbulb = { enable = false },
   })
+
+  map("n", "gf", cmd("Lspsaga", { "lsp_finder" }), { desc = "Lsp Finder" })
+  map("n", "gp", cmd("Lspsaga", { "peek_definition" }), { desc = "Lsp Peek Definition" })
 end
 
 local hint_status, hint = pcall(require, "lsp-inlayhints")

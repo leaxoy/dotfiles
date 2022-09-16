@@ -19,7 +19,6 @@ null_ls.setup {
       extra_args = { "--config", "~/.config/cspell/cspell.json" }
     },
     diag.fish,
-    diag.todo_comments,
 
     fmt.black,
     fmt.fish_indent,

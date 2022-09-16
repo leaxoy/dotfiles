@@ -1,9 +1,10 @@
 local status, dashboard = pcall(require, "dashboard")
 if not status then return end
 
+vim.api.nvim_create_autocmd("VimLeave", { callback = function() vim.cmd("SessionSave") end })
+
 dashboard.session_directory = vim.fn.stdpath "data" .. "/session"
 dashboard.default_banner = {
-  "",
   "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⣤⣤⣴⣦⣤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ",
   "⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⣿⠿⠿⠿⠿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀ ",
   "⠀⠀⠀⠀⣠⣾⣿⣿⡿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢿⣿⣿⣶⡀⠀⠀⠀⠀ ",

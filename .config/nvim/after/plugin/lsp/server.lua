@@ -15,6 +15,7 @@ end
 
 local function resolve_text_document_capabilities(client, buffer)
   local map = function(mode, lhs, rhs, opts)
+    if type(mode) == "string" and string.len(mode) > 1 then mode = vim.split(mode, "") end
     opts = vim.tbl_extend("force", { noremap = true, silent = true, buffer = buffer }, opts)
     vim.keymap.set(mode, lhs, rhs, opts)
   end
@@ -31,10 +32,10 @@ local function resolve_text_document_capabilities(client, buffer)
     map("n", "gt", vim.lsp.buf.type_definition, { desc = "Type Definition" })
   end
   -- if caps.implementationProvider then
-  --   m("n", "gi", vim.lsp.buf.implementation, { desc = "Implementation" })
+  --   map("n", "gi", vim.lsp.buf.implementation, { desc = "Implementation" })
   -- end
   -- if caps.referencesProvider then
-  --   m("n", "gr", vim.lsp.buf.references, { desc = "References" })
+  --   map("n", "gr", vim.lsp.buf.references, { desc = "References" })
   -- end
   if caps.callHierarchyProvider then
     map("n", "ghi", vim.lsp.buf.incoming_calls, { desc = "Incoming Calls" })
@@ -93,7 +94,7 @@ local function resolve_text_document_capabilities(client, buffer)
     if caps.semanticTokensProvider.full and
         client.supports_method("textDocument/semanticTokens/full") then
       local augroup = vim.api.nvim_create_augroup("SemanticTokens", {})
-      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave", "TextChanged" }, {
         group = augroup,
         buffer = buffer,
         callback = vim.lsp.buf.semantic_tokens_full,
@@ -104,7 +105,8 @@ local function resolve_text_document_capabilities(client, buffer)
   -- if caps.inlineValueProvider then
   -- end
   if caps.inlayHintProvider then
-    require("lsp-inlayhints").on_attach(client, buffer, false)
+    local status, hint = pcall(require, "lsp-inlayhints")
+    if status then hint.on_attach(client, buffer, false) end
   end
   -- if caps.monikerProvider then
   -- end
@@ -117,13 +119,11 @@ local function resolve_text_document_capabilities(client, buffer)
   end
   if caps.codeActionProvider then
     local code_action = function() vim.lsp.buf.code_action({ apply = true }) end
-    map({ "n", "v" }, "gaa", code_action, { desc = "Code Action" })
+    map("nv", "<leader>a", code_action, { desc = "Code Action" })
   end
   if caps.colorProvider then
     local document_color_status, document_color = pcall(require, "document-color")
-    if document_color_status then
-      document_color.buf_attach(buffer)
-    end
+    if document_color_status then document_color.buf_attach(buffer) end
   end
   if caps.documentFormattingProvider then
     local format_group = "document_formatting"
@@ -138,7 +138,9 @@ local function resolve_text_document_capabilities(client, buffer)
   -- if caps.documentOnTypeFormattingProvider then
   -- end
   if caps.renameProvider then
-    map("n", "gr", vim.lsp.buf.rename, { desc = "Rename" })
+    local status, rn = pcall(require, "lspsaga.rename")
+    local rename_fn = function() if status then rn:lsp_rename() else vim.lsp.buf.rename() end end
+    map("n", "gr", rename_fn, { desc = "Rename" })
   end
   -- if caps.linkedEditingRangeProvider then
   -- end

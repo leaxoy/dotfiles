@@ -1,9 +1,9 @@
 local dressing_status, dressing = pcall(require, "dressing")
 if dressing_status then
-  dressing.setup {
-    input = { enabled = true, prompt_align = "center", winblend = 0 },
-    select = { enabled = true },
-  }
+  -- dressing.setup {
+  --   input = { enabled = true, prompt_align = "center", winblend = 0 },
+  --   select = { enabled = true },
+  -- }
 end
 
 local tokyonight_status, tokyonight = pcall(require, "tokyonight")
