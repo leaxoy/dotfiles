@@ -16,7 +16,12 @@ telescope.setup({
       center = { width = 0.7, height = 0.3, preview_cutoff = 10, prompt_position = "top" },
       cursor = { width = 0.8, height = 0.9, preview_cutoff = 40 },
       bottom_pane = { height = 25, prompt_position = "top", preview_cutoff = 100 },
-    }
+    },
+    mappings = {
+      i = {
+        ["<C-u>"] = false,
+      },
+    },
   },
   pickers = {
     find_files = { find_command = { "fd", "--type", "f", "--strip-cwd-prefix" } },
@@ -70,8 +75,9 @@ map("n", "fh", cmd("Telescope", { "help_tags" }), { desc = "Help" })
 map("n", "fb", cmd("Telescope", { "buffers" }), { desc = "All Buffers" })
 map("n", "fn", cmd("Telescope", { "notify" }), { desc = "Notifications" })
 map("n", "fd", cmd("Telescope", { "diagnostics" }), { desc = "Diagnostics" })
-map("n", "fr", cmd("Telescope", { "lsp_references" }), { desc = "[LSP] References" })
-map("n", "fi", cmd("Telescope", { "lsp_implementations" }), { desc = "[LSP] Implementations" })
-map("n", "fs", cmd("Telescope", { "lsp_document_symbols" }), { desc = "[LSP] Document Symbols" })
-map("n", "fO", cmd("Telescope", { "lsp_dynamic_workspace_symbols" }), { desc = "[LSP] Workspace Symbols" })
+-- in favor of lspsaga
+-- map("n", "fr", cmd("Telescope", { "lsp_references" }), { desc = "[LSP] References" })
+-- map("n", "fi", cmd("Telescope", { "lsp_implementations" }), { desc = "[LSP] Implementations" })
+-- map("n", "fs", cmd("Telescope", { "lsp_document_symbols" }), { desc = "[LSP] Document Symbols" })
+map("n", "fo", cmd("Telescope", { "lsp_dynamic_workspace_symbols" }), { desc = "[LSP] Workspace Symbols" })
 map("n", "ft", cmd "TodoTelescope", { desc = "Todo List" })
