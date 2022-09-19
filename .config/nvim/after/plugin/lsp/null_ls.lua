@@ -29,14 +29,12 @@ null_ls.setup {
 local mason_status, mason_adapter = pcall(require, "mason-null-ls")
 if mason_status then
   mason_adapter.setup {
-    auto_update = true,
     automatic_installation = true,
     ensure_installed = {
-      { "cspell" },
+      "cspell",
 
-      { "black" },
-      { "isort" },
+      "black",
+      "isort",
     },
   }
-  mason_adapter.check_install(true)
 end

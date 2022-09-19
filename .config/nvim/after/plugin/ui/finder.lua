@@ -1,7 +1,7 @@
 local status, telescope = pcall(require, "telescope")
 if not status then return end
 
-telescope.setup({
+telescope.setup {
   defaults = {
     -- winblend = 15,
     prompt_prefix = "🔍 ",
@@ -23,9 +23,7 @@ telescope.setup({
       },
     },
   },
-  pickers = {
-    find_files = { find_command = { "fd", "--type", "f", "--strip-cwd-prefix" } },
-  },
+  -- pickers = {},
   extensions = {
     file_browser = {
       -- disables netrw and use telescope-file-browser in its place
@@ -39,11 +37,12 @@ telescope.setup({
       auto_quoting = true,
     },
     ["ui-select"] = {
-      layout_strategy = "center",
+      layout_strategy  = "center",
+      layout_config    = { height = 12 },
       sorting_strategy = "ascending",
     },
   }
-})
+}
 
 telescope.load_extension "file_browser"
 telescope.load_extension "live_grep_args"

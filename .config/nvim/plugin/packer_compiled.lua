@@ -79,11 +79,6 @@ _G.packer_plugins = {
     path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
   },
-  ["FixCursorHold.nvim"] = {
-    loaded = true,
-    path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/FixCursorHold.nvim",
-    url = "https://github.com/antoinemadec/FixCursorHold.nvim"
-  },
   ["SchemaStore.nvim"] = {
     loaded = true,
     path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/SchemaStore.nvim",

@@ -1,5 +1,5 @@
 -- base config --base
-vim.o.updatetime = 250
+vim.o.updatetime = 200
 vim.o.timeoutlen = 200
 vim.o.mouse = ""
 vim.o.clipboard = "unnamedplus"

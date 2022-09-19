@@ -161,3 +161,6 @@ local colorizer_status, colorizer = pcall(require, "colorizer")
 if colorizer_status then colorizer.setup({ filetypes = { "*"; "!tsx"; "!jsx"; "!html"; "!css" } }) end
 
 vim.cmd.color(vim.g.theme or "habamax")
+
+local status, icons = pcall(require, "nvim-web-devicons")
+if status then icons.setup {} end

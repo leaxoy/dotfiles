@@ -4,6 +4,17 @@ if not lsp_status then return end
 local mason_status, mason_adapter = pcall(require, "mason-lspconfig")
 if not mason_status then return end
 
+-- TODO: hook make opts function before https://github.com/neovim/neovim/pull/20184 merged
+local origin_make_floating_popup_options = vim.lsp.util.make_floating_popup_options
+function vim.lsp.util.make_floating_popup_options(width, height, opts)
+  local inner_opts = origin_make_floating_popup_options(width, height, opts)
+  return vim.tbl_extend("force", inner_opts, { title = opts.title, title_pos = opts.title_pos })
+end
+
+-- Add lsp info border
+local win_opts = require("lspconfig.ui.windows").default_options
+win_opts.border = "double"
+
 local base_opts = {
   capabilities = (function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -28,8 +39,9 @@ local base_opts = {
   end)(),
   flags = { debounce_text_changes = 150 },
   handlers = {
-    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "double" }),
-    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "double" }),
+    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "double", title = "Hover" }),
+    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help,
+      { border = "double", title = "Signature" }),
     ["window/showMessage"] = function(_, result, ctx)
       local client = vim.lsp.get_client_by_id(ctx.client_id)
       local lvl = ({ "ERROR", "WARN", "INFO", "DEBUG" })[result.type]
@@ -55,7 +67,6 @@ mason_adapter.setup_handlers {
           -- more settings: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
           allExperiments = true,
           deepCompletion = true,
-          linkTarget = "godoc.byted.org/pkg",
           hints = {
             assignVariableTypes = true,
             compositeLiteralFields = true,

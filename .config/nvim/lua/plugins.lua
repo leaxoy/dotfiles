@@ -83,14 +83,7 @@ return require("packer").startup({
     use { "theHamsta/nvim-dap-virtual-text", requires = "mfussenegger/nvim-dap" }
     use { "Weissle/persistent-breakpoints.nvim", requires = "mfussenegger/nvim-dap" }
     -- Testing
-    use {
-      "nvim-neotest/neotest",
-      requires = {
-        "nvim-lua/plenary.nvim",
-        "nvim-treesitter/nvim-treesitter",
-        "antoinemadec/FixCursorHold.nvim",
-      },
-    }
+    use { "nvim-neotest/neotest", requires = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" } }
     -- testing plugins
     use { "nvim-neotest/neotest-vim-test", requires = { "nvim-neotest/neotest", "vim-test/vim-test" } }
     use { "nvim-neotest/neotest-go", requires = "nvim-neotest/neotest" }
