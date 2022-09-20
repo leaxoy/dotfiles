@@ -33,6 +33,7 @@ return require("packer").startup({
     use "Mofiqul/vscode.nvim" -- theme
     use "folke/tokyonight.nvim" -- theme
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
+    use { "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" }
     use { "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" } -- buffer line
     use { "nvim-lualine/lualine.nvim", requires = "kyazdani42/nvim-web-devicons" } -- statusline
     use { "WhoIsSethDaniel/lualine-lsp-progress" } -- statusline show lsp info
@@ -48,6 +49,7 @@ return require("packer").startup({
     use { "solarnz/thrift.vim", opt = true, ft = "thrift" }
     use { "saecki/crates.nvim", requires = "nvim-lua/plenary.nvim" }
     use { "krady21/compiler-explorer.nvim", requires = "nvim-lua/plenary.nvim" }
+    use { "mfussenegger/nvim-jdtls" }
 
     -- TextDocument Capabilities
     use { "neovim/nvim-lspconfig" } -- lsp adapters

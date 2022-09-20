@@ -11,6 +11,23 @@ function vim.lsp.util.make_floating_popup_options(width, height, opts)
   return vim.tbl_extend("force", inner_opts, { title = opts.title, title_pos = opts.title_pos })
 end
 
+local origin_make_client_capabilities = vim.lsp.protocol.make_client_capabilities
+function vim.lsp.protocol.make_client_capabilities()
+  return origin_make_client_capabilities()
+end
+
+local hdlr = vim.lsp.handlers
+hdlr["textDocument/hover"] = vim.lsp.with(hdlr.hover, { border = "rounded", title = "Hover" })
+hdlr["textDocument/signatureHelp"] = vim.lsp.with(hdlr.signature_help, { border = "rounded", title = "SignatureHelp" })
+hdlr["window/showMessage"] = function(_, result, ctx)
+  local client = vim.lsp.get_client_by_id(ctx.client_id)
+  local lvl = ({ "ERROR", "WARN", "INFO", "DEBUG" })[result.type]
+  require("fn").lsp_notify(client.name, result.message, lvl, 3000, function()
+    return lvl == "ERROR" or lvl == "WARN"
+  end)
+end
+hdlr["textDocument/publishDiagnostics"] = vim.lsp.diagnostic.on_publish_diagnostics
+
 -- Add lsp info border
 local win_opts = require("lspconfig.ui.windows").default_options
 win_opts.border = "double"
@@ -38,25 +55,14 @@ local base_opts = {
     return capabilities
   end)(),
   flags = { debounce_text_changes = 150 },
-  handlers = {
-    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "double", title = "Hover" }),
-    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help,
-      { border = "double", title = "Signature" }),
-    ["window/showMessage"] = function(_, result, ctx)
-      local client = vim.lsp.get_client_by_id(ctx.client_id)
-      local lvl = ({ "ERROR", "WARN", "INFO", "DEBUG" })[result.type]
-      require("fn").lsp_notify(client.name, result.message, lvl, 3000, function()
-        return lvl == "ERROR" or lvl == "WARN"
-      end)
-    end,
-    ["textDocument/publishDiagnostics"] = vim.lsp.diagnostic.on_publish_diagnostics,
-  }
 }
 
 local function extend_opts(extra_opts) return vim.tbl_deep_extend("force", base_opts, extra_opts) end
 
 mason_adapter.setup_handlers {
   function(server_name)
+    local excludes = { "jdtls" }
+    if vim.tbl_contains(excludes, server_name) then return end
     lsp[server_name].setup(base_opts)
   end,
   gopls = function()
@@ -105,40 +111,10 @@ mason_adapter.setup_handlers {
           experimentalWatchedFileDelay = "100ms",
           symbolMatcher = "fuzzy",
           gofumpt = true,
-
         }
       }
     }
     lsp["gopls"].setup(local_opts)
-  end,
-  jdtls = function()
-    local local_opts = extend_opts {
-      init_options = {
-        jdtls = {
-          bundles = {},
-          extendedClientCapabilities = {
-            progressReportProvider = true,
-            classFileContentsSupport = true,
-            generateToStringPromptSupport = true,
-            hashCodeEqualsPromptSupport = true,
-            advancedExtractRefactoringSupport = true,
-            advancedOrganizeImportsSupport = true,
-            generateConstructorsPromptSupport = true,
-            generateDelegateMethodsPromptSupport = true,
-            moveRefactoringSupport = true,
-            inferSelectionSupport = { "extractMethod", "extractVariable", "extractConstant" },
-          }
-        }
-      },
-      use_lombok_agent = true,
-      settings = {
-        java = {
-          inlayHints = { parameterNames = { enabled = "all" } },
-          typeHierarchy = { lazyLoad = true },
-        }
-      },
-    }
-    lsp["jdtls"].setup(local_opts)
   end,
   jsonls = function()
     local local_opts = extend_opts {
