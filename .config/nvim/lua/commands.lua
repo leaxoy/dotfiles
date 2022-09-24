@@ -29,9 +29,10 @@ vim.api.nvim_create_autocmd("Filetype", {
     "dapui_stacks",
     "dapui_watches",
     "dapui_console",
+    "help",
   },
   callback = function() vim.opt_local.mouse = "nvi" end,
-  desc = "debug session enable mouse action"
+  desc = "enable mouse action"
 })
 
 vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
