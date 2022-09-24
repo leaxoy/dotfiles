@@ -68,7 +68,18 @@ local function resolve_text_document_capabilities(client, buffer)
   -- if caps.documentLinkProvider then
   -- end
   if caps.hoverProvider then
-    map("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
+    local hover = function()
+      if vim.tbl_contains({}, vim.bo.filetype) then
+        vim.cmd.help({ args = { vim.fn.expand("<cword>") } })
+      elseif vim.bo.filetype == "man" then
+        vim.cmd.Man({ args = { vim.fn.expand("<cword>") } })
+      elseif vim.fn.expand("%:t") == "Cargo.toml" then
+        require("crates").show_popup()
+      else
+        vim.lsp.buf.hover()
+      end
+    end
+    map("n", "K", hover, { desc = "Hover" })
   end
   if caps.codeLensProvider and caps.codeLensProvider.resolveProvider then
     vim.api.nvim_create_autocmd({ "BufEnter", "TextChanged" }, {

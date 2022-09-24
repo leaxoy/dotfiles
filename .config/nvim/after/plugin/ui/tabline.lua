@@ -26,5 +26,7 @@ bufferline.setup({
 })
 
 local map = require("fn").map_fn
-map("n", "<C-b>", function() bufferline.go_to(vim.api.nvim_get_vvar("count") or -1) end, { desc = "Goto Buffer" })
+map("n", "<leader>bb", function() bufferline.go_to(vim.api.nvim_get_vvar("count") or -1) end, { desc = "Goto Buffer" })
+map("n", "<leader>b[", [[<CMD>BufferLineCyclePrev<CR>]], { desc = "Prev Buffer" })
+map("n", "<leader>b]", [[<CMD>BufferLineCycleNext<CR>]], { desc = "Next Buffer" })
 map("n", "<leader>bp", bufferline.toggle_pin, { desc = "Pin Buffer" })

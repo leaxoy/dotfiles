@@ -3,7 +3,6 @@ local bp = require("persistent-breakpoints")
 bp.setup { save_dir = vim.fn.stdpath("data") .. "/dap" }
 
 local bp_api = require("persistent-breakpoints.api")
-require("nvim-dap-virtual-text").setup {}
 
 vim.api.nvim_create_autocmd("BufReadPost", { callback = bp_api.load_breakpoints })
 vim.api.nvim_create_autocmd({ "VimLeave", "BufLeave" }, { callback = bp_api.store_breakpoints })
@@ -15,8 +14,8 @@ dap.listeners.before.event_terminated["dapui_config"] = dapui.close
 dap.listeners.before.event_exited["dapui_config"] = dapui.close
 
 dapui.setup({
-  -- icons = { expanded = "▾", collapsed = "▸" },
-  icons = { expanded = "", collapsed = "" },
+  icons = { expanded = "▾", collapsed = "▸" },
+  -- icons = { expanded = "", collapsed = "" },
   mappings = {
     -- Use a table to apply multiple mappings
     expand = { "<CR>", "<2-LeftMouse>" },
@@ -33,7 +32,10 @@ dapui.setup({
       position = "left",
     },
     {
-      elements = { "repl", "console" },
+      elements = {
+        "repl",
+        -- "console"
+      },
       size = 10,
       position = "bottom",
     },
@@ -95,4 +97,4 @@ local c_config = {
 
 dap.configurations.c = c_config
 dap.configurations.cpp = c_config
-dap.configurations.rust = c_config
+-- dap.configurations.rust = c_config

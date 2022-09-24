@@ -50,6 +50,7 @@ return require("packer").startup({
     use { "saecki/crates.nvim", requires = "nvim-lua/plenary.nvim" }
     use { "krady21/compiler-explorer.nvim", requires = "nvim-lua/plenary.nvim" }
     use { "mfussenegger/nvim-jdtls" }
+    use { "simrat39/rust-tools.nvim", requires = "mattn/webapi-vim" }
 
     -- TextDocument Capabilities
     use { "neovim/nvim-lspconfig" } -- lsp adapters
@@ -82,7 +83,7 @@ return require("packer").startup({
     -- Debuggers
     use { "mfussenegger/nvim-dap" }
     use { "rcarriga/nvim-dap-ui", requires = "mfussenegger/nvim-dap" }
-    use { "theHamsta/nvim-dap-virtual-text", requires = "mfussenegger/nvim-dap" }
+    use { "rcarriga/cmp-dap", requires = "mfussenegger/nvim-dap" }
     use { "Weissle/persistent-breakpoints.nvim", requires = "mfussenegger/nvim-dap" }
     -- Testing
     use { "nvim-neotest/neotest", requires = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" } }

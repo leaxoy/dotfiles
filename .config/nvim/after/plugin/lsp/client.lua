@@ -13,7 +13,27 @@ end
 
 local origin_make_client_capabilities = vim.lsp.protocol.make_client_capabilities
 function vim.lsp.protocol.make_client_capabilities()
-  return origin_make_client_capabilities()
+  local capabilities = origin_make_client_capabilities()
+  local textDocument = capabilities.textDocument
+  local workspace = capabilities.workspace
+  local completionItem = capabilities.textDocument.completion.completionItem
+
+  completionItem.snippetSupport = true
+  completionItem.preselectSupport = true
+  completionItem.insertReplaceSupport = true
+  completionItem.labelDetailsSupport = true
+  completionItem.deprecatedSupport = true
+  completionItem.commitCharactersSupport = true
+  completionItem.tagSupport = { valueSet = { 1 } }
+  completionItem.resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } }
+  textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
+  textDocument.typeHierarchy = { dynamicRegistration = false }
+  textDocument.colorProvider = { dynamicRegistration = true }
+  workspace.semanticTokens = { refreshSupport = true }
+  local status, tokens = pcall(require, "nvim-semantic-tokens")
+  if status then capabilities = tokens.extend_capabilities(capabilities) end
+
+  return capabilities
 end
 
 local hdlr = vim.lsp.handlers
@@ -32,42 +52,15 @@ hdlr["textDocument/publishDiagnostics"] = vim.lsp.diagnostic.on_publish_diagnost
 local win_opts = require("lspconfig.ui.windows").default_options
 win_opts.border = "double"
 
-local base_opts = {
-  capabilities = (function()
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    local textDocument = capabilities.textDocument
-    local workspace = capabilities.workspace
-    local completionItem = capabilities.textDocument.completion.completionItem
-
-    completionItem.snippetSupport = true
-    completionItem.preselectSupport = true
-    completionItem.insertReplaceSupport = true
-    completionItem.labelDetailsSupport = true
-    completionItem.deprecatedSupport = true
-    completionItem.commitCharactersSupport = true
-    completionItem.tagSupport = { valueSet = { 1 } }
-    completionItem.resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } }
-    textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
-    textDocument.typeHierarchy = { dynamicRegistration = false }
-    textDocument.colorProvider = { dynamicRegistration = true }
-    workspace.semanticTokens = { refreshSupport = true }
-    capabilities = require("nvim-semantic-tokens").extend_capabilities(capabilities)
-    return capabilities
-  end)(),
-  flags = { debounce_text_changes = 150 },
-}
-
-local function extend_opts(extra_opts) return vim.tbl_deep_extend("force", base_opts, extra_opts) end
-
 mason_adapter.setup_handlers {
   function(server_name)
-    local excludes = { "jdtls" }
+    local excludes = { "jdtls", "rust_analyzer" }
     if vim.tbl_contains(excludes, server_name) then return end
-    lsp[server_name].setup(base_opts)
+    lsp[server_name].setup {}
   end,
   gopls = function()
-    local local_opts = extend_opts {
-      init_options = { usePlaceholders = true },
+    lsp["gopls"].setup {
+      init_options = { allExperiments = true },
       settings = {
         gopls = {
           -- more settings: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
@@ -105,50 +98,51 @@ mason_adapter.setup_handlers {
           usePlaceholders = true,
           completeUnimported = true,
           staticcheck = true,
-          semanticTokens = true,
           matcher = "Fuzzy",
           diagnosticsDelay = "500ms",
-          experimentalWatchedFileDelay = "100ms",
           symbolMatcher = "fuzzy",
           gofumpt = true,
         }
       }
     }
-    lsp["gopls"].setup(local_opts)
+  end,
+  jdtls = function()
+    require("jdtls").start_or_attach {
+      cmd = {
+        "jdtls",
+        "-configuration", os.getenv "HOME" .. "/.cache/jdtls/config",
+        "-data", os.getenv "HOME" .. "/.cache/jdlts/workspace"
+      },
+      settings = {
+        java = {
+          inlayHints = { parameterNames = { enabled = true } },
+        }
+      },
+      init_options = {
+        bundles = {}
+      },
+    }
   end,
   jsonls = function()
-    local local_opts = extend_opts {
-      settings = {
-        json = {
-          schemas = require("schemastore").json.schemas()
-        }
-      }
-    }
-    lsp["jsonls"].setup(local_opts)
+    lsp["jsonls"].setup { settings = { json = { schemas = require("schemastore").json.schemas() } } }
   end,
   rust_analyzer = function()
-    local local_opts = extend_opts {
-      settings = {
-        ["rust-analyzer"] = {
-          -- checkOnSave = { command = "clippy" },
-          imports = {
-            granularity = { group = "module", },
-            prefix = "self",
-          },
-          cargo = {
-            buildScripts = { enable = true, },
-            allFeatures = true,
-            features = { "all" },
-            autoReload = true,
-          },
-          procMacro = { enable = true },
+    require("rust-tools").setup {
+      tools = {
+        inlay_hints = { auto = false }
+      },
+      server = { standalone = true },
+      dap = {
+        adapter = {
+          type = "executable",
+          command = "codelldb",
+          name = "codelldb",
         },
       }
     }
-    lsp["rust_analyzer"].setup(local_opts)
   end,
   sumneko_lua = function()
-    local local_opts = extend_opts {
+    lsp["sumneko_lua"].setup(require("lua-dev").setup { lspconfig = {
       root_dir = require "lspconfig".util.root_pattern("init.lua", "lua"),
       settings = {
         Lua = {
@@ -175,11 +169,10 @@ mason_adapter.setup_handlers {
           workspace = { checkThirdParty = false, },
         }
       }
-    }
-    lsp["sumneko_lua"].setup(require("lua-dev").setup { lspconfig = local_opts })
+    } })
   end,
   tsserver = function()
-    local local_opts = extend_opts {
+    lsp["tsserver"].setup {
       settings = {
         typescript = {
           inlayHints = {
@@ -205,6 +198,5 @@ mason_adapter.setup_handlers {
         }
       }
     }
-    lsp["tsserver"].setup(local_opts)
   end,
 }

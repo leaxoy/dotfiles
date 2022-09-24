@@ -15,8 +15,8 @@ overseer.setup {
     bindings = {
       ["<M-l>"] = "IncreaseDetail",
       ["<M-h>"] = "DecreaseDetail",
-      ["<C-h>"] = false,
-      ["<C-l>"] = false,
+      -- ["<C-h>"] = false,
+      -- ["<C-l>"] = false,
     }
   },
   task_launcher = {},

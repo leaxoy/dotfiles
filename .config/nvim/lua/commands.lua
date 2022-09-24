@@ -21,6 +21,19 @@ vim.api.nvim_create_autocmd("Filetype", {
   desc = "set tabstop and shiftwidth for specific filetypes",
 })
 
+vim.api.nvim_create_autocmd("Filetype", {
+  pattern = {
+    "dap-repl",
+    "dapui_scopes",
+    "dapui_breakpoints",
+    "dapui_stacks",
+    "dapui_watches",
+    "dapui_console",
+  },
+  callback = function() vim.opt_local.mouse = "nvi" end,
+  desc = "debug session enable mouse action"
+})
+
 vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
   callback = function()
     local opts = {

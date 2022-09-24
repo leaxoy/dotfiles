@@ -114,11 +114,11 @@ cmp.setup({
   sources = {
     { name = "nvim_lsp" },
     { name = "vsnip" }, -- For vsnip user.
-    { name = "buffer" },
-    { name = "cmdline" },
-    { name = "crates" },
+    -- { name = "buffer" },
+    -- { name = "cmdline" },
+    -- { name = "crates" },
     { name = "spell" },
-    { name = "npm" },
+    -- { name = "npm" },
   },
 })
 
@@ -132,4 +132,19 @@ cmp.setup.cmdline("/", {
 cmp.setup.cmdline(":", {
   view = { entries = { name = "wildmenu" } },
   sources = { { name = "path" }, { name = "cmdline" } },
+})
+
+cmp.setup.filetype({ "dap-repl" }, { sources = { { name = "dap" } } })
+vim.api.nvim_create_autocmd("BufRead", {
+  pattern = "package.json",
+  callback = function()
+    cmp.setup.buffer({ sources = { { name = "npm" } } })
+  end
+})
+vim.api.nvim_create_autocmd("BufRead", {
+  group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
+  pattern = "Cargo.toml",
+  callback = function()
+    cmp.setup.buffer({ sources = { { name = "crates" } } })
+  end,
 })

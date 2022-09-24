@@ -6,6 +6,7 @@ vim.api.nvim_create_autocmd(
   {
     pattern = "*",
     callback = function()
+      if vim.bo.filetype == "dap-repl" then return end
       local excludes = {
         "",
         "toggleterm",
@@ -22,7 +23,6 @@ vim.api.nvim_create_autocmd(
         "dashboard",
       }
       local renamed = {
-        ["dap-repl"] = "Dap Repl",
         dapui_scopes = "Dap Scopes",
         dapui_breakpoints = "Dap Breakpoints",
         dapui_stacks = "Dap Stacks",
