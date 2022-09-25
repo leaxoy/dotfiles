@@ -58,6 +58,11 @@ mason_adapter.setup_handlers {
     if vim.tbl_contains(excludes, server_name) then return end
     lsp[server_name].setup {}
   end,
+  clangd = function()
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities.offsetEncoding = { "utf-18" }
+    lsp["clangd"].setup { capabilities = capabilities, }
+  end,
   gopls = function()
     lsp["gopls"].setup {
       init_options = { allExperiments = true },
@@ -104,23 +109,6 @@ mason_adapter.setup_handlers {
           gofumpt = true,
         }
       }
-    }
-  end,
-  jdtls = function()
-    require("jdtls").start_or_attach {
-      cmd = {
-        "jdtls",
-        "-configuration", os.getenv "HOME" .. "/.cache/jdtls/config",
-        "-data", os.getenv "HOME" .. "/.cache/jdlts/workspace"
-      },
-      settings = {
-        java = {
-          inlayHints = { parameterNames = { enabled = true } },
-        }
-      },
-      init_options = {
-        bundles = {}
-      },
     }
   end,
   jsonls = function()
