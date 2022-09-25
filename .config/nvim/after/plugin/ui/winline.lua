@@ -29,6 +29,7 @@ vim.api.nvim_create_autocmd(
         dapui_watches = "Dap Watches",
         dapui_console = "Dap Console",
         OverseerList = "Tasks List",
+        tsplayground = "TreeSitter Playground"
       }
       if vim.api.nvim_win_get_config(0).zindex or vim.tbl_contains(excludes, vim.bo.filetype) then
         vim.wo.winbar = ""

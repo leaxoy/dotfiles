@@ -33,13 +33,14 @@ return require("packer").startup({
     use "Mofiqul/vscode.nvim" -- theme
     use "folke/tokyonight.nvim" -- theme
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
-    use { "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" }
-    use { "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" } -- buffer line
+    -- use { "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" }
+    -- use { "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" } -- buffer line
     use { "nvim-lualine/lualine.nvim", requires = "kyazdani42/nvim-web-devicons" } -- statusline
     use { "WhoIsSethDaniel/lualine-lsp-progress" } -- statusline show lsp info
     use { "akinsho/toggleterm.nvim" } -- terminal
     use { "lukas-reineke/indent-blankline.nvim" } -- indent line
     use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" } -- syntax highlighting
+    use { "nvim-treesitter/playground", requires = "nvim-treesitter/nvim-treesitter" }
     use { "David-Kunz/markid", requires = "nvim-treesitter/nvim-treesitter" } -- semantic highlighting
     use { "NvChad/nvim-colorizer.lua" } -- color highlighting
     use { "rcarriga/nvim-notify", config = function() require("notify").setup({ background_colour = "#FFFFFF" }) end } -- notify component
@@ -69,7 +70,6 @@ return require("packer").startup({
     -- completion plugins
     use { "hrsh7th/cmp-nvim-lsp", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-buffer", requires = "hrsh7th/nvim-cmp" }
-    use { "hrsh7th/cmp-vsnip", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-cmdline", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-nvim-lsp-document-symbol", requires = "hrsh7th/nvim-cmp" }
     use { "onsails/lspkind-nvim", requires = "hrsh7th/nvim-cmp" }
@@ -77,7 +77,7 @@ return require("packer").startup({
     use { "b0o/SchemaStore.nvim" }
     use { "folke/lua-dev.nvim" }
     -- snippet config
-    use { "hrsh7th/vim-vsnip" }
+    use { "hrsh7th/cmp-vsnip", requires = "hrsh7th/nvim-cmp" }
     use { "rafamadriz/friendly-snippets", requires = "hrsh7th/vim-vsnip" }
 
     -- Debuggers
@@ -106,10 +106,7 @@ return require("packer").startup({
     use { "ThePrimeagen/refactoring.nvim" }
 
     -- Telescope Finder
-    use {
-      "nvim-telescope/telescope.nvim",
-      requires = { "nvim-lua/plenary.nvim", "nvim-lua/popup.nvim" },
-    }
+    use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } }
     -- Telescope Plugins
     use { "nvim-telescope/telescope-file-browser.nvim", requires = "nvim-telescope/telescope.nvim" }
     use { "nvim-telescope/telescope-live-grep-args.nvim", requires = "nvim-telescope/telescope.nvim" }
