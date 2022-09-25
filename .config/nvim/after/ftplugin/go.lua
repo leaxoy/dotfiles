@@ -50,20 +50,31 @@ local function modify_tags(action)
     end
     local struct_name = vim.treesitter.query.get_node_text(ts_node, 0)
     if struct_name == nil then return end
-    if not vim.fn.executable("gomodifytags") then
-      vim.api.nvim_err_writeln("gomodifytags not exist in path, please install it, doc at: https://github.com/fatih/gomodifytags")
-      return
-    end
     local file = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
-    local cmd = "gomodifytags -file " .. file .. " -struct " .. struct_name
-    local arg = opts.fargs and table.concat(opts.fargs, ",") or opts.arg
+
+    local args = { "-file", file, "-struct", struct_name, "-format", "json" }
     if action == "clear" then
-      cmd = cmd .. " -" .. action .. "-tags " .. " -w"
+      table.insert(args, "-clear-tags")
     else
-      cmd = cmd .. " -" .. action .. "-tags " .. arg .. " -w"
+      table.insert(args, "-" .. action .. "-tags")
+      table.insert(args, opts.fargs and table.concat(opts.fargs, ",") or opts.arg or "json")
     end
-    vim.fn.system(cmd)
-    vim.cmd({ cmd = "edit" })
+
+    local modify
+    require("plenary.job"):new {
+      command = "gomodifytags",
+      args = args,
+      on_exit = function(result, code)
+        if code ~= 0 then
+          vim.notify("gomodifytags failed, error code: " .. code, vim.log.levels.ERROR)
+        end
+        modify = vim.json.decode(table.concat(result:result(), ""))
+      end,
+    }:sync()
+    if modify then
+      vim.api.nvim_buf_set_lines(0, modify["start"] - 1, modify["end"], false, modify["lines"])
+      vim.cmd.write {}
+    end
   end
 end
 
