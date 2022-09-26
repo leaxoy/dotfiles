@@ -4,50 +4,6 @@ if not lsp_status then return end
 local mason_status, mason_adapter = pcall(require, "mason-lspconfig")
 if not mason_status then return end
 
--- TODO: hook make opts function before https://github.com/neovim/neovim/pull/20184 merged
-local origin_make_floating_popup_options = vim.lsp.util.make_floating_popup_options
-function vim.lsp.util.make_floating_popup_options(width, height, opts)
-  local inner_opts = origin_make_floating_popup_options(width, height, opts)
-  return vim.tbl_extend("force", inner_opts, { title = opts.title, title_pos = opts.title_pos })
-end
-
-local origin_make_client_capabilities = vim.lsp.protocol.make_client_capabilities
-function vim.lsp.protocol.make_client_capabilities()
-  local capabilities = origin_make_client_capabilities()
-  local textDocument = capabilities.textDocument
-  local workspace = capabilities.workspace
-  local completionItem = capabilities.textDocument.completion.completionItem
-
-  completionItem.snippetSupport = true
-  completionItem.preselectSupport = true
-  completionItem.insertReplaceSupport = true
-  completionItem.labelDetailsSupport = true
-  completionItem.deprecatedSupport = true
-  completionItem.commitCharactersSupport = true
-  completionItem.tagSupport = { valueSet = { 1 } }
-  completionItem.resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } }
-  textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
-  textDocument.typeHierarchy = { dynamicRegistration = false }
-  textDocument.colorProvider = { dynamicRegistration = true }
-  workspace.semanticTokens = { refreshSupport = true }
-  local status, tokens = pcall(require, "nvim-semantic-tokens")
-  if status then capabilities = tokens.extend_capabilities(capabilities) end
-
-  return capabilities
-end
-
-local hdlr = vim.lsp.handlers
-hdlr["textDocument/hover"] = vim.lsp.with(hdlr.hover, { border = "rounded", title = "Hover" })
-hdlr["textDocument/signatureHelp"] = vim.lsp.with(hdlr.signature_help, { border = "rounded", title = "SignatureHelp" })
-hdlr["window/showMessage"] = function(_, result, ctx)
-  local client = vim.lsp.get_client_by_id(ctx.client_id)
-  local lvl = ({ "ERROR", "WARN", "INFO", "DEBUG" })[result.type]
-  require("fn").lsp_notify(client.name, result.message, lvl, 3000, function()
-    return lvl == "ERROR" or lvl == "WARN"
-  end)
-end
-hdlr["textDocument/publishDiagnostics"] = vim.lsp.diagnostic.on_publish_diagnostics
-
 -- Add lsp info border
 local win_opts = require("lspconfig.ui.windows").default_options
 win_opts.border = "double"
