@@ -110,6 +110,7 @@ mason_adapter.setup_handlers {
             semicolon = "Disable", -- "All", "SameLine", "Disable"
             setType = true,
           },
+          runtime = { version = "LuaJIT" },
           workspace = { checkThirdParty = false, },
         }
       }

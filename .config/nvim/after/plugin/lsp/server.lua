@@ -42,13 +42,6 @@ local function resolve_text_document_capabilities(client, buffer)
     map("n", "gho", vim.lsp.buf.outgoing_calls, { desc = "Outgoing Calls" })
   end
   -- if caps.typeHierarchyProvider then
-  local hierarchy = require("hierarchy")
-  local result_handler = function(err, result, ctx, config)
-    hierarchy.handlers.load_quickfix(err, result, ctx, config)
-    require("telescope.builtin").quickfix(require("telescope.themes").get_ivy({}))
-  end
-  map("n", "ght", function() hierarchy.subtypes(result_handler) end, { desc = "Sub Types" })
-  map("n", "ghT", function() hierarchy.supertypes(result_handler) end, { desc = "Super Types" })
   -- end
   if caps.documentHighlightProvider then
     local group = "lsp_document_highlight"
