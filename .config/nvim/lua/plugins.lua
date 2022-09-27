@@ -26,6 +26,7 @@ return require("packer").startup({
     use { "williamboman/mason.nvim" }
     use { "williamboman/mason-lspconfig.nvim", requires = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" } }
     use { "jayp0521/mason-null-ls.nvim", requires = { "williamboman/mason.nvim", "jose-elias-alvarez/null-ls.nvim" } }
+    use { "jayp0521/mason-nvim-dap.nvim", requires = { "williamboman/mason.nvim", "mfussenegger/nvim-dap" } }
 
     -- UI
     use { "glepnir/dashboard-nvim" } -- welcome screen
@@ -62,7 +63,7 @@ return require("packer").startup({
     -- semantic tokens support
     use { "theHamsta/nvim-semantic-tokens" }
     -- type hierarchy support
-    use { "slyces/hierarchy.nvim", requires = "nvim-treesitter/nvim-treesitter" }
+    -- use { "slyces/hierarchy.nvim", requires = "nvim-treesitter/nvim-treesitter" }
     -- document color support
     use { "mrshmllow/document-color.nvim" }
     -- completion support
