@@ -13,7 +13,10 @@ lualine.setup {
   extensions = { "nvim-tree", "toggleterm", "quickfix", "neo-tree" },
   sections = {
     lualine_a = { "mode" },
-    lualine_b = { { "filetype", icon_only = true }, { "filename", file_status = true, path = 1 } },
+    lualine_b = {
+      "branch",
+      { "diff", symbols = { added = " ", modified = " ", removed = " " } },
+    },
     lualine_c = {
       {
         function()
@@ -34,12 +37,13 @@ lualine.setup {
           table.sort(names)
           return names and table.concat(names, " & ") or msg
         end,
-        icon = " ",
+        icon = "",
         color = { fg = "#006611", gui = "bold" },
       },
       { "lsp_progress" },
     },
-    lualine_x = {
+    lualine_x = {},
+    lualine_y = {
       {
         "diagnostics",
         sources = { "nvim_diagnostic" },
@@ -54,10 +58,6 @@ lualine.setup {
         },
         colored = true,
       },
-    },
-    lualine_y = {
-      { "diff", symbols = { added = " ", modified = " ", removed = " " } },
-      "branch",
     },
     lualine_z = { "progress", "location" },
   },

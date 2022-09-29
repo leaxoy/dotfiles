@@ -67,7 +67,10 @@ telescope.setup {
     buffer_previewer_maker = previewers.buffer_previewer_maker,
   },
   pickers = {
+    buffers = { initial_mode = "normal" },
+    builtin = { previewer = false },
     colorscheme = { enable_preview = true },
+    diagnostics = { initial_mode = "normal" },
     find_files = { hidden = true },
   },
   extensions = {
@@ -89,10 +92,6 @@ telescope.setup {
       auto_quoting = true,
     },
     notify = { initial_mode = "normal" },
-    ["ui-select"] = {
-      themes.get_dropdown { layout_config = { height = 0.4 } },
-      specific_opts = {},
-    },
   },
 }
 
@@ -101,7 +100,6 @@ pcall(telescope.load_extension, "live_grep_args")
 pcall(telescope.load_extension, "dap")
 pcall(telescope.load_extension, "todo-comments")
 pcall(telescope.load_extension, "notify")
-pcall(telescope.load_extension, "ui-select")
 
 local fn = require "fn"
 local map, popup = fn.map_fn, fn.popup_fn

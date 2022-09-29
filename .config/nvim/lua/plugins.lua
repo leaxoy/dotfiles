@@ -39,13 +39,10 @@ return require("packer").startup {
 
     -- UI
     use { "glepnir/dashboard-nvim" } -- welcome screen
-    -- use "stevearc/dressing.nvim" -- ui component
-    use "Mofiqul/vscode.nvim" -- theme
-    use "folke/tokyonight.nvim" -- theme
+    use { "stevearc/dressing.nvim" } -- ui component
+    use { "Mofiqul/vscode.nvim" } -- theme
+    use { "folke/tokyonight.nvim" } -- theme
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
-    use { "MunifTanjim/nui.nvim" }
-    -- use { "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" }
-    -- use { "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" } -- buffer line
     use { "nvim-lualine/lualine.nvim", requires = "kyazdani42/nvim-web-devicons" } -- statusline
     use { "WhoIsSethDaniel/lualine-lsp-progress" } -- statusline show lsp info
     use { "akinsho/toggleterm.nvim" } -- terminal
@@ -131,7 +128,6 @@ return require("packer").startup {
     use { "nvim-telescope/telescope-file-browser.nvim", requires = "nvim-telescope/telescope.nvim" }
     use { "nvim-telescope/telescope-live-grep-args.nvim", requires = "nvim-telescope/telescope.nvim" }
     use { "nvim-telescope/telescope-dap.nvim", requires = "nvim-telescope/telescope.nvim" }
-    use { "nvim-telescope/telescope-ui-select.nvim", requires = "nvim-telescope/telescope.nvim" }
 
     if packer_bootstrap then require("packer").sync() end
   end,
