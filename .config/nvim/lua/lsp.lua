@@ -20,7 +20,8 @@ function vim.lsp.protocol.make_client_capabilities()
   completionItem.deprecatedSupport = true
   completionItem.commitCharactersSupport = true
   completionItem.tagSupport = { valueSet = { 1 } }
-  completionItem.resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } }
+  completionItem.resolveSupport =
+    { properties = { "documentation", "detail", "additionalTextEdits" } }
   textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
   textDocument.typeHierarchy = { dynamicRegistration = false }
   textDocument.colorProvider = { dynamicRegistration = true }
@@ -32,15 +33,18 @@ function vim.lsp.protocol.make_client_capabilities()
 end
 
 local provider = vim.lsp.handlers
-provider["textDocument/hover"] = vim.lsp.with(provider.hover, { border = "rounded", title = "Hover" })
-provider["textDocument/signatureHelp"] = vim.lsp.with(
-  provider.signature_help,
-  { border = "rounded", title = "SignatureHelp" }
-)
+provider["textDocument/hover"] =
+  vim.lsp.with(provider.hover, { border = "rounded", title = "Hover" })
+provider["textDocument/signatureHelp"] =
+  vim.lsp.with(provider.signature_help, { border = "rounded", title = "SignatureHelp" })
 provider["window/showMessage"] = function(_, result, ctx)
   local client = vim.lsp.get_client_by_id(ctx.client_id)
   local lvl = ({ "ERROR", "WARN", "INFO", "DEBUG" })[result.type]
-  require("fn").lsp_notify(client.name, result.message, lvl, 3000, function()
-    return lvl == "ERROR" or lvl == "WARN"
-  end)
+  require("fn").lsp_notify(
+    client.name,
+    result.message,
+    lvl,
+    3000,
+    function() return lvl == "ERROR" or lvl == "WARN" end
+  )
 end

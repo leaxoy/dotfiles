@@ -1,19 +1,15 @@
 local lsp_notify = function(client_name, msg, level, timeout, keep_fn)
-  require("notify").notify(
-    client_name .. ": " .. msg,
-    level,
-    {
-      title = "LSP on " .. vim.bo.filetype,
-      icon = " ",
-      timeout = timeout or 3000,
-      keep = keep_fn or function() return false end,
-    }
-  )
+  require("notify").notify(client_name .. ": " .. msg, level, {
+    title = "LSP on " .. vim.bo.filetype,
+    icon = " ",
+    timeout = timeout or 3000,
+    keep = keep_fn or function() return false end,
+  })
 end
 
 -- cmd_fn make function that call command with args
 local cmd_fn = function(cmd, args)
-  return function() vim.cmd({ cmd = cmd, args = args }) end
+  return function() vim.cmd { cmd = cmd, args = args } end
 end
 
 local map_fn = function(mode, lhs, rhs, opts)

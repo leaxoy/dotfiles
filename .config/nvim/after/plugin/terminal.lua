@@ -1,7 +1,7 @@
 local status, toggleterm = pcall(require, "toggleterm")
 if not status then return end
 
-toggleterm.setup({
+toggleterm.setup {
   open_mapping = [[<c-t>]],
   size = function(term)
     if term.direction == "horizontal" then
@@ -16,7 +16,7 @@ toggleterm.setup({
   direction = "horizontal",
   shade_terminals = true,
   float_opts = { border = "double" },
-})
+}
 
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "term://*",
@@ -28,5 +28,5 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.keymap.set("t", "<C-j>", "<Cmd>wincmd j<CR>", opts)
     vim.keymap.set("t", "<C-k>", "<Cmd>wincmd k<CR>", opts)
     vim.keymap.set("t", "<C-l>", "<Cmd>wincmd l<CR>", opts)
-  end
+  end,
 })

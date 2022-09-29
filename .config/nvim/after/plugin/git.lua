@@ -1,8 +1,18 @@
-require("gitsigns").setup({
+require("gitsigns").setup {
   signs = {
     add = { hl = "GitSignsAdd", text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-    change = { hl = "GitSignsChange", text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-    delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+    change = {
+      hl = "GitSignsChange",
+      text = "│",
+      numhl = "GitSignsChangeNr",
+      linehl = "GitSignsChangeLn",
+    },
+    delete = {
+      hl = "GitSignsDelete",
+      text = "_",
+      numhl = "GitSignsDeleteNr",
+      linehl = "GitSignsDeleteLn",
+    },
     topdelete = {
       hl = "GitSignsDelete",
       text = "‾",
@@ -46,6 +56,6 @@ require("gitsigns").setup({
     col = 1,
   },
   yadm = { enable = true },
-})
+}
 
-require("diffview").setup({})
+require("diffview").setup {}

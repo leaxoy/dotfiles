@@ -1,11 +1,11 @@
 local status, lualine = pcall(require, "lualine")
 if not status then return end
 
-lualine.setup({
+lualine.setup {
   options = {
     theme = "auto",
     icon_enabled = true,
-    component_separators = { left = "", right = "", },
+    component_separators = { left = "", right = "" },
     -- section_separators = { left = "", right = "" },
     always_divide_middle = false,
     globalstatus = true,
@@ -23,7 +23,11 @@ lualine.setup({
           local names = {}
           for _, client in ipairs(clients) do
             local filetypes = client.config.filetypes
-            if filetypes and vim.fn.index(filetypes, vim.bo.filetype) ~= -1 and not vim.tbl_contains(names, client.name) then
+            if
+              filetypes
+              and vim.fn.index(filetypes, vim.bo.filetype) ~= -1
+              and not vim.tbl_contains(names, client.name)
+            then
               table.insert(names, client.name)
             end
           end
@@ -51,7 +55,10 @@ lualine.setup({
         colored = true,
       },
     },
-    lualine_y = { { "diff", symbols = { added = " ", modified = " ", removed = " " } }, "branch" },
+    lualine_y = {
+      { "diff", symbols = { added = " ", modified = " ", removed = " " } },
+      "branch",
+    },
     lualine_z = { "progress", "location" },
   },
-})
+}

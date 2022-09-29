@@ -1,4 +1,4 @@
-local dap = require("dap")
+local dap = require "dap"
 
 dap.adapters.go = {
   type = "server",
@@ -6,7 +6,7 @@ dap.adapters.go = {
   executable = {
     command = "dlv",
     args = { "dap", "-l", "127.0.0.1:${port}" },
-  }
+  },
 }
 
 -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
@@ -44,13 +44,17 @@ local function modify_tags(action)
   return function(opts)
     local cursor = vim.api.nvim_win_get_cursor(0)
     local ts_node = vim.treesitter.get_node_at_position(0, cursor[1] - 1, cursor[2], {})
-    if ts_node == nil or ts_node:type() ~= "type_identifier" or ts_node:parent():type() ~= "type_spec" then
-      vim.api.nvim_err_writeln("not on go struct")
+    if
+      ts_node == nil
+      or ts_node:type() ~= "type_identifier"
+      or ts_node:parent():type() ~= "type_spec"
+    then
+      vim.api.nvim_err_writeln "not on go struct"
       return
     end
     local struct_name = vim.treesitter.query.get_node_text(ts_node, 0)
     if struct_name == nil then return end
-    local file = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+    local file = vim.fn.fnamemodify(vim.fn.expand "%", ":~:.")
 
     local args = { "-file", file, "-struct", struct_name, "-format", "json" }
     if action == "clear" then
@@ -61,16 +65,18 @@ local function modify_tags(action)
     end
 
     local modify
-    require("plenary.job"):new {
-      command = "gomodifytags",
-      args = args,
-      on_exit = function(result, code)
-        if code ~= 0 then
-          vim.notify("gomodifytags failed, error code: " .. code, vim.log.levels.ERROR)
-        end
-        modify = vim.json.decode(table.concat(result:result(), ""))
-      end,
-    }:sync()
+    require("plenary.job")
+      :new({
+        command = "gomodifytags",
+        args = args,
+        on_exit = function(result, code)
+          if code ~= 0 then
+            vim.notify("gomodifytags failed, error code: " .. code, vim.log.levels.ERROR)
+          end
+          modify = vim.json.decode(table.concat(result:result(), ""))
+        end,
+      })
+      :sync()
     if modify then
       vim.api.nvim_buf_set_lines(0, modify["start"] - 1, modify["end"], false, modify["lines"])
       vim.cmd.write {}
@@ -79,7 +85,7 @@ local function modify_tags(action)
 end
 
 local function switch_test_file(bang, cmd)
-  local file = vim.fn.expand("%")
+  local file = vim.fn.expand "%"
   if not file then return end
   local root = ""
   local alt_file = ""
@@ -112,13 +118,26 @@ end
 
 local function go_tag_list(a, l, p) return { "json", "yaml", "xml", "db" } end
 
-vim.api.nvim_create_user_command("GoAddTags", modify_tags("add"),
-  { nargs = "+", desc = "Add tags to struct", complete = go_tag_list })
-vim.api.nvim_create_user_command("GoRemoveTags", modify_tags("remove"),
-  { nargs = "+", desc = "Remove tags from struct", complete = go_tag_list })
-vim.api.nvim_create_user_command("GoClearTags", modify_tags("clear"), { desc = "Clear all tags from struct" })
-vim.api.nvim_create_user_command("GoSwitchTest", function(opts) switch_test_file(opts.bang) end,
-  { desc = "Switch to test file" })
+vim.api.nvim_create_user_command(
+  "GoAddTags",
+  modify_tags "add",
+  { nargs = "+", desc = "Add tags to struct", complete = go_tag_list }
+)
+vim.api.nvim_create_user_command(
+  "GoRemoveTags",
+  modify_tags "remove",
+  { nargs = "+", desc = "Remove tags from struct", complete = go_tag_list }
+)
+vim.api.nvim_create_user_command(
+  "GoClearTags",
+  modify_tags "clear",
+  { desc = "Clear all tags from struct" }
+)
+vim.api.nvim_create_user_command(
+  "GoSwitchTest",
+  function(opts) switch_test_file(opts.bang) end,
+  { desc = "Switch to test file" }
+)
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function()
@@ -133,5 +152,5 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         end
       end
     end
-  end
+  end,
 })

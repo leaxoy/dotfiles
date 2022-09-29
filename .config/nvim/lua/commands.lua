@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd("Filetype", {
     "help",
   },
   callback = function() vim.opt_local.mouse = "nvi" end,
-  desc = "enable mouse action"
+  desc = "enable mouse action",
 })
 
 vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -48,5 +48,5 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
     }
     vim.diagnostic.open_float(opts)
   end,
-  desc = "automatic open float diagnostic window"
+  desc = "automatic open float diagnostic window",
 })

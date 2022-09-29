@@ -1,12 +1,12 @@
 local status, telescope = pcall(require, "telescope")
 if not status then return end
 
-local actions = require("telescope.actions")
-local builtin = require("telescope.builtin")
+local actions = require "telescope.actions"
+local builtin = require "telescope.builtin"
 local extensions = telescope.extensions
-local previewers = require("telescope.previewers")
-local sorters = require("telescope.sorters")
-local themes = require("telescope.themes")
+local previewers = require "telescope.previewers"
+local sorters = require "telescope.sorters"
+local themes = require "telescope.themes"
 
 telescope.setup {
   defaults = {
@@ -22,7 +22,15 @@ telescope.setup {
     },
     sorting_strategy = "ascending",
     results_title = false,
-    file_ignore_patterns = { ".git", "kitex_gen", "node_modules", "vendor", "target", "build", "output" },
+    file_ignore_patterns = {
+      ".git",
+      "kitex_gen",
+      "node_modules",
+      "vendor",
+      "target",
+      "build",
+      "output",
+    },
     path_display = { shorten = 1 },
     dynamic_preview_title = true,
     -- layout_strategy = "horizontal",
@@ -85,7 +93,7 @@ telescope.setup {
       themes.get_dropdown { layout_config = { height = 0.4 } },
       specific_opts = {},
     },
-  }
+  },
 }
 
 pcall(telescope.load_extension, "file_browser")
@@ -95,7 +103,7 @@ pcall(telescope.load_extension, "todo-comments")
 pcall(telescope.load_extension, "notify")
 pcall(telescope.load_extension, "ui-select")
 
-local fn = require("fn")
+local fn = require "fn"
 local map, popup = fn.map_fn, fn.popup_fn
 
 map("n", "f", popup "f", { desc = "+Finder" })

@@ -17,7 +17,7 @@ mason_adapter.setup_handlers {
   clangd = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.offsetEncoding = { "utf-18" }
-    lsp["clangd"].setup { capabilities = capabilities, }
+    lsp["clangd"].setup { capabilities = capabilities }
   end,
   gopls = function()
     lsp["gopls"].setup {
@@ -63,8 +63,8 @@ mason_adapter.setup_handlers {
           diagnosticsDelay = "500ms",
           symbolMatcher = "fuzzy",
           gofumpt = true,
-        }
-      }
+        },
+      },
     }
   end,
   jsonls = function()
@@ -73,7 +73,7 @@ mason_adapter.setup_handlers {
   rust_analyzer = function()
     require("rust-tools").setup {
       tools = {
-        inlay_hints = { auto = false }
+        inlay_hints = { auto = false },
       },
       server = { standalone = true },
       dap = {
@@ -82,39 +82,41 @@ mason_adapter.setup_handlers {
           command = "codelldb",
           name = "codelldb",
         },
-      }
+      },
     }
   end,
   sumneko_lua = function()
-    lsp["sumneko_lua"].setup(require("lua-dev").setup { lspconfig = {
-      root_dir = require "lspconfig".util.root_pattern("init.lua", "lua"),
-      settings = {
-        Lua = {
-          format = {
-            enable = true,
-            -- Put format options here
-            -- NOTE: the value should be STRING!!
-            -- see: https://github.com/CppCXY/EmmyLuaCodeStyle
-            defaultConfig = {
-              indent_style = "space",
-              indent_size = "2",
-              quote_style = "double",
+    lsp["sumneko_lua"].setup(require("lua-dev").setup {
+      lspconfig = {
+        root_dir = require("lspconfig").util.root_pattern("init.lua", "lua"),
+        settings = {
+          Lua = {
+            format = {
+              enable = true,
+              -- Put format options here
+              -- NOTE: the value should be STRING!!
+              -- see: https://github.com/CppCXY/EmmyLuaCodeStyle
+              defaultConfig = {
+                indent_style = "space",
+                indent_size = "2",
+                quote_style = "double",
+              },
             },
+            hint = {
+              enable = true,
+              arrayIndex = "Disable", -- "Enable", "Auto", "Disable"
+              await = true,
+              paramName = "Disable", -- "All", "Literal", "Disable"
+              paramType = false,
+              semicolon = "Disable", -- "All", "SameLine", "Disable"
+              setType = true,
+            },
+            runtime = { version = "LuaJIT" },
+            workspace = { checkThirdParty = false },
           },
-          hint = {
-            enable = true,
-            arrayIndex = "Disable", -- "Enable", "Auto", "Disable"
-            await = true,
-            paramName = "Disable", -- "All", "Literal", "Disable"
-            paramType = false,
-            semicolon = "Disable", -- "All", "SameLine", "Disable"
-            setType = true,
-          },
-          runtime = { version = "LuaJIT" },
-          workspace = { checkThirdParty = false, },
-        }
-      }
-    } })
+        },
+      },
+    })
   end,
   tsserver = function()
     lsp["tsserver"].setup {
@@ -128,7 +130,7 @@ mason_adapter.setup_handlers {
             includeInlayPropertyDeclarationTypeHints = true,
             includeInlayFunctionLikeReturnTypeHints = true,
             includeInlayEnumMemberValueHints = true,
-          }
+          },
         },
         javascript = {
           inlayHints = {
@@ -139,9 +141,9 @@ mason_adapter.setup_handlers {
             includeInlayPropertyDeclarationTypeHints = true,
             includeInlayFunctionLikeReturnTypeHints = true,
             includeInlayEnumMemberValueHints = true,
-          }
-        }
-      }
+          },
+        },
+      },
     }
   end,
 }

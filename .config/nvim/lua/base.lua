@@ -17,7 +17,8 @@ vim.o.smartcase = true
 vim.o.showmatch = true
 -- vim.o.inccommand = "split"
 vim.o.backspace = "indent,eol,start"
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal"
+vim.o.sessionoptions =
+  "blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal"
 vim.o.autoread = true
 vim.o.confirm = true
 vim.o.spelloptions = "camel,noplainbuffer"

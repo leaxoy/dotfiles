@@ -6,7 +6,7 @@ crates.setup {
   popup = {
     border = "rounded",
     show_version_date = true,
-    text = { pill_left = " ", pill_right = "" }
+    text = { pill_left = " ", pill_right = "" },
   },
 }
 
@@ -19,5 +19,5 @@ vim.api.nvim_create_autocmd("BufRead", {
     cmd("CargoUpdate", crates.update_crate, { desc = "Update Cargo Dependencies" })
     cmd("CargoUpdateAll", crates.update_all_crates, { desc = "Update All Cargo Dependencies" })
   end,
-  desc = "Cargo commands"
+  desc = "Cargo commands",
 })

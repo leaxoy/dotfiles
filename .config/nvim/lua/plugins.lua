@@ -1,19 +1,19 @@
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 local packer_bootstrap
 if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({
+  packer_bootstrap = fn.system {
     "git",
     "clone",
     "--depth",
     "1",
     "https://github.com/wbthomason/packer.nvim",
     install_path,
-  })
+  }
 end
 
-return require("packer").startup({
+return require("packer").startup {
   function(use)
     -- Packer can manage itself
     use { "wbthomason/packer.nvim" }
@@ -24,9 +24,18 @@ return require("packer").startup({
 
     -- Editor enhancements
     use { "williamboman/mason.nvim" }
-    use { "williamboman/mason-lspconfig.nvim", requires = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" } }
-    use { "jayp0521/mason-null-ls.nvim", requires = { "williamboman/mason.nvim", "jose-elias-alvarez/null-ls.nvim" } }
-    use { "jayp0521/mason-nvim-dap.nvim", requires = { "williamboman/mason.nvim", "mfussenegger/nvim-dap" } }
+    use {
+      "williamboman/mason-lspconfig.nvim",
+      requires = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
+    }
+    use {
+      "jayp0521/mason-null-ls.nvim",
+      requires = { "williamboman/mason.nvim", "jose-elias-alvarez/null-ls.nvim" },
+    }
+    use {
+      "jayp0521/mason-nvim-dap.nvim",
+      requires = { "williamboman/mason.nvim", "mfussenegger/nvim-dap" },
+    }
 
     -- UI
     use { "glepnir/dashboard-nvim" } -- welcome screen
@@ -44,7 +53,10 @@ return require("packer").startup({
     use { "nvim-treesitter/playground", requires = "nvim-treesitter/nvim-treesitter" }
     use { "David-Kunz/markid", requires = "nvim-treesitter/nvim-treesitter" } -- semantic highlighting
     use { "NvChad/nvim-colorizer.lua" } -- color highlighting
-    use { "rcarriga/nvim-notify", config = function() require("notify").setup({ background_colour = "#FFFFFF" }) end } -- notify component
+    use {
+      "rcarriga/nvim-notify",
+      config = function() require("notify").setup { background_colour = "#FFFFFF" } end,
+    } -- notify component
     use { "stevearc/overseer.nvim" }
 
     -- Lang specifies
@@ -87,9 +99,15 @@ return require("packer").startup({
     use { "rcarriga/cmp-dap", requires = "mfussenegger/nvim-dap" }
     use { "Weissle/persistent-breakpoints.nvim", requires = "mfussenegger/nvim-dap" }
     -- Testing
-    use { "nvim-neotest/neotest", requires = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" } }
+    use {
+      "nvim-neotest/neotest",
+      requires = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
+    }
     -- testing plugins
-    use { "nvim-neotest/neotest-vim-test", requires = { "nvim-neotest/neotest", "vim-test/vim-test" } }
+    use {
+      "nvim-neotest/neotest-vim-test",
+      requires = { "nvim-neotest/neotest", "vim-test/vim-test" },
+    }
     use { "nvim-neotest/neotest-go", requires = "nvim-neotest/neotest" }
     use { "nvim-neotest/neotest-python", requires = "nvim-neotest/neotest" }
     use { "rouge8/neotest-rust", requires = "nvim-neotest/neotest" }
@@ -119,6 +137,6 @@ return require("packer").startup({
   config = {
     git = { clone_timeout = 300 },
     max_jobs = 25,
-    compile_path = vim.fn.stdpath("config") .. "/plugin/packer_compiled.lua",
+    compile_path = vim.fn.stdpath "config" .. "/plugin/packer_compiled.lua",
   },
-})
+}

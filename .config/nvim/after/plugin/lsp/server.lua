@@ -7,7 +7,7 @@ local function resolve_lsp_command(cmds, lang)
       vim.api.nvim_out_write("Execute command: " .. choice)
       if vim.bo.filetype == "go" then
         local arg = { URI = vim.uri_from_bufnr(vim.api.nvim_get_current_buf()) }
-        vim.lsp.buf.execute_command({ command = choice, arguments = { arg } })
+        vim.lsp.buf.execute_command { command = choice, arguments = { arg } }
       end
     end)
   end
@@ -46,7 +46,7 @@ local function resolve_text_document_capabilities(client, buffer)
   if caps.documentHighlightProvider then
     local group = "lsp_document_highlight"
     vim.api.nvim_create_augroup(group, { clear = false })
-    vim.api.nvim_clear_autocmds({ buffer = buffer, group = group })
+    vim.api.nvim_clear_autocmds { buffer = buffer, group = group }
     vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
       group = group,
       buffer = buffer,
@@ -63,10 +63,10 @@ local function resolve_text_document_capabilities(client, buffer)
   if caps.hoverProvider then
     local hover = function()
       if vim.tbl_contains({}, vim.bo.filetype) then
-        vim.cmd.help({ args = { vim.fn.expand("<cword>") } })
+        vim.cmd.help { args = { vim.fn.expand "<cword>" } }
       elseif vim.bo.filetype == "man" then
-        vim.cmd.Man({ args = { vim.fn.expand("<cword>") } })
-      elseif vim.fn.expand("%:t") == "Cargo.toml" then
+        vim.cmd.Man { args = { vim.fn.expand "<cword>" } }
+      elseif vim.fn.expand "%:t" == "Cargo.toml" then
         require("crates").show_popup()
       else
         vim.lsp.buf.hover()
@@ -76,7 +76,8 @@ local function resolve_text_document_capabilities(client, buffer)
   end
   if caps.codeLensProvider and caps.codeLensProvider.resolveProvider then
     vim.api.nvim_create_autocmd({ "BufEnter", "TextChanged" }, {
-      pattern = "*", callback = vim.lsp.codelens.refresh
+      pattern = "*",
+      callback = vim.lsp.codelens.refresh,
     })
     map("n", "gad", vim.lsp.codelens.display, { desc = "Display CodeLens" })
     map("n", "gar", vim.lsp.codelens.run, { desc = "Run CodeLens" })
@@ -95,8 +96,10 @@ local function resolve_text_document_capabilities(client, buffer)
     end
   end
   if caps.semanticTokensProvider then
-    if caps.semanticTokensProvider.full and
-        client.supports_method("textDocument/semanticTokens/full") then
+    if
+      caps.semanticTokensProvider.full
+      and client.supports_method "textDocument/semanticTokens/full"
+    then
       local augroup = vim.api.nvim_create_augroup("SemanticTokens", {})
       vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave", "TextChanged" }, {
         group = augroup,
@@ -122,7 +125,7 @@ local function resolve_text_document_capabilities(client, buffer)
     map("n", "gs", vim.lsp.buf.signature_help, { desc = "Signature Help" })
   end
   if caps.codeActionProvider then
-    local code_action = function() vim.lsp.buf.code_action({ apply = true }) end
+    local code_action = function() vim.lsp.buf.code_action { apply = true } end
     map("nv", "<leader>a", code_action, { desc = "Code Action" })
   end
   if caps.colorProvider then
@@ -132,9 +135,11 @@ local function resolve_text_document_capabilities(client, buffer)
   if caps.documentFormattingProvider then
     local format_group = "document_formatting"
     vim.api.nvim_create_augroup(format_group, { clear = false })
-    vim.api.nvim_clear_autocmds({ buffer = buffer, group = format_group })
+    vim.api.nvim_clear_autocmds { buffer = buffer, group = format_group }
     vim.api.nvim_create_autocmd("BufWritePre", {
-      group = format_group, buffer = buffer, command = "lua vim.lsp.buf.format()",
+      group = format_group,
+      buffer = buffer,
+      command = "lua vim.lsp.buf.format()",
     })
   end
   -- if caps.documentRangeFormattingProvider then
@@ -143,7 +148,13 @@ local function resolve_text_document_capabilities(client, buffer)
   -- end
   if caps.renameProvider then
     local status, rn = pcall(require, "lspsaga.rename")
-    local rename_fn = function() if status then rn:lsp_rename() else vim.lsp.buf.rename() end end
+    local rename_fn = function()
+      if status then
+        rn:lsp_rename()
+      else
+        vim.lsp.buf.rename()
+      end
+    end
     map("n", "gr", rename_fn, { desc = "Rename" })
   end
   -- if caps.linkedEditingRangeProvider then
@@ -183,5 +194,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
     resolve_text_document_capabilities(client, buf)
     resolve_workspace_capabilities(client, buf)
   end,
-  desc = "setup lsp functions"
+  desc = "setup lsp functions",
 })

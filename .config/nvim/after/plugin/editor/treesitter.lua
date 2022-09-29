@@ -8,7 +8,7 @@ parser_config.org = {
   filetype = "org",
 }
 
-require("nvim-treesitter.configs").setup({
+require("nvim-treesitter.configs").setup {
   ensure_installed = vim.g.ts_syntaxes,
   highlight = {
     enable = true,
@@ -43,7 +43,17 @@ require("nvim-treesitter.configs").setup({
     },
   },
   markid = { enable = true },
-})
+}
 
-vim.keymap.set("n", "<leader>si", [[<CMD>TSPlaygroundToggle<CR>]], { desc = "Toggle TreeSitter Playground" })
-vim.keymap.set("n", "<leader>sp", [[<CMD>TSHighlightCapturesUnderCursor<CR>]], { desc = "Toggle TreeSitter Property" })
+vim.keymap.set(
+  "n",
+  "<leader>si",
+  [[<CMD>TSPlaygroundToggle<CR>]],
+  { desc = "Toggle TreeSitter Playground" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>sp",
+  [[<CMD>TSHighlightCapturesUnderCursor<CR>]],
+  { desc = "Toggle TreeSitter Property" }
+)

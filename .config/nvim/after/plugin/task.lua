@@ -17,7 +17,7 @@ overseer.setup {
       ["<M-h>"] = "DecreaseDetail",
       -- ["<C-h>"] = false,
       -- ["<C-l>"] = false,
-    }
+    },
   },
   task_launcher = {},
   task_editor = {},
@@ -25,7 +25,7 @@ overseer.setup {
   preload_components = {},
 }
 
-local fn = require("fn")
+local fn = require "fn"
 local cmd, map, popup = fn.cmd_fn, fn.map_fn, fn.popup_fn
 map("n", "<leader>t", popup "<leader>t", { desc = "+Tasks" })
 map("n", "<leader>ta", cmd "OverseerTaskAction", { desc = "Task Action" })

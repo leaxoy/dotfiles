@@ -33,18 +33,18 @@ end
 
 local vscode_status, vscode = pcall(require, "vscode")
 if vscode_status then
-  vscode.setup({
+  vscode.setup {
     transparent = true,
     italic_comments = true,
     disable_nvimtree_bg = false,
-  })
+  }
 end
 
 local catppuccin_status, catppuccin = pcall(require, "catppuccin")
 if catppuccin_status then
   local colors = require("catppuccin.palettes").get_palette()
   vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
-  catppuccin.setup({
+  catppuccin.setup {
     dim_inactive = {
       enabled = false,
       shade = "dark",
@@ -96,11 +96,11 @@ if catppuccin_status then
       gitsigns = true,
       leap = false,
       telescope = true,
-      nvimtree = { enabled = true, show_root = true, transparent_panel = false, },
-      neotree = { enabled = true, show_root = true, transparent_panel = false, },
-      dap = { enabled = true, enable_ui = true, },
+      nvimtree = { enabled = true, show_root = true, transparent_panel = false },
+      neotree = { enabled = true, show_root = true, transparent_panel = false },
+      dap = { enabled = true, enable_ui = true },
       which_key = true,
-      indent_blankline = { enabled = true, colored_indent_levels = true, },
+      indent_blankline = { enabled = true, colored_indent_levels = true },
       dashboard = true,
       neogit = false,
       vim_sneak = false,
@@ -146,19 +146,21 @@ if catppuccin_status then
       LspCodeLensTextSeparator = { link = "Boolean" },
     },
     highlight_overrides = {},
-  })
+  }
 
   vim.api.nvim_create_autocmd("User", {
     pattern = "PackerCompileDone",
     callback = function()
       vim.cmd "CatppuccinCompile"
       vim.defer_fn(function() vim.cmd.color "catppuccin" end, 0) -- Defered for live reloading
-    end
+    end,
   })
 end
 
 local colorizer_status, colorizer = pcall(require, "colorizer")
-if colorizer_status then colorizer.setup({ filetypes = { "*"; "!tsx"; "!jsx"; "!html"; "!css" } }) end
+if colorizer_status then
+  colorizer.setup { filetypes = { "*", "!tsx", "!jsx", "!html", "!css" } }
+end
 
 vim.cmd.color(vim.g.theme or "habamax")
 

@@ -1,14 +1,34 @@
 local status, bufferline = pcall(require, "bufferline")
 if not status then return end
 
-bufferline.setup({
+bufferline.setup {
   options = {
     numbers = function(opts) return string.format("[%s]", opts.ordinal) end,
     offsets = {
-      { filetype = "NvimTree", text = "File Explorer", highlight = "Directory", text_align = "center" },
-      { filetype = "neo-tree", text = "File Explorer", highlight = "Directory", text_align = "center" },
-      { filetype = "lspsagaoutline", text = "Outline", highlight = "Directory", text_align = "center" },
-      { filetype = "neotest-summary", text = "Tests", highlight = "Directory", text_align = "center" },
+      {
+        filetype = "NvimTree",
+        text = "File Explorer",
+        highlight = "Directory",
+        text_align = "center",
+      },
+      {
+        filetype = "neo-tree",
+        text = "File Explorer",
+        highlight = "Directory",
+        text_align = "center",
+      },
+      {
+        filetype = "lspsagaoutline",
+        text = "Outline",
+        highlight = "Directory",
+        text_align = "center",
+      },
+      {
+        filetype = "neotest-summary",
+        text = "Tests",
+        highlight = "Directory",
+        text_align = "center",
+      },
     },
     show_close_icon = false,
     show_buffer_close_icons = false,
@@ -23,10 +43,15 @@ bufferline.setup({
     color_icons = true,
     hover = { enabled = true, delay = 250, reveal = { "close" } },
   },
-})
+}
 
 local map = require("fn").map_fn
-map("n", "<leader>bb", function() bufferline.go_to(vim.api.nvim_get_vvar("count") or -1) end, { desc = "Goto Buffer" })
+map(
+  "n",
+  "<leader>bb",
+  function() bufferline.go_to(vim.api.nvim_get_vvar "count" or -1) end,
+  { desc = "Goto Buffer" }
+)
 map("n", "<leader>b[", [[<CMD>BufferLineCyclePrev<CR>]], { desc = "Prev Buffer" })
 map("n", "<leader>b]", [[<CMD>BufferLineCycleNext<CR>]], { desc = "Next Buffer" })
 map("n", "<leader>bp", bufferline.toggle_pin, { desc = "Pin Buffer" })

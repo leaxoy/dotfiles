@@ -1,4 +1,4 @@
-if not vim.fn.has("nvim-0.8") then return end
+if not vim.fn.has "nvim-0.8" then return end
 
 local status, symbol = pcall(require, "lspsaga.symbolwinbar")
 vim.api.nvim_create_autocmd(
@@ -29,7 +29,7 @@ vim.api.nvim_create_autocmd(
         dapui_watches = "Dap Watches",
         dapui_console = "Dap Console",
         OverseerList = "Tasks List",
-        tsplayground = "TreeSitter Playground"
+        tsplayground = "TreeSitter Playground",
       }
       if vim.api.nvim_win_get_config(0).zindex or vim.tbl_contains(excludes, vim.bo.filetype) then
         vim.wo.winbar = ""
@@ -38,5 +38,6 @@ vim.api.nvim_create_autocmd(
       else
         vim.wo.winbar = not status and vim.fn.bufname() or symbol:get_symbol_node() or ""
       end
-    end
-  })
+    end,
+  }
+)

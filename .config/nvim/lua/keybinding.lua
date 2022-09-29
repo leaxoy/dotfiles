@@ -1,4 +1,4 @@
-local fn = require("fn")
+local fn = require "fn"
 local cmd, map, popup, term = fn.cmd_fn, fn.map_fn, fn.popup_fn, fn.term_fn
 
 -- Welcome
@@ -44,12 +44,18 @@ map("n", "<leader>xw", vim.diagnostic.setqflist, { desc = "Workspace Diagnostic"
 map("n", "<leader>xx", vim.diagnostic.open_float, { desc = "Line Diagnostic" })
 map("n", "<leader>x]", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
 map("n", "<leader>x[", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
-map("n", "<leader>e]", function()
-  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-end, { desc = "Next Error" })
-map("n", "<leader>e[", function()
-  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-end, { desc = "Prev Error" })
+map(
+  "n",
+  "<leader>e]",
+  function() vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR } end,
+  { desc = "Next Error" }
+)
+map(
+  "n",
+  "<leader>e[",
+  function() vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR } end,
+  { desc = "Prev Error" }
+)
 
 -- Edit
 map("n", ";", "i<CR><Esc>", { desc = "Break Line" })
@@ -59,7 +65,12 @@ map("i", "jk", "<Esc>", { desc = "Escape Insert Mode" })
 
 map("ni", "<c-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]], { desc = "Toggle Terminal" })
 map("ni", "<c-s>", [[<CMD>w<CR>]], { desc = "Save Current Buffer" })
-map("ni", "<c-x>", function() require("bufdelete").bufdelete(0) end, { desc = "Close Current Buffer" })
+map(
+  "ni",
+  "<c-x>",
+  function() require("bufdelete").bufdelete(0) end,
+  { desc = "Close Current Buffer" }
+)
 
 map("", "<ScrollWheelUp>", "<Nop>", {})
 map("", "<ScrollWheelDown>", "<Nop>", {})

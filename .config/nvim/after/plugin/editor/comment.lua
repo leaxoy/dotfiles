@@ -1,7 +1,5 @@
 local comment_status, comment = pcall(require, "Comment")
-if comment_status then
-  comment.setup { mappings = { extra = false } }
-end
+if comment_status then comment.setup { mappings = { extra = false } } end
 
 local todo_status, todo = pcall(require, "todo-comments")
 if todo_status then

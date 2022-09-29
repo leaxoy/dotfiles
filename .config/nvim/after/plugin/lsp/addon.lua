@@ -1,9 +1,9 @@
-local fn = require("fn")
+local fn = require "fn"
 local cmd, map = fn.cmd_fn, fn.map_fn
 
 local saga_status, saga = pcall(require, "lspsaga")
 if saga_status then
-  saga.init_lsp_saga({
+  saga.init_lsp_saga {
     border_style = "double",
     max_preview_lines = 25,
     symbol_in_winbar = {
@@ -11,7 +11,7 @@ if saga_status then
       in_custom = false,
       click_support = false,
       show_file = true,
-      separator = "  "
+      separator = "  ",
     },
     finder_action_keys = {
       open = { "o", "<CR>" },
@@ -26,7 +26,7 @@ if saga_status then
     rename_action_quit = "<Esc>",
     definition_action_keys = { quit = "q" },
     code_action_lightbulb = { enable = false },
-  })
+  }
 
   map("n", "gf", cmd("Lspsaga", { "lsp_finder" }), { desc = "Lsp Finder" })
   map("n", "gp", cmd("Lspsaga", { "peek_definition" }), { desc = "Lsp Peek Definition" })
@@ -34,23 +34,21 @@ end
 
 local hint_status, hint = pcall(require, "lsp-inlayhints")
 if hint_status then
-  hint.setup({
+  hint.setup {
     inlay_hints = {
       type_hints = { prefix = " " },
-      parameter_hints = { prefix = " " }
-    }
-  })
+      parameter_hints = { prefix = " " },
+    },
+  }
 end
 
 local tokens_status, tokens = pcall(require, "nvim-semantic-tokens")
 if tokens_status then
-  tokens.setup({
+  tokens.setup {
     preset = "default",
-    highlighters = { require("nvim-semantic-tokens.table-highlighter") }
-  })
+    highlighters = { require "nvim-semantic-tokens.table-highlighter" },
+  }
 end
 
 local document_color_status, document_color = pcall(require, "document-color")
-if document_color_status then
-  document_color.setup { mode = "background" }
-end
+if document_color_status then document_color.setup { mode = "background" } end
