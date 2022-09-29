@@ -146,17 +146,7 @@ local function resolve_text_document_capabilities(client, buffer)
   -- end
   -- if caps.documentOnTypeFormattingProvider then
   -- end
-  if caps.renameProvider then
-    local status, rn = pcall(require, "lspsaga.rename")
-    local rename_fn = function()
-      if status then
-        rn:lsp_rename()
-      else
-        vim.lsp.buf.rename()
-      end
-    end
-    map("n", "gr", rename_fn, { desc = "Rename" })
-  end
+  if caps.renameProvider then map("n", "gr", vim.lsp.buf.rename, { desc = "Rename" }) end
   -- if caps.linkedEditingRangeProvider then
   -- end
 end

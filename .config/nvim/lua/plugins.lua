@@ -43,6 +43,7 @@ return require("packer").startup {
     use "Mofiqul/vscode.nvim" -- theme
     use "folke/tokyonight.nvim" -- theme
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
+    use { "MunifTanjim/nui.nvim" }
     -- use { "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" }
     -- use { "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" } -- buffer line
     use { "nvim-lualine/lualine.nvim", requires = "kyazdani42/nvim-web-devicons" } -- statusline
