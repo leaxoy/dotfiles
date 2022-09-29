@@ -92,7 +92,7 @@ mason_adapter.setup_handlers {
         settings = {
           Lua = {
             format = {
-              enable = true,
+              enable = false,
               -- Put format options here
               -- NOTE: the value should be STRING!!
               -- see: https://github.com/CppCXY/EmmyLuaCodeStyle
@@ -111,7 +111,6 @@ mason_adapter.setup_handlers {
               semicolon = "Disable", -- "All", "SameLine", "Disable"
               setType = true,
             },
-            runtime = { version = "LuaJIT" },
             workspace = { checkThirdParty = false },
           },
         },
