@@ -36,6 +36,7 @@ return require("packer").startup {
       "jayp0521/mason-nvim-dap.nvim",
       requires = { "williamboman/mason.nvim", "mfussenegger/nvim-dap" },
     }
+    use { "tamago324/nlsp-settings.nvim" }
 
     -- UI
     use { "glepnir/dashboard-nvim" } -- welcome screen

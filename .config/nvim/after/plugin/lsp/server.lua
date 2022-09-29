@@ -74,11 +74,12 @@ local function resolve_text_document_capabilities(client, buffer)
     end
     map("n", "K", hover, { desc = "Hover" })
   end
-  if caps.codeLensProvider and caps.codeLensProvider.resolveProvider then
+  if caps.codeLensProvider then
     vim.api.nvim_create_autocmd({ "BufEnter", "TextChanged" }, {
-      pattern = "*",
-      callback = vim.lsp.codelens.refresh,
+      buffer = buffer,
+      callback = function() vim.lsp.codelens.refresh() end,
     })
+    vim.lsp.codelens.refresh()
     map("n", "gad", vim.lsp.codelens.display, { desc = "Display CodeLens" })
     map("n", "gar", vim.lsp.codelens.run, { desc = "Run CodeLens" })
     map("n", "gaf", vim.lsp.codelens.refresh, { desc = "Refresh CodeLens" })
@@ -95,19 +96,14 @@ local function resolve_text_document_capabilities(client, buffer)
       map("n", "go", vim.lsp.buf.document_symbol, { desc = "Document Symbol" })
     end
   end
-  if caps.semanticTokensProvider then
-    if
-      caps.semanticTokensProvider.full
-      and client.supports_method "textDocument/semanticTokens/full"
-    then
-      local augroup = vim.api.nvim_create_augroup("SemanticTokens", {})
-      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave", "TextChanged" }, {
-        group = augroup,
-        buffer = buffer,
-        callback = vim.lsp.buf.semantic_tokens_full,
-      })
-      vim.lsp.buf.semantic_tokens_full()
-    end
+  if caps.semanticTokensProvider and caps.semanticTokensProvider.full then
+    local augroup = vim.api.nvim_create_augroup("SemanticTokens", {})
+    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave", "TextChanged" }, {
+      group = augroup,
+      buffer = buffer,
+      callback = vim.lsp.buf.semantic_tokens_full,
+    })
+    vim.lsp.buf.semantic_tokens_full()
   end
   -- if caps.inlineValueProvider then
   -- end

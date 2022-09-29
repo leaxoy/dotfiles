@@ -1,0 +1,8 @@
+{
+  "java.autobuild.enabled": true,
+  "java.format.enabled": true,
+  "java.inlayHints.parameterNames.enabled": "all",
+  "java.jdt.ls.lombokSupport.enabled": true,
+  "java.jdt.ls.protobufSupport.enabled": true,
+  "java.typeHierarchy.lazyLoad": true
+}

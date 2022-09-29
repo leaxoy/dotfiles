@@ -1,0 +1,47 @@
+{
+  "gopls": {
+    "build.templateExtensions": [
+      ".tmpl",
+      ".html",
+      ".gohtml",
+      ".tmpl.html"
+    ],
+    "formatting.gofumpt": true,
+    "ui.codelenses": {
+      "gc_details": true,
+      "generate": true,
+      "test": true,
+      "tidy": true,
+      "upgrade_dependency": true
+    },
+    "ui.completion.completionBudget": "100ms",
+    "ui.completion.experimentalPostfixCompletions": true,
+    "ui.completion.matcher": "Fuzzy",
+    "ui.completion.usePlaceholders": true,
+    "ui.diagnostic.analyses": {
+      "embed": true,
+      "fieldalignment": true,
+      "fillreturns": true,
+      "fillstruct": true,
+      "nilfunc": true,
+      "nilness": true,
+      "printf": true,
+      "shadow": true,
+      "unusedparams": true,
+      "unusedresult": true,
+      "unusedwrite": true,
+      "useany": true
+    },
+    "ui.diagnostic.annotations": {
+      "bounds": true,
+      "escape": true,
+      "inline": true,
+      "nil": true
+    },
+    "ui.diagnostic.diagnosticsDelay": "250ms",
+    "ui.diagnostic.experimentalWatchedFileDelay": "0s",
+    "ui.diagnostic.staticcheck": true,
+    "ui.documentation.linksInHover": true,
+    "ui.semanticTokens": true
+  }
+}

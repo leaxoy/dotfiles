@@ -17,10 +17,10 @@ mason_adapter.setup_handlers {
   clangd = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.offsetEncoding = { "utf-18" }
-    lsp["clangd"].setup { capabilities = capabilities }
+    lsp.clangd.setup { capabilities = capabilities }
   end,
   gopls = function()
-    lsp["gopls"].setup {
+    lsp.gopls.setup {
       init_options = { allExperiments = true },
       settings = {
         gopls = {
@@ -36,39 +36,12 @@ mason_adapter.setup_handlers {
             parameterNames = true,
             rangeVariableTypes = true,
           },
-          analyses = {
-            unusedparams = true,
-            unusedwrite = true,
-            unusedvariable = true,
-            fieldalignment = true,
-            nilness = true,
-            shadow = true,
-            useany = true,
-          },
-          annotations = { ["nil"] = true, escape = true, inline = true, bounds = true },
-          codelenses = {
-            enable = true,
-            enableByDefault = true,
-            generate = true, -- show the `go generate` lens.
-            gc_details = true, --  // Show a code lens toggling the display of gc's choices.
-            test = true,
-            tidy = true,
-            upgrade_dependency = true,
-          },
-          templateExtensions = { ".tmpl", ".html", ".gohtml", ".tmpl.html" },
-          usePlaceholders = true,
-          completeUnimported = true,
-          staticcheck = true,
-          matcher = "Fuzzy",
-          diagnosticsDelay = "500ms",
-          symbolMatcher = "fuzzy",
-          gofumpt = true,
         },
       },
     }
   end,
   jsonls = function()
-    lsp["jsonls"].setup { settings = { json = { schemas = require("schemastore").json.schemas() } } }
+    lsp.jsonls.setup { settings = { json = { schemas = require("schemastore").json.schemas() } } }
   end,
   rust_analyzer = function()
     require("rust-tools").setup {
@@ -86,39 +59,11 @@ mason_adapter.setup_handlers {
     }
   end,
   sumneko_lua = function()
-    lsp["sumneko_lua"].setup(require("lua-dev").setup {
-      lspconfig = {
-        root_dir = require("lspconfig").util.root_pattern("init.lua", "lua"),
-        settings = {
-          Lua = {
-            format = {
-              enable = false,
-              -- Put format options here
-              -- NOTE: the value should be STRING!!
-              -- see: https://github.com/CppCXY/EmmyLuaCodeStyle
-              defaultConfig = {
-                indent_style = "space",
-                indent_size = "2",
-                quote_style = "double",
-              },
-            },
-            hint = {
-              enable = true,
-              arrayIndex = "Disable", -- "Enable", "Auto", "Disable"
-              await = true,
-              paramName = "Disable", -- "All", "Literal", "Disable"
-              paramType = false,
-              semicolon = "Disable", -- "All", "SameLine", "Disable"
-              setType = true,
-            },
-            workspace = { checkThirdParty = false },
-          },
-        },
-      },
-    })
+    local root_dir = require("lspconfig").util.root_pattern("init.lua", "lua")
+    lsp.sumneko_lua.setup(require("lua-dev").setup { lspconfig = { root_dir = root_dir } })
   end,
   tsserver = function()
-    lsp["tsserver"].setup {
+    lsp.tsserver.setup {
       settings = {
         typescript = {
           inlayHints = {

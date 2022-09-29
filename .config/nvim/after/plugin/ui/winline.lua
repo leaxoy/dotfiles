@@ -4,30 +4,27 @@ local status, symbol = pcall(require, "lspsaga.symbolwinbar")
 vim.api.nvim_create_autocmd(
   { "BufEnter", "BufWinEnter", "CursorMoved", "CursorHold", "CursorHoldI" },
   {
-    pattern = "*",
     callback = function()
       if vim.bo.filetype == "dap-repl" then return end
       local excludes = {
         "",
         "toggleterm",
         "prompt",
-        "NvimTree",
         "help",
         "netrw",
         "lspsagaoutline",
         "qf",
         "packer",
         "git",
-        "neo-tree",
         "neotest-summary",
         "dashboard",
+        "dapui_scopes",
+        "dapui_breakpoints",
+        "dapui_stacks",
+        "dapui_watches",
+        "dapui_console",
       }
       local renamed = {
-        dapui_scopes = "Dap Scopes",
-        dapui_breakpoints = "Dap Breakpoints",
-        dapui_stacks = "Dap Stacks",
-        dapui_watches = "Dap Watches",
-        dapui_console = "Dap Console",
         OverseerList = "Tasks List",
         tsplayground = "TreeSitter Playground",
       }

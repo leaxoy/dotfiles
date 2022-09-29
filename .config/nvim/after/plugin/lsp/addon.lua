@@ -54,3 +54,12 @@ end
 
 local document_color_status, document_color = pcall(require, "document-color")
 if document_color_status then document_color.setup { mode = "background" } end
+
+local setting_status, setting = pcall(require, "nlspsettings")
+if setting_status then
+  setting.setup {
+    append_default_schemas = true,
+    config_home = vim.fn.stdpath "config" .. "/lsp-settings",
+    loader = "json",
+  }
+end

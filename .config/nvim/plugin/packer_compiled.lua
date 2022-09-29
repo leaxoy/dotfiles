@@ -154,6 +154,11 @@ _G.packer_plugins = {
     path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/document-color.nvim",
     url = "https://github.com/mrshmllow/document-color.nvim"
   },
+  ["dressing.nvim"] = {
+    loaded = true,
+    path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/dressing.nvim",
+    url = "https://github.com/stevearc/dressing.nvim"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/friendly-snippets",
@@ -258,6 +263,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/neotest-vim-test",
     url = "https://github.com/nvim-neotest/neotest-vim-test"
+  },
+  ["nlsp-settings.nvim"] = {
+    loaded = true,
+    path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/nlsp-settings.nvim",
+    url = "https://github.com/tamago324/nlsp-settings.nvim"
   },
   ["null-ls.nvim"] = {
     loaded = true,
@@ -369,11 +379,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/telescope-live-grep-args.nvim",
     url = "https://github.com/nvim-telescope/telescope-live-grep-args.nvim"
-  },
-  ["telescope-ui-select.nvim"] = {
-    loaded = true,
-    path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/telescope-ui-select.nvim",
-    url = "https://github.com/nvim-telescope/telescope-ui-select.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,

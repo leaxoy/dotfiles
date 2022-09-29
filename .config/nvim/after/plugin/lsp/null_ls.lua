@@ -20,6 +20,7 @@ null_ls.setup {
 
     fmt.black,
     fmt.fish_indent,
+    fmt.jq.with { args = { "--sort-keys" } },
     fmt.isort,
     fmt.stylua,
   },
@@ -35,6 +36,7 @@ if mason_status then
 
       -- formatter
       "black",
+      "jq",
       "isort",
       "stylua",
     },

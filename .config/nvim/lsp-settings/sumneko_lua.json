@@ -1,0 +1,30 @@
+{
+  "Lua.completion.autoRequire": true,
+  "Lua.completion.callSnippet": "Both",
+  "Lua.completion.displayContext": 0,
+  "Lua.completion.enable": true,
+  "Lua.completion.postfix": "@",
+  "Lua.completion.requireSeparator": ".",
+  "Lua.completion.workspaceWord": true,
+  "Lua.diagnostics.enable": true,
+  "Lua.format.defaultConfig": {
+    "indent_size": "2",
+    "indent_style": "space",
+    "quote_style": "double"
+  },
+  "Lua.format.enable": false,
+  "Lua.hint.arrayIndex": "Disable",
+  "Lua.hint.await": true,
+  "Lua.hint.enable": true,
+  "Lua.hint.paramName": "Disable",
+  "Lua.hint.paramType": true,
+  "Lua.hint.semicolon": "Disable",
+  "Lua.hint.setType": true,
+  "Lua.hover.enable": true,
+  "Lua.runtime.version": "LuaJIT",
+  "Lua.semantic.annotation": true,
+  "Lua.semantic.enable": true,
+  "Lua.semantic.keyword": true,
+  "Lua.semantic.variable": true,
+  "Lua.workspace.checkThirdParty": false
+}
