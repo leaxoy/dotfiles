@@ -40,11 +40,6 @@ provider["textDocument/signatureHelp"] =
 provider["window/showMessage"] = function(_, result, ctx)
   local client = vim.lsp.get_client_by_id(ctx.client_id)
   local lvl = ({ "ERROR", "WARN", "INFO", "DEBUG" })[result.type]
-  require("fn").lsp_notify(
-    client.name,
-    result.message,
-    lvl,
-    3000,
-    function() return lvl == "ERROR" or lvl == "WARN" end
-  )
+  local filter = function() return vim.tbl_contains({ "ERROR", "WARN" }, lvl) end
+  require("fn").lsp_notify(client.name, result.message, lvl, 3000, filter)
 end

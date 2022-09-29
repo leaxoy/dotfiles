@@ -11,6 +11,7 @@ if saga_status then
       in_custom = false,
       click_support = false,
       show_file = true,
+      file_formatter = "%:.", -- relative filename
       separator = "  ",
     },
     finder_action_keys = {
@@ -21,6 +22,7 @@ if saga_status then
       scroll_down = "<C-d>",
       scroll_up = "<C-u>",
     },
+    show_outline = { auto_enter = false, jump_key = "<CR>" },
     finder_request_timeout = 5000,
     finder_icons = { def = " ", imp = " ", ref = " " },
     rename_action_quit = "<Esc>",

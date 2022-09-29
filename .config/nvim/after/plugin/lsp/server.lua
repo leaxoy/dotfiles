@@ -90,7 +90,7 @@ local function resolve_text_document_capabilities(client, buffer)
   if caps.documentSymbolProvider then
     local status, outline = pcall(require, "lspsaga.outline")
     if status then
-      map("n", "go", function() outline:render_outline(true) end, { desc = "Document Symbol" })
+      map("n", "go", function() outline:render_outline() end, { desc = "Document Symbol" })
     else
       map("n", "go", vim.lsp.buf.document_symbol, { desc = "Document Symbol" })
     end
