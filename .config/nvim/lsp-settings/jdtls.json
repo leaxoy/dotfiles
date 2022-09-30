@@ -8,6 +8,14 @@
   "java.codeGeneration.useBlocks": true,
   "java.completion.enabled": true,
   "java.completion.guessMethodArguments": true,
+  "java.completion.importOrder": [
+    "#",
+    "java",
+    "javax",
+    "org",
+    "com",
+    ""
+  ],
   "java.format.enabled": true,
   "java.implementationsCodeLens.enabled": true,
   "java.import.gradle.enabled": true,

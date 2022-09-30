@@ -27,5 +27,7 @@
   "omnisharp.enableEditorConfigSupport": true,
   "omnisharp.enableImportCompletion": true,
   "omnisharp.organizeImportsOnFormat": true,
-  "omnisharp.useEditorFormattingSettings": true
+  "omnisharp.sdkIncludePrereleases": true,
+  "omnisharp.useEditorFormattingSettings": true,
+  "omnisharp.useModernNet": true
 }

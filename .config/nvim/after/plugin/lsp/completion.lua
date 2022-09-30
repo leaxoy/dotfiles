@@ -115,11 +115,7 @@ cmp.setup {
   sources = {
     { name = "nvim_lsp" },
     { name = "vsnip" }, -- For vsnip user.
-    -- { name = "buffer" },
-    -- { name = "cmdline" },
-    -- { name = "crates" },
-    { name = "spell" },
-    -- { name = "npm" },
+    { name = "buffer" },
   },
 }
 

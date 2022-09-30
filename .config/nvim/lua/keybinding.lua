@@ -64,13 +64,6 @@ map("n", "<leader>ip", term "ipython", { desc = "IPython" })
 map("i", "jk", "<Esc>", { desc = "Escape Insert Mode" })
 
 map("ni", "<c-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]], { desc = "Toggle Terminal" })
-map("ni", "<c-s>", [[<CMD>w<CR>]], { desc = "Save Current Buffer" })
-map(
-  "ni",
-  "<c-x>",
-  function() require("bufdelete").bufdelete(0) end,
-  { desc = "Close Current Buffer" }
-)
 
 map("", "<ScrollWheelUp>", "<Nop>", {})
 map("", "<ScrollWheelDown>", "<Nop>", {})

@@ -7,6 +7,9 @@
   "Lua.completion.requireSeparator": ".",
   "Lua.completion.workspaceWord": true,
   "Lua.diagnostics.enable": true,
+  "Lua.diagnostics.globals": [
+    "vim"
+  ],
   "Lua.format.defaultConfig": {
     "indent_size": "2",
     "indent_style": "space",
@@ -21,10 +24,13 @@
   "Lua.hint.semicolon": "Disable",
   "Lua.hint.setType": true,
   "Lua.hover.enable": true,
+  "Lua.hover.previewFields": 50,
+  "Lua.hover.viewNumber": true,
   "Lua.runtime.version": "LuaJIT",
   "Lua.semantic.annotation": true,
   "Lua.semantic.enable": true,
   "Lua.semantic.keyword": true,
   "Lua.semantic.variable": true,
+  "Lua.signatureHelp.enable": true,
   "Lua.workspace.checkThirdParty": false
 }

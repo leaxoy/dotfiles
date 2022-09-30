@@ -1,5 +1,6 @@
 {
   "rust-analyzer.cargo.autoreload": true,
+  "rust-analyzer.cargo.buildScripts.enable": true,
   "rust-analyzer.completion.autoimport.enable": true,
   "rust-analyzer.completion.autoself.enable": true,
   "rust-analyzer.completion.callable.snippets": "fill_arguments",
@@ -40,6 +41,7 @@
   "rust-analyzer.inlayHints.typeHints.hideNamedConstructor": true,
   "rust-analyzer.lens.debug.enable": true,
   "rust-analyzer.lens.enable": true,
+  "rust-analyzer.lens.forceCustomCommands": true,
   "rust-analyzer.lens.implementations.enable": true,
   "rust-analyzer.lens.location": "above_name",
   "rust-analyzer.lens.references.adt.enable": true,
@@ -51,6 +53,8 @@
   "rust-analyzer.procMacro.attributes.enable": true,
   "rust-analyzer.procMacro.enable": true,
   "rust-analyzer.references.excludeImports": true,
+  "rust-analyzer.restartServerOnConfigChange": true,
+  "rust-analyzer.rustfmt.rangeFormatting.enable": true,
   "rust-analyzer.semanticHighlighting.doc.comment.inject.enable": true,
   "rust-analyzer.semanticHighlighting.operator.enable": true,
   "rust-analyzer.semanticHighlighting.operator.specialization.enable": true,
@@ -58,5 +62,6 @@
   "rust-analyzer.semanticHighlighting.punctuation.separate.macro.bang": true,
   "rust-analyzer.semanticHighlighting.punctuation.specialization.enable": true,
   "rust-analyzer.semanticHighlighting.strings.enable": true,
-  "rust-analyzer.signatureInfo.detail": "full"
+  "rust-analyzer.signatureInfo.detail": "full",
+  "rust-analyzer.signatureInfo.documentation.enable": true
 }
