@@ -143,9 +143,9 @@ if catppuccin_status then
 
       WhichKeyFloat = { link = "Normal" },
 
-      LspCodeLens = { link = "WarningMsg" },
-      LspCodeLensText = { link = "WarningMsg" },
-      LspCodeLensTextSign = { link = "WarningMsg" },
+      LspCodeLens = { link = "Comment" },
+      LspCodeLensText = { link = "Comment" },
+      LspCodeLensTextSign = { link = "Comment" },
       LspCodeLensTextSeparator = { link = "Boolean" },
     },
     highlight_overrides = {},

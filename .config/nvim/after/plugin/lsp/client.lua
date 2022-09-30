@@ -27,21 +27,17 @@ mason_adapter.setup_handlers {
           -- more settings: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
           allExperiments = true,
           deepCompletion = true,
-          hints = {
-            assignVariableTypes = true,
-            compositeLiteralFields = true,
-            compositeLiteralTypes = true,
-            constantValues = true,
-            functionTypeParameters = true,
-            parameterNames = true,
-            rangeVariableTypes = true,
-          },
         },
       },
     }
   end,
   jsonls = function()
     lsp.jsonls.setup { settings = { json = { schemas = require("schemastore").json.schemas() } } }
+  end,
+  omnisharp = function()
+    lsp.omnisharp.setup {
+      cmd = { "dotnet", vim.fn.stdpath "data" .. "/mason/packages/omnisharp/OmniSharp.dll" },
+    }
   end,
   rust_analyzer = function()
     require("rust-tools").setup {

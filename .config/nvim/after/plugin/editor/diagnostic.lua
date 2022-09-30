@@ -1,9 +1,5 @@
 vim.diagnostic.config {
-  virtual_text = {
-    prefix = "", -- Could be '●', '▎', 'x', "■"
-    source = "if_many",
-    severity = { min = vim.diagnostic.severity.ERROR },
-  },
+  virtual_text = false,
   signs = true,
   underline = { severity = { min = vim.diagnostic.severity.WARN } },
   float = { show_header = true, focus = false, border = "double" },
