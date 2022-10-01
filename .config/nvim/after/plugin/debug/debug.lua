@@ -28,15 +28,12 @@ dapui.setup {
   layouts = {
     {
       elements = { "scopes", "breakpoints", "stacks", "watches" },
-      size = 40,
+      size = 0.25,
       position = "left",
     },
     {
-      elements = {
-        "repl",
-        -- "console"
-      },
-      size = 10,
+      elements = { "repl", "console" },
+      size = 0.25,
       position = "bottom",
     },
   },
@@ -78,34 +75,3 @@ map(
   { desc = "Show Floating Window" }
 )
 -- map("n", "<leader>du", ui.toggle, { desc = "Debug Window" })
-
-dap.adapters.lldb = { type = "executable", command = "lldb-vscode" }
-
-local c_config = {
-  {
-    name = "Launch",
-    type = "lldb",
-    request = "launch",
-    program = function() return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file") end,
-    cwd = "${workspaceFolder}",
-    stopOnEntry = false,
-    args = {},
-
-    -- 💀
-    -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
-    --
-    --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-    --
-    -- Otherwise you might get the following error:
-    --
-    --    Error on launch: Failed to attach to the target process
-    --
-    -- But you should be aware of the implications:
-    -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-    -- runInTerminal = false,
-  },
-}
-
-dap.configurations.c = c_config
-dap.configurations.cpp = c_config
--- dap.configurations.rust = c_config
