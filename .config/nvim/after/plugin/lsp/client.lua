@@ -56,7 +56,15 @@ mason_adapter.setup_handlers {
   end,
   sumneko_lua = function()
     local root_dir = require("lspconfig").util.root_pattern("init.lua", "lua")
-    lsp.sumneko_lua.setup(require("lua-dev").setup { lspconfig = { root_dir = root_dir } })
+    -- lsp.sumneko_lua.setup(require("lua-dev").setup { lspconfig = { root_dir = root_dir } })
+    lsp.sumneko_lua.setup {
+      root_dir = root_dir,
+      settings = {
+        workspace = {
+          library = vim.api.nvim_list_runtime_paths(),
+        },
+      },
+    }
   end,
   tsserver = function()
     lsp.tsserver.setup {

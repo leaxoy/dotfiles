@@ -32,6 +32,34 @@ function vim.lsp.protocol.make_client_capabilities()
   return capabilities
 end
 
+vim.lsp.protocol.CompletionItemKind = {
+  Text = "",
+  Method = "",
+  Function = "",
+  Constructor = "",
+  Field = "",
+  Variable = "",
+  Class = "",
+  Interface = "",
+  Module = "",
+  Property = "",
+  Unit = "",
+  Value = "",
+  Enum = "",
+  Keyword = "",
+  Snippet = "",
+  Color = "",
+  File = "",
+  Reference = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
+  Struct = "",
+  Event = "",
+  Operator = "",
+  TypeParameter = "",
+}
+
 local provider = vim.lsp.handlers
 provider["textDocument/hover"] =
   vim.lsp.with(provider.hover, { border = "rounded", title = "Hover" })

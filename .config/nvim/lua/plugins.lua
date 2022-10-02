@@ -84,7 +84,6 @@ return require("packer").startup {
     use { "hrsh7th/cmp-buffer", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-cmdline", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-nvim-lsp-document-symbol", requires = "hrsh7th/nvim-cmp" }
-    use { "onsails/lspkind-nvim", requires = "hrsh7th/nvim-cmp" }
     use { "David-Kunz/cmp-npm", requires = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" } }
     use { "b0o/SchemaStore.nvim" }
     use { "folke/lua-dev.nvim" }

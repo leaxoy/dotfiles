@@ -18,21 +18,16 @@ cmp.setup {
     documentation = cmp.config.window.bordered(),
   },
   completion = { completeopt = "menu,menuone,noselect" },
-  experimental = { ghost_text = true, native_menu = false },
+  experimental = { ghost_text = true },
   formatting = {
-    fields = { "kind", "abbr", "menu" },
-    format = require("lspkind").cmp_format {
-      with_text = false,
-      maxwidth = 50,
-      menu = {
-        spell = "via ",
-        nvim_lsp = "via ",
-        vsnip = "via ",
-        buffer = "via ",
-        crates = "via ",
-        npm = "via ",
-      },
-    },
+    fields = { "kind", "abbr" },
+    format = function(entry, item)
+      item.kind = vim.lsp.protocol.CompletionItemKind[item.kind]
+      local shorten = vim.fn.strcharpart(item.abbr, 0, 30)
+      if shorten ~= item.abbr then item.abbr = shorten .. "~" end
+      item.menu = nil
+      return item
+    end,
   },
   mapping = cmp.mapping.preset.insert {
     ["<C-d>"] = cmp.mapping.scroll_docs(5),

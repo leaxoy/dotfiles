@@ -1,11 +1,19 @@
 local dap = require "dap"
 
+local lldb_path = vim.fn.stdpath "data" .. "/mason/packages/codelldb/extension"
+
 dap.adapters.lldb = {
   type = "server",
   port = "${port}",
   executable = {
-    command = "codelldb",
-    args = { "--port", "${port}" },
+    -- command = "codelldb",
+    command = lldb_path .. "/adapter/codelldb",
+    args = {
+      "--port",
+      "${port}",
+      "--liblldb",
+      lldb_path .. "/lldb/lib/liblldb.dylib",
+    },
   },
 }
 
