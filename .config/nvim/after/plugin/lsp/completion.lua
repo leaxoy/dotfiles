@@ -20,12 +20,19 @@ cmp.setup {
   completion = { completeopt = "menu,menuone,noselect" },
   experimental = { ghost_text = true },
   formatting = {
-    fields = { "kind", "abbr" },
+    fields = { "kind", "abbr", "menu" },
     format = function(entry, item)
-      item.kind = vim.lsp.protocol.CompletionItemKind[item.kind]
-      local shorten = vim.fn.strcharpart(item.abbr, 0, 30)
-      if shorten ~= item.abbr then item.abbr = shorten .. "~" end
-      item.menu = nil
+      local menu = {
+        nvim_lsp = "[  ]",
+        vsnip = "[  ]",
+        buffer = "[  ]",
+        crates = "[  ]",
+        npm = "[  ]",
+      }
+      item.kind = vim.lsp.protocol.CompletionItemKind[item.kind] or item.kind
+      item.menu = menu[entry.source.name] or ("[" .. string.upper(entry.source.name) .. "]")
+      local shorten = string.sub(item.abbr, 0, 30)
+      if shorten ~= item.abbr then item.abbr = shorten .. " " end
       return item
     end,
   },
@@ -38,10 +45,11 @@ cmp.setup {
       select = true,
       behavior = cmp.ConfirmBehavior.Replace,
     },
-    ["<C-g>"] = cmp.mapping(function()
-      local key = vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
-      vim.api.nvim_feedkeys(vim.fn["copilot#Accept"](key), "n", true)
-    end, { "i" }),
+    -- disable copilot
+    -- ["<C-g>"] = cmp.mapping(function()
+    --   local key = vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
+    --   vim.api.nvim_feedkeys(vim.fn["copilot#Accept"](key), "n", true)
+    -- end, { "i" }),
     ["<Tab>"] = cmp.mapping {
       c = function()
         if cmp.visible() then

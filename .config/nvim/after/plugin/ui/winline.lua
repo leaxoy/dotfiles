@@ -1,5 +1,3 @@
-if not vim.fn.has "nvim-0.8" then return end
-
 local status, symbol = pcall(require, "lspsaga.symbolwinbar")
 vim.api.nvim_create_autocmd(
   { "BufEnter", "BufWinEnter", "CursorMoved", "CursorHold", "CursorHoldI" },
