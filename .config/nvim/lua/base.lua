@@ -1,4 +1,5 @@
 -- base config --base
+vim.o.mousemodel = "extend"
 vim.o.updatetime = 200
 vim.o.timeoutlen = 200
 vim.o.clipboard = "unnamedplus"
