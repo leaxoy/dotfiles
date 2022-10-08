@@ -8,6 +8,11 @@ if not mason_status then return end
 local win_opts = require("lspconfig.ui.windows").default_options
 win_opts.border = "double"
 
+mason_adapter.setup {
+  automatic_installation = true,
+  ensure_installed = vim.g.lsp_servers or {},
+}
+
 mason_adapter.setup_handlers {
   function(server_name)
     local excludes = { "jdtls", "rust_analyzer" }
@@ -60,7 +65,7 @@ mason_adapter.setup_handlers {
     local library = {}
     local nvim_path = { vim.fn.stdpath "config", vim.fn.stdpath "data" }
     local workspace_dir = vim.fn.getcwd()
-    for i, dir in ipairs(nvim_path) do
+    for _, dir in ipairs(nvim_path) do
       if string.sub(workspace_dir, 1, string.len(dir)) == dir then
         library = vim.api.nvim_list_runtime_paths()
         break
