@@ -9,31 +9,6 @@ if dressing_status then
   }
 end
 
-local tokyonight_status, tokyonight = pcall(require, "tokyonight")
-if tokyonight_status then
-  tokyonight.setup {
-    style = "night",
-    transparent = true,
-    terminal_colors = true,
-    styles = {
-      comments = "italic",
-      keywords = "italic",
-      functions = "NONE",
-      variables = "NONE",
-      -- Background styles. Can be "dark", "transparent" or "normal"
-      sidebars = "dark", -- style for sidebars, see below
-      floats = "dark", -- style for floating windows
-    },
-    sidebars = { "help", "qf", "lspsagaoutline", "terminal", "packer", "toggleterm" },
-    day_brightness = 0.3,
-    hide_inactive_statusline = false,
-    dim_inactive = true,
-    lualine_bold = true,
-    on_colors = function(colors) end,
-    on_highlights = function(highlights, colors) end,
-  }
-end
-
 local vscode_status, vscode = pcall(require, "vscode")
 if vscode_status then
   vscode.setup {
@@ -110,6 +85,7 @@ if catppuccin_status then
       fern = false,
       barbar = false,
       bufferline = true,
+      mason = true,
       markdown = true,
       lightspeed = false,
       ts_rainbow = false,
@@ -134,7 +110,7 @@ if catppuccin_status then
       FloatBorder = { link = "Normal" },
       FloatShadow = { link = "Normal" },
       FloatShadowThrough = { link = "Normal" },
-      LspInlayHint = { link = "Comment" },
+      -- LspInlayHint = { link = "Comment" },
       LspFloatWinNormal = { link = "Normal" },
 
       CursorLine = { link = "CursorColumn" },

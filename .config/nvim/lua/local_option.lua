@@ -52,10 +52,10 @@ vim.g.rust_recommended_style = 0
 
 -- neovide
 if vim.fn.exists "neovide" then
-  vim.o.guifont = "FantasqueSansMono Nerd Font Mono:h20"
+  vim.o.guifont = "FiraCode Nerd Font Mono:h20"
   vim.g.neovide_transparency = 0.0
-  vim.g.transparency = 0.8
-  vim.g.neovide_background_color = "#0f1117"
+  vim.g.transparency = 0.95
+  vim.g.neovide_background_color = "#111111"
     .. string.format("%x", vim.fn.float2nr(vim.g.transparency * 255))
   vim.g.neovide_input_macos_alt_is_meta = true
 end

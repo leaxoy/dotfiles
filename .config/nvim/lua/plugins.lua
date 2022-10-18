@@ -37,14 +37,14 @@ return require("packer").startup {
       requires = { "williamboman/mason.nvim", "mfussenegger/nvim-dap" },
     }
     use { "tamago324/nlsp-settings.nvim" }
+    use { "krivahtoo/silicon.nvim", run = "./install.sh" }
 
     -- UI
     use { "glepnir/dashboard-nvim" } -- welcome screen
     use { "stevearc/dressing.nvim" } -- ui component
     use { "Mofiqul/vscode.nvim" } -- theme
-    use { "folke/tokyonight.nvim" } -- theme
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
-    use { "nvim-lualine/lualine.nvim", requires = "kyazdani42/nvim-web-devicons" } -- statusline
+    use { "nvim-lualine/lualine.nvim", requires = "nvim-tree/nvim-web-devicons" } -- statusline
     use { "WhoIsSethDaniel/lualine-lsp-progress" } -- statusline show lsp info
     use { "akinsho/toggleterm.nvim" } -- terminal
     use { "lukas-reineke/indent-blankline.nvim" } -- indent line
@@ -54,7 +54,14 @@ return require("packer").startup {
     use { "NvChad/nvim-colorizer.lua" } -- color highlighting
     use {
       "rcarriga/nvim-notify",
-      config = function() require("notify").setup { background_colour = "#FFFFFF" } end,
+      config = function()
+        require("notify").setup { background_colour = "#FFFFFF" }
+        function vim.notify(msg, level, opts)
+          opts =
+            vim.tbl_extend("keep", { render = "minimal", timeout = 3000 }, opts or vim.empty_dict())
+          require "notify"(msg, level, opts)
+        end
+      end,
     } -- notify component
     use { "stevearc/overseer.nvim" }
 
@@ -86,7 +93,7 @@ return require("packer").startup {
     use { "hrsh7th/cmp-nvim-lsp-document-symbol", requires = "hrsh7th/nvim-cmp" }
     use { "David-Kunz/cmp-npm", requires = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" } }
     use { "b0o/SchemaStore.nvim" }
-    use { "folke/lua-dev.nvim" }
+    use { "folke/neodev.nvim" }
     -- snippet config
     use { "hrsh7th/cmp-vsnip", requires = "hrsh7th/nvim-cmp" }
     use { "rafamadriz/friendly-snippets", requires = "hrsh7th/vim-vsnip" }

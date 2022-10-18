@@ -47,17 +47,12 @@ dapui.setup {
   render = {},
 }
 
-vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
-vim.fn.sign_define(
-  "DapBreakpointCondition",
-  { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" }
-)
-vim.fn.sign_define(
-  "DapBreakpointRejected",
-  { text = "", texthl = "FoldColumn", linehl = "", numhl = "" }
-)
-vim.fn.sign_define("DapStopped", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" }) --  
-vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "", linehl = "", numhl = "" })
+local sign_def = vim.fn.sign_define
+sign_def("DapBreakpoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
+sign_def("DapBreakpointCondition", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
+sign_def("DapBreakpointRejected", { text = "", texthl = "FoldColumn", linehl = "", numhl = "" })
+sign_def("DapStopped", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" }) --  
+sign_def("DapLogPoint", { text = "◆", texthl = "", linehl = "", numhl = "" })
 
 local map = require("fn").map_fn
 map("nvi", "<F4>", bp_api.toggle_breakpoint, { desc = "Toggle Breakpoint" })
@@ -68,10 +63,101 @@ map("nvi", "<F8>", function() dap.step_into() end, { desc = "Step Into" })
 map("nvi", "<F9>", function() dap.step_out() end, { desc = "Step Out" })
 -- map({ "n" }, "<leader>dr", function() dap.repl.toggle() end, { desc = "Repl" })
 map("nv", "<M-e>", function() dapui.eval(nil, { enter = true }) end, { desc = "Eval Expression" })
-map(
-  "ni",
-  "<M-f>",
-  function() dapui.float_element("scopes", { enter = true }) end,
-  { desc = "Show Floating Window" }
-)
+local dap_float = function() dapui.float_element("scopes", { enter = true }) end
+map("ni", "<M-f>", dap_float, { desc = "Show Floating Window" })
 -- map("n", "<leader>du", ui.toggle, { desc = "Debug Window" })
+
+local mason_status, mason_adapter = pcall(require, "mason-nvim-dap")
+
+if not mason_status then return end
+
+mason_adapter.setup {
+  automatic_installation = true,
+  ensure_installed = { "delve", "javadbg", "javatest", "python" },
+}
+
+mason_adapter.setup_handlers {
+  function(server_name) end,
+  delve = function()
+    dap.adapters.go = {
+      type = "server",
+      port = "${port}",
+      executable = {
+        command = "dlv",
+        args = { "dap", "-l", "127.0.0.1:${port}" },
+      },
+    }
+
+    -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
+    dap.configurations.go = {
+      {
+        type = "go",
+        name = "Debug File",
+        request = "launch",
+        program = "${file}",
+      },
+      {
+        type = "go",
+        name = "Debug Package",
+        request = "launch",
+        program = "${fileDirname}",
+      },
+      {
+        type = "go",
+        name = "Debug test file", -- configuration for debugging test files
+        request = "launch",
+        mode = "test",
+        program = "${file}",
+      },
+      -- works with go.mod packages and sub packages
+      {
+        type = "go",
+        name = "Debug test (go.mod)",
+        request = "launch",
+        mode = "test",
+        program = "./${relativeFileDirname}",
+      },
+    }
+  end,
+  python = function()
+    dap.adapters.python = {
+      type = "executable",
+      command = vim.fn.stdpath "data" .. "/mason/packages/debugpy/venv/bin/python3",
+      args = { "-m", "debugpy.adapter" },
+    }
+
+    local function python_path_fn()
+      -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+      -- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
+      -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
+      local virtual_env = vim.fn.getenv "VIRTUAL_ENV"
+      local cwd = vim.fn.getcwd()
+      if vim.fn.executable(virtual_env .. "/bin/python") == 1 then
+        return virtual_env .. "/bin/python"
+      elseif vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
+        return cwd .. "/venv/bin/python"
+      elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
+        return cwd .. "/.venv/bin/python"
+      else
+        return "/usr/local/bin/python3"
+      end
+    end
+
+    dap.configurations.python = {
+      {
+        -- The first three options are required by nvim-dap
+        type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
+        request = "launch",
+        name = "Current File",
+
+        -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+
+        program = "${file}", -- This configuration will launch the current file if used.
+        justMyCode = true,
+        cwd = "${workspaceFolder}",
+        env = { PYTHONPATH = "${env:PYTHONPATH}:${workspaceFolder}" },
+        pythonPath = python_path_fn,
+      },
+    }
+  end,
+}

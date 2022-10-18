@@ -1,9 +1,10 @@
-local function lsp_notify(client_name, msg, level, timeout, keep_fn)
+local function lsp_notify(client_name, msg, level, timeout)
+  if level == vim.log.levels.ERROR then timeout = 10000 end
+  if level == vim.log.levels.WARN then timeout = 5000 end
   require("notify").notify(client_name .. ": " .. msg, level, {
     title = "LSP on " .. vim.bo.filetype,
     icon = " ",
     timeout = timeout or 3000,
-    keep = keep_fn or function() return false end,
   })
 end
 
