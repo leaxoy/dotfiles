@@ -20,7 +20,6 @@ end
 
 local catppuccin_status, catppuccin = pcall(require, "catppuccin")
 if catppuccin_status then
-  local colors = require("catppuccin.palettes").get_palette()
   vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
   catppuccin.setup {
     dim_inactive = {

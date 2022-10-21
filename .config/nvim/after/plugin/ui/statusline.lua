@@ -40,7 +40,6 @@ lualine.setup {
         icon = "",
         color = { fg = "#006611", gui = "bold" },
       },
-      { "lsp_progress" },
     },
     lualine_x = {},
     lualine_y = {

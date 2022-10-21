@@ -44,8 +44,9 @@ return require("packer").startup {
     use { "stevearc/dressing.nvim" } -- ui component
     use { "Mofiqul/vscode.nvim" } -- theme
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
+    use { "folke/noice.nvim", requires = { "MunifTanjim/nui.nvim" } }
     use { "nvim-lualine/lualine.nvim", requires = "nvim-tree/nvim-web-devicons" } -- statusline
-    use { "WhoIsSethDaniel/lualine-lsp-progress" } -- statusline show lsp info
+    -- use { "WhoIsSethDaniel/lualine-lsp-progress" } -- statusline show lsp info
     use { "akinsho/toggleterm.nvim" } -- terminal
     use { "lukas-reineke/indent-blankline.nvim" } -- indent line
     use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" } -- syntax highlighting
