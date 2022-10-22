@@ -194,11 +194,6 @@ _G.packer_plugins = {
     path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/lspsaga.nvim",
     url = "https://github.com/glepnir/lspsaga.nvim"
   },
-  ["lualine-lsp-progress"] = {
-    loaded = true,
-    path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/lualine-lsp-progress",
-    url = "https://github.com/WhoIsSethDaniel/lualine-lsp-progress"
-  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/lualine.nvim",
@@ -264,6 +259,16 @@ _G.packer_plugins = {
     path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/nlsp-settings.nvim",
     url = "https://github.com/tamago324/nlsp-settings.nvim"
   },
+  ["noice.nvim"] = {
+    loaded = true,
+    path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/noice.nvim",
+    url = "https://github.com/folke/noice.nvim"
+  },
+  ["nui.nvim"] = {
+    loaded = true,
+    path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/nui.nvim",
+    url = "https://github.com/MunifTanjim/nui.nvim"
+  },
   ["null-ls.nvim"] = {
     loaded = true,
     path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
@@ -305,7 +310,6 @@ _G.packer_plugins = {
     url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-notify"] = {
-    config = { "\27LJ\2\nž\1\0\3\t\0\a\0\0196\3\0\0009\3\1\3'\5\2\0005\6\3\0\f\a\2\0X\a\3€6\a\0\0009\a\4\aB\a\1\2B\3\4\2\18\2\3\0006\3\5\0'\5\6\0B\3\2\2\18\5\0\0\18\6\1\0\18\a\2\0B\3\4\1K\0\1\0\vnotify\frequire\15empty_dict\1\0\2\ftimeout\3¸\23\vrender\fminimal\tkeep\15tbl_extend\bvimf\1\0\3\0\6\0\n6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\0016\0\4\0003\1\5\0=\1\1\0K\0\1\0\0\bvim\1\0\1\22background_colour\f#FFFFFF\nsetup\vnotify\frequire\0" },
     loaded = true,
     path = "/Users/bytedance/.local/share/nvim/site/pack/packer/start/nvim-notify",
     url = "https://github.com/rcarriga/nvim-notify"
@@ -430,10 +434,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: nvim-notify
-time([[Config for nvim-notify]], true)
-try_loadstring("\27LJ\2\nž\1\0\3\t\0\a\0\0196\3\0\0009\3\1\3'\5\2\0005\6\3\0\f\a\2\0X\a\3€6\a\0\0009\a\4\aB\a\1\2B\3\4\2\18\2\3\0006\3\5\0'\5\6\0B\3\2\2\18\5\0\0\18\6\1\0\18\a\2\0B\3\4\1K\0\1\0\vnotify\frequire\15empty_dict\1\0\2\ftimeout\3¸\23\vrender\fminimal\tkeep\15tbl_extend\bvimf\1\0\3\0\6\0\n6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\0016\0\4\0003\1\5\0=\1\1\0K\0\1\0\0\bvim\1\0\1\22background_colour\f#FFFFFF\nsetup\vnotify\frequire\0", "config", "nvim-notify")
-time([[Config for nvim-notify]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
