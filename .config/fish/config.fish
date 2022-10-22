@@ -1,9 +1,5 @@
 if status is-interactive
     # PATH setting
-    if command -qv nvim
-        set -gx EDITOR nvim
-        alias vim nvim
-    end
     set -g fish_user_paths /usr/local/opt/llvm/bin $fish_user_paths
     set JAVA_HOME /usr/local/opt/openjdk
     set -g fish_user_paths $JAVA_HOME/bin $fish_user_paths
@@ -22,12 +18,24 @@ if status is-interactive
     set -Ux BUN_INSTALL "$HOME/.bun"
     set -px --path PATH "$HOME/.bun/bin"
 
-    command -qv zoxide && zoxide init fish | source
+    command -qv goenv && source (goenv init - | psub)
     command -qv oh-my-posh && oh-my-posh init fish | source
+    command -qv starship && starship init fish | source
+    command -qv zoxide && zoxide init fish | source
 
     # ALIAS setting
-    command -qv git && alias g git
-    command -qv lsd && alias ls lsd
+    command -qv bat && alias cat bat # https://github.com/sharkdp/bat
+    command -qv dust && alias du dust # https://github.com/bootandy/dust
+    command -qv git && alias g git # https://github.com/git/git
+    command -qv btm && alias top btm # https://github.com/ClementTsang/bottom
+    command -qv lsd && alias ls lsd # https://github.com/Peltoche/lsd
+    command -qv rg && alias grep rg # https://github.com/BurntSushi/ripgrep
+    command -qv procs && alias ps procs # https://github.com/dalance/procs
+    command -qv sd && alias sed sd # https://github.com/chmln/sd
+    if command -qv nvim
+        set -gx EDITOR nvim
+        alias vim nvim
+    end
 
     # Local config
     set local_config (dirname (status --current-filename))/config.local.fish
