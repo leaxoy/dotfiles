@@ -20,7 +20,6 @@ end
 
 local catppuccin_status, catppuccin = pcall(require, "catppuccin")
 if catppuccin_status then
-  vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
   catppuccin.setup {
     dim_inactive = {
       enabled = false,
@@ -72,6 +71,8 @@ if catppuccin_status then
       gitgutter = false,
       gitsigns = true,
       leap = false,
+      noice = true,
+      semantic_tokens = true,
       telescope = true,
       nvimtree = { enabled = true, show_root = true, transparent_panel = false },
       neotree = { enabled = true, show_root = true, transparent_panel = false },

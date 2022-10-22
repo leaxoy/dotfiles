@@ -53,17 +53,7 @@ return require("packer").startup {
     use { "nvim-treesitter/playground", requires = "nvim-treesitter/nvim-treesitter" }
     use { "David-Kunz/markid", requires = "nvim-treesitter/nvim-treesitter" } -- semantic highlighting
     use { "NvChad/nvim-colorizer.lua" } -- color highlighting
-    use {
-      "rcarriga/nvim-notify",
-      config = function()
-        require("notify").setup { background_colour = "#FFFFFF" }
-        function vim.notify(msg, level, opts)
-          opts =
-            vim.tbl_extend("keep", { render = "minimal", timeout = 3000 }, opts or vim.empty_dict())
-          require "notify"(msg, level, opts)
-        end
-      end,
-    } -- notify component
+    use { "rcarriga/nvim-notify" } -- notify component
     use { "stevearc/overseer.nvim" }
 
     -- Lang specifies
