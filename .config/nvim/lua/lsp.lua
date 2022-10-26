@@ -62,9 +62,9 @@ vim.lsp.protocol.CompletionItemKind = {
 
 local provider = vim.lsp.handlers
 provider["textDocument/hover"] =
-  vim.lsp.with(provider.hover, { border = "rounded", title = "Hover" })
+  vim.lsp.with(provider.hover, { border = "double", title = "Hover" })
 provider["textDocument/signatureHelp"] =
-  vim.lsp.with(provider.signature_help, { border = "rounded", title = "SignatureHelp" })
+  vim.lsp.with(provider.signature_help, { border = "double", title = "SignatureHelp" })
 provider["window/showMessage"] = function(_, result, ctx)
   local client = vim.lsp.get_client_by_id(ctx.client_id)
   local lvl = ({ "ERROR", "WARN", "INFO", "DEBUG" })[result.type]

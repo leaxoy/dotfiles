@@ -1,14 +1,3 @@
-local dressing_status, dressing = pcall(require, "dressing")
-if dressing_status then
-  dressing.setup {
-    input = { enabled = true, prompt_align = "center", winblend = 0 },
-    select = {
-      enabled = true,
-      telescope = require("telescope.themes").get_dropdown { initial_mode = "normal" },
-    },
-  }
-end
-
 local vscode_status, vscode = pcall(require, "vscode")
 if vscode_status then
   vscode.setup {

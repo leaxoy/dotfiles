@@ -41,7 +41,7 @@ return require("packer").startup {
 
     -- UI
     use { "glepnir/dashboard-nvim" } -- welcome screen
-    use { "stevearc/dressing.nvim" } -- ui component
+    -- use { "stevearc/dressing.nvim" } -- ui component
     use { "Mofiqul/vscode.nvim" } -- theme
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
     use { "folke/noice.nvim", requires = { "MunifTanjim/nui.nvim" } }
@@ -116,7 +116,7 @@ return require("packer").startup {
     use { "windwp/nvim-autopairs" }
     use { "numToStr/Comment.nvim" }
     use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
-    use { "famiu/bufdelete.nvim" }
+    use { "kylechui/nvim-surround" }
     use { "ellisonleao/glow.nvim" } -- markdown render
     use { "ThePrimeagen/refactoring.nvim" }
 

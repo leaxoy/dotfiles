@@ -83,8 +83,7 @@
       "inline": true,
       "nil": true
     },
-    "ui.diagnostic.diagnosticsDelay": "250ms",
-    "ui.diagnostic.experimentalWatchedFileDelay": "0s",
+    "ui.diagnostic.diagnosticsDelay": "100ms",
     "ui.diagnostic.staticcheck": true,
     "ui.documentation.hoverKind": "FullDocumentation",
     "ui.documentation.linkTarget": "pkg.go.dev",
