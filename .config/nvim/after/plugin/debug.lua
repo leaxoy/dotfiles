@@ -73,51 +73,57 @@ if not mason_status then return end
 
 mason_adapter.setup {
   automatic_installation = true,
-  ensure_installed = { "delve", "javadbg", "javatest", "python" },
+  automatic_setup = true,
+  ensure_installed = { "delve", "javadbg", "javatest", "lldb", "python" },
 }
 
 mason_adapter.setup_handlers {
-  function(server_name) end,
-  delve = function()
-    dap.adapters.go = {
+  lldb = function()
+    local lldb_path = vim.fn.stdpath "data" .. "/mason/packages/codelldb/extension"
+
+    dap.adapters.lldb = {
       type = "server",
       port = "${port}",
       executable = {
-        command = "dlv",
-        args = { "dap", "-l", "127.0.0.1:${port}" },
+        -- command = "codelldb",
+        command = lldb_path .. "/adapter/codelldb",
+        args = {
+          "--port",
+          "${port}",
+          "--liblldb",
+          lldb_path .. "/lldb/lib/liblldb.dylib",
+        },
       },
     }
 
-    -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
-    dap.configurations.go = {
+    local codelldb = {
       {
-        type = "go",
-        name = "Debug File",
+        name = "Launch",
+        type = "lldb",
         request = "launch",
-        program = "${file}",
-      },
-      {
-        type = "go",
-        name = "Debug Package",
-        request = "launch",
-        program = "${fileDirname}",
-      },
-      {
-        type = "go",
-        name = "Debug test file", -- configuration for debugging test files
-        request = "launch",
-        mode = "test",
-        program = "${file}",
-      },
-      -- works with go.mod packages and sub packages
-      {
-        type = "go",
-        name = "Debug test (go.mod)",
-        request = "launch",
-        mode = "test",
-        program = "./${relativeFileDirname}",
+        program = function() return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file") end,
+        cwd = "${workspaceFolder}",
+        stopOnEntry = true,
+        args = {},
+
+        -- 💀
+        -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
+        --
+        --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+        --
+        -- Otherwise you might get the following error:
+        --
+        --    Error on launch: Failed to attach to the target process
+        --
+        -- But you should be aware of the implications:
+        -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
+        -- runInTerminal = false,
       },
     }
+
+    dap.configurations.c = codelldb
+    dap.configurations.cpp = codelldb
+    dap.configurations.rust = codelldb
   end,
   python = function()
     dap.adapters.python = {
