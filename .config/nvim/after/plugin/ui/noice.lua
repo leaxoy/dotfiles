@@ -10,7 +10,9 @@ end
 noice.setup {
   cmdline = {
     format = {
-      input = { opts = { size = { min_width = 20 } } },
+      input = {
+        opts = { relative = "cursor", position = { col = 1, row = 1 }, size = { min_width = 20 } },
+      },
     },
   },
   lsp = {
@@ -19,7 +21,12 @@ noice.setup {
     documentation = { view = "hover" },
   },
   messages = { enabled = true, view = false, view_warn = false, view_error = false },
-  popupmenu = { backend = "cmp" },
+  popupmenu = { backend = "nui" },
+  presets = {
+    bottom_search = false,
+    command_palette = false,
+    long_message_to_split = true,
+  },
   views = {
     hover = {
       border = { style = "double", padding = { 0, 0, 0, 0 } },
