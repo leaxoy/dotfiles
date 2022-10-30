@@ -41,12 +41,10 @@ return require("packer").startup {
 
     -- UI
     use { "glepnir/dashboard-nvim" } -- welcome screen
-    -- use { "stevearc/dressing.nvim" } -- ui component
-    use { "Mofiqul/vscode.nvim" } -- theme
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
+    use { "folke/tokyonight.nvim" } -- theme
     use { "folke/noice.nvim", requires = { "MunifTanjim/nui.nvim" } }
     use { "nvim-lualine/lualine.nvim", requires = "nvim-tree/nvim-web-devicons" } -- statusline
-    -- use { "WhoIsSethDaniel/lualine-lsp-progress" } -- statusline show lsp info
     use { "akinsho/toggleterm.nvim" } -- terminal
     use { "lukas-reineke/indent-blankline.nvim" } -- indent line
     use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" } -- syntax highlighting
@@ -67,14 +65,9 @@ return require("packer").startup {
     use { "neovim/nvim-lspconfig" } -- lsp adapters
     use { "jose-elias-alvarez/null-ls.nvim", requires = "nvim-lua/plenary.nvim" } -- enchance lsp client
     use { "glepnir/lspsaga.nvim", requires = "neovim/nvim-lspconfig" }
-    -- inlayhint support
-    use { "lvimuser/lsp-inlayhints.nvim" }
-    -- semantic tokens support
-    use { "theHamsta/nvim-semantic-tokens" }
-    -- type hierarchy support
-    -- use { "slyces/hierarchy.nvim", requires = "nvim-treesitter/nvim-treesitter" }
-    -- document color support
-    use { "mrshmllow/document-color.nvim" }
+    use { "lvimuser/lsp-inlayhints.nvim" } -- inlayHint capability
+    use { "theHamsta/nvim-semantic-tokens" } -- semanticTokens capability
+    use { "mrshmllow/document-color.nvim" } -- documentColor capability
     -- completion support
     use { "hrsh7th/nvim-cmp" }
     -- completion plugins

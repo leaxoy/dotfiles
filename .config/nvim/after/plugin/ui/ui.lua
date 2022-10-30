@@ -1,12 +1,3 @@
-local vscode_status, vscode = pcall(require, "vscode")
-if vscode_status then
-  vscode.setup {
-    transparent = true,
-    italic_comments = true,
-    disable_nvimtree_bg = false,
-  }
-end
-
 local catppuccin_status, catppuccin = pcall(require, "catppuccin")
 if catppuccin_status then
   catppuccin.setup {
@@ -99,12 +90,19 @@ if catppuccin_status then
   })
 end
 
+local tokyo_status, tokyo = pcall(require, "tokyonight")
+if tokyo_status then
+  tokyo.setup {
+    style = "night",
+    light_style = "day",
+    transparent = true,
+    terminal_colors = true,
+  }
+end
+
 local colorizer_status, colorizer = pcall(require, "colorizer")
 if colorizer_status then
   colorizer.setup { filetypes = { "*", "!tsx", "!jsx", "!html", "!css" } }
 end
 
 vim.cmd.color(vim.g.theme or "habamax")
-
-local status, icons = pcall(require, "nvim-web-devicons")
-if status then icons.setup {} end

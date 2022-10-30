@@ -21,6 +21,9 @@ noice.setup {
     long_message_to_split = true,
     -- lsp_doc_border = true,
   },
+  -- views = {
+  --   hover = { border = { padding = { 0, 2 } } },
+  -- },
 }
 
 vim.keymap.set("n", "fN", [[<CMD>Noice telescope<CR>]], { silent = true, desc = "Noice History" })

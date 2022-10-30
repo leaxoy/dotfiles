@@ -1,4 +1,4 @@
-vim.g.theme = "catppuccin"
+vim.g.theme = "tokyonight"
 
 -- treesitter config --
 vim.g.ts_syntaxes = {
@@ -12,6 +12,8 @@ vim.g.ts_syntaxes = {
   "java",
   "javascript",
   "lua",
+  "markdown",
+  "markdown_inline",
   "rust",
   "org",
   "python",
