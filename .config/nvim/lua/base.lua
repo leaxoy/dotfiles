@@ -22,6 +22,9 @@ vim.o.sessionoptions =
 vim.o.autoread = true
 vim.o.confirm = true
 vim.o.spelloptions = "camel,noplainbuffer"
+vim.o.conceallevel = 2
+vim.wo.conceallevel = 2
+vim.o.concealcursor = ""
 
 -- indent config --
 vim.o.expandtab = true
@@ -34,13 +37,13 @@ vim.o.breakindent = true
 vim.o.smartindent = true
 
 -- fold config --
-vim.o.foldenable = true
--- vim.o.foldmethod = "expr"
-vim.o.foldmethod = "indent"
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-vim.o.foldlevel = 99
-vim.o.foldlevelstart = 99
-vim.o.foldcolumn = "auto"
+-- vim.o.foldenable = true
+-- -- vim.o.foldmethod = "expr"
+-- vim.o.foldmethod = "indent"
+-- vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.o.foldlevel = 99
+-- vim.o.foldlevelstart = 99
+-- vim.o.foldcolumn = "auto"
 
 -- ui config --
 vim.o.background = "dark"
