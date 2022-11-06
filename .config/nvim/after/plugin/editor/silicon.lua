@@ -19,4 +19,7 @@ silicon.setup {
   tab_width = 2,
   round_corner = true,
   window_controls = false,
+  watermark = {
+    text = "By Lixiaohui",
+  },
 }

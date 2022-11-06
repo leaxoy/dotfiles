@@ -32,6 +32,7 @@ mason_adapter.setup_handlers {
       },
     }
   end,
+  hls = function() end,
   jdtls = function() end,
   jsonls = function()
     lsp.jsonls.setup { settings = { json = { schemas = require("schemastore").json.schemas() } } }

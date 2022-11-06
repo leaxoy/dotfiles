@@ -19,11 +19,14 @@ noice.setup {
     bottom_search = false,
     command_palette = false,
     long_message_to_split = true,
-    -- lsp_doc_border = true,
   },
-  -- views = {
-  --   hover = { border = { padding = { 0, 2 } } },
-  -- },
+  views = {
+    hover = {
+      border = { padding = { 0, 1 } },
+      size = { max_width = 80, max_height = 16 },
+      position = { row = 1, col = 0 },
+    },
+  },
 }
 
 vim.keymap.set("n", "fN", [[<CMD>Noice telescope<CR>]], { silent = true, desc = "Noice History" })
