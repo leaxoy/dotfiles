@@ -1,10 +1,11 @@
--- -- TODO: hook make opts function after https://github.com/neovim/neovim/pull/20184 merged
--- local origin_make_floating_popup_options = vim.lsp.util.make_floating_popup_options
--- function vim.lsp.util.make_floating_popup_options(width, height, opts)
---   local inner_opts = origin_make_floating_popup_options(width, height, opts)
---   local addon = { title = opts.title, title_pos = opts.title_pos, border = opts.border }
---   return vim.tbl_extend("force", inner_opts, addon)
--- end
+if vim.fn.has "nvim-0.9" then
+  local origin_make_floating_popup_options = vim.lsp.util.make_floating_popup_options
+  function vim.lsp.util.make_floating_popup_options(width, height, opts)
+    local inner_opts = origin_make_floating_popup_options(width, height, opts)
+    local addon = { title = opts.title, title_pos = opts.title_pos, border = opts.border }
+    return vim.tbl_extend("force", inner_opts, addon)
+  end
+end
 
 local origin_make_client_capabilities = vim.lsp.protocol.make_client_capabilities
 function vim.lsp.protocol.make_client_capabilities()
