@@ -119,6 +119,7 @@ return require("packer").startup {
     use { "nvim-telescope/telescope-file-browser.nvim", requires = "nvim-telescope/telescope.nvim" }
     use { "nvim-telescope/telescope-live-grep-args.nvim", requires = "nvim-telescope/telescope.nvim" }
     use { "nvim-telescope/telescope-dap.nvim", requires = "nvim-telescope/telescope.nvim" }
+    use { "nvim-telescope/telescope-ui-select.nvim", requires = "nvim-telescope/telescope.nvim" }
 
     if packer_bootstrap then require("packer").sync() end
   end,

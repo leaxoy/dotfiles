@@ -92,6 +92,9 @@ telescope.setup {
       auto_quoting = true,
     },
     notify = { initial_mode = "normal" },
+    ["ui-select"] = {
+      themes.get_dropdown {},
+    },
   },
 }
 
@@ -100,6 +103,7 @@ pcall(telescope.load_extension, "live_grep_args")
 pcall(telescope.load_extension, "dap")
 pcall(telescope.load_extension, "todo-comments")
 pcall(telescope.load_extension, "notify")
+pcall(telescope.load_extension, "ui-select")
 
 local fn = require "fn"
 local map, popup = fn.map_fn, fn.popup_fn
