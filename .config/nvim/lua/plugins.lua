@@ -22,6 +22,13 @@ return require("packer").startup {
     use { "lewis6991/impatient.nvim" }
     use { "folke/which-key.nvim" }
 
+    -- settings
+    use {
+      "folke/neoconf.nvim",
+      config = function() require("neoconf").setup {} end,
+      requires = { "neovim/nvim-lspconfig" },
+    }
+
     -- Editor enhancements
     use { "williamboman/mason.nvim" }
     use {
@@ -46,7 +53,6 @@ return require("packer").startup {
     use { "folke/noice.nvim", requires = { "MunifTanjim/nui.nvim" } }
     use { "nvim-lualine/lualine.nvim", requires = "nvim-tree/nvim-web-devicons" } -- statusline
     use { "akinsho/toggleterm.nvim" } -- terminal
-    use { "lukas-reineke/indent-blankline.nvim" } -- indent line
     use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" } -- syntax highlighting
     use { "nvim-treesitter/playground", requires = "nvim-treesitter/nvim-treesitter" }
     use { "David-Kunz/markid", requires = "nvim-treesitter/nvim-treesitter" } -- semantic highlighting
@@ -110,7 +116,6 @@ return require("packer").startup {
     use { "numToStr/Comment.nvim" }
     use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
     use { "kylechui/nvim-surround" }
-    use { "ellisonleao/glow.nvim" } -- markdown render
     use { "ThePrimeagen/refactoring.nvim" }
 
     -- Telescope Finder

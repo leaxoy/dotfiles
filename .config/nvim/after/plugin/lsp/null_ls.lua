@@ -17,6 +17,7 @@ null_ls.setup {
       extra_args = { "--config", "~/.config/cspell/cspell.json" },
     },
     diag.fish,
+    diag.ruff,
 
     fmt.black,
     fmt.fish_indent,
@@ -33,6 +34,8 @@ if mason_status then
     ensure_installed = {
       -- diagnostic
       "cspell",
+      "fish",
+      "ruff",
 
       -- formatter
       "black",
