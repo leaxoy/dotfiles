@@ -23,11 +23,7 @@ return require("packer").startup {
     use { "folke/which-key.nvim" }
 
     -- settings
-    use {
-      "folke/neoconf.nvim",
-      config = function() require("neoconf").setup {} end,
-      requires = { "neovim/nvim-lspconfig" },
-    }
+    use { "folke/neoconf.nvim", requires = { "neovim/nvim-lspconfig" } }
 
     -- Editor enhancements
     use { "williamboman/mason.nvim" }
@@ -58,7 +54,6 @@ return require("packer").startup {
     use { "David-Kunz/markid", requires = "nvim-treesitter/nvim-treesitter" } -- semantic highlighting
     use { "NvChad/nvim-colorizer.lua" } -- color highlighting
     use { "rcarriga/nvim-notify" } -- notify component
-    use { "stevearc/overseer.nvim" }
 
     -- Lang specifies
     use { "solarnz/thrift.vim", opt = true, ft = "thrift" }
@@ -115,7 +110,6 @@ return require("packer").startup {
     use { "windwp/nvim-autopairs" }
     use { "numToStr/Comment.nvim" }
     use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
-    use { "kylechui/nvim-surround" }
     use { "ThePrimeagen/refactoring.nvim" }
 
     -- Telescope Finder

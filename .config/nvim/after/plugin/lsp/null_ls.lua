@@ -17,11 +17,12 @@ null_ls.setup {
       extra_args = { "--config", "~/.config/cspell/cspell.json" },
     },
     diag.fish,
+    diag.golangci_lint,
     diag.ruff,
 
     fmt.black,
     fmt.fish_indent,
-    fmt.jq.with { args = { "--sort-keys" } },
+    fmt.jq.with { args = { "--sort-keys" }, filetypes = { "json", "jsonc" } },
     fmt.isort,
     fmt.stylua,
   },
@@ -35,6 +36,7 @@ if mason_status then
       -- diagnostic
       "cspell",
       "fish",
+      "golangci_lint",
       "ruff",
 
       -- formatter
