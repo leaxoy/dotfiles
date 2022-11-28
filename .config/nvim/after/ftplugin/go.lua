@@ -83,7 +83,7 @@ end
 cmd("GoAddTags", modify_tags "add", "+", "Add struct tags", go_tag_list)
 cmd("GoRmRags", modify_tags "remove", "+", "Remove struct tags", go_tag_list)
 cmd("GoClearTags", modify_tags "clear", nil, "Clear struct tags", nil)
-cmd("GoSwitchTest", function(opts) switch_test_file(opts.bang) end, { desc = "Switch test file" })
+cmd("GoSwitchTest", function(opts) switch_test_file(opts.bang) end, nil, "Switch test file", nil)
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function()
