@@ -27,7 +27,6 @@ cmp.setup {
         vsnip = "[  ]",
         buffer = "[  ]",
         crates = "[  ]",
-        npm = "[  ]",
       }
       item.kind = vim.lsp.protocol.CompletionItemKind[item.kind] or item.kind
       item.menu = menu[entry.source.name] or ("[" .. string.upper(entry.source.name) .. "]")
@@ -45,11 +44,6 @@ cmp.setup {
       select = true,
       behavior = cmp.ConfirmBehavior.Replace,
     },
-    -- disable copilot
-    -- ["<C-g>"] = cmp.mapping(function()
-    --   local key = vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
-    --   vim.api.nvim_feedkeys(vim.fn["copilot#Accept"](key), "n", true)
-    -- end, { "i" }),
     ["<Tab>"] = cmp.mapping {
       c = function()
         if cmp.visible() then
@@ -135,10 +129,7 @@ cmp.setup.cmdline(":", {
 })
 
 cmp.setup.filetype({ "dap-repl" }, { sources = { { name = "dap" } } })
-vim.api.nvim_create_autocmd("BufRead", {
-  pattern = "package.json",
-  callback = function() cmp.setup.buffer { sources = { { name = "npm" } } } end,
-})
+
 vim.api.nvim_create_autocmd("BufRead", {
   group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
   pattern = "Cargo.toml",

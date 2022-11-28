@@ -39,7 +39,6 @@ return require("packer").startup {
       "jayp0521/mason-nvim-dap.nvim",
       requires = { "williamboman/mason.nvim", "mfussenegger/nvim-dap" },
     }
-    use { "tamago324/nlsp-settings.nvim" }
     use { "krivahtoo/silicon.nvim", run = "./install.sh" }
 
     -- UI
@@ -77,7 +76,6 @@ return require("packer").startup {
     use { "hrsh7th/cmp-buffer", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-cmdline", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-nvim-lsp-document-symbol", requires = "hrsh7th/nvim-cmp" }
-    use { "David-Kunz/cmp-npm", requires = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" } }
     use { "b0o/SchemaStore.nvim" }
     use { "folke/neodev.nvim" }
     -- snippet config
