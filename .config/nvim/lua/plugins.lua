@@ -66,6 +66,7 @@ return require("packer").startup {
     use { "neovim/nvim-lspconfig" } -- lsp adapters
     use { "jose-elias-alvarez/null-ls.nvim", requires = "nvim-lua/plenary.nvim" } -- enchance lsp client
     use { "glepnir/lspsaga.nvim", requires = "neovim/nvim-lspconfig" }
+    use { "dnlhc/glance.nvim" }
     use { "lvimuser/lsp-inlayhints.nvim" } -- inlayHint capability
     use { "theHamsta/nvim-semantic-tokens" } -- semanticTokens capability
     use { "mrshmllow/document-color.nvim" } -- documentColor capability

@@ -63,3 +63,18 @@ if setting_status then
     loader = "json",
   }
 end
+
+local glance_status, glance = pcall(require, "glance")
+if glance_status then
+  glance.setup {
+    border = { enable = true, top_char = "─", bottom_char = "─" },
+    folds = { folded = true, fold_open = "▾", fold_closed = "▸" },
+    list = { position = "right", width = 0.3 },
+    theme = { enable = true, mode = "auto" },
+  }
+  local set = vim.keymap.set
+  set("n", "<C-g>d", [[<CMD>Glance definitions<CR>]], { desc = "Peek Definition" })
+  set("n", "<C-g>r", [[<CMD>Glance references<CR>]], { desc = "Peek References" })
+  set("n", "<C-g>t", [[<CMD>Glance type_definitions<CR>]], { desc = "Peek TypeDefinitions" })
+  set("n", "<C-g>i", [[<CMD>Glance implementations<CR>]], { desc = "Peek Implementations" })
+end
