@@ -1,7 +1,7 @@
 local function modify_tags(action)
   return function(opts)
     local cursor = vim.api.nvim_win_get_cursor(0)
-    local ts_node = vim.treesitter.get_node_at_position(0, cursor[1] - 1, cursor[2], {})
+    local ts_node = vim.treesitter.get_node_at_pos(0, cursor[1] - 1, cursor[2], {})
     if
       ts_node == nil
       or ts_node:type() ~= "type_identifier"
@@ -22,7 +22,6 @@ local function modify_tags(action)
       table.insert(args, opts.fargs and table.concat(opts.fargs, ",") or opts.arg or "json")
     end
 
-    local modify
     require("plenary.job")
       :new({
         command = "gomodifytags",
@@ -31,14 +30,15 @@ local function modify_tags(action)
           if code ~= 0 then
             vim.notify("gomodifytags failed, error code: " .. code, vim.log.levels.ERROR)
           end
-          modify = vim.json.decode(table.concat(result:result(), ""))
+          local modify = vim.json.decode(table.concat(result:result(), ""))
+          vim.schedule(function()
+            local set_lines = vim.api.nvim_buf_set_lines
+            set_lines(0, modify["start"] - 1, modify["end"], false, modify["lines"])
+            vim.cmd.write {}
+          end)
         end,
       })
-      :sync()
-    if modify then
-      vim.api.nvim_buf_set_lines(0, modify["start"] - 1, modify["end"], false, modify["lines"])
-      vim.cmd.write {}
-    end
+      :start()
   end
 end
 
@@ -76,26 +76,14 @@ end
 
 local function go_tag_list(a, l, p) return { "json", "yaml", "xml", "db" } end
 
-vim.api.nvim_create_user_command(
-  "GoAddTags",
-  modify_tags "add",
-  { nargs = "+", desc = "Add tags to struct", complete = go_tag_list }
-)
-vim.api.nvim_create_user_command(
-  "GoRemoveTags",
-  modify_tags "remove",
-  { nargs = "+", desc = "Remove tags from struct", complete = go_tag_list }
-)
-vim.api.nvim_create_user_command(
-  "GoClearTags",
-  modify_tags "clear",
-  { desc = "Clear all tags from struct" }
-)
-vim.api.nvim_create_user_command(
-  "GoSwitchTest",
-  function(opts) switch_test_file(opts.bang) end,
-  { desc = "Switch to test file" }
-)
+local function cmd(n, f, narg, desc, cmp)
+  vim.api.nvim_create_user_command(n, f, { nargs = narg, desc = desc, complete = cmp })
+end
+
+cmd("GoAddTags", modify_tags "add", "+", "Add struct tags", go_tag_list)
+cmd("GoRmRags", modify_tags "remove", "+", "Remove struct tags", go_tag_list)
+cmd("GoClearTags", modify_tags "clear", nil, "Clear struct tags", nil)
+cmd("GoSwitchTest", function(opts) switch_test_file(opts.bang) end, { desc = "Switch test file" })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function()
