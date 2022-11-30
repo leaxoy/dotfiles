@@ -58,10 +58,6 @@ map(
 )
 
 -- Edit
-map("n", ";", "i<CR><Esc>", { desc = "Break Line" })
-map("n", "<leader>pm", cmd "Glow", { desc = "Preview Markdow" })
-map("n", "<leader>ip", term "ipython", { desc = "IPython" })
-map("i", "jk", "<Esc>", { desc = "Escape Insert Mode" })
 map("n", "<leader><CR>", cmd "noh", { desc = "Clear Highlight" })
 
 map("ni", "<c-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]], { desc = "Toggle Terminal" })

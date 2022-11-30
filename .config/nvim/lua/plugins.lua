@@ -39,7 +39,6 @@ return require("packer").startup {
       "jayp0521/mason-nvim-dap.nvim",
       requires = { "williamboman/mason.nvim", "mfussenegger/nvim-dap" },
     }
-    use { "krivahtoo/silicon.nvim", run = "./install.sh" }
 
     -- UI
     use { "glepnir/dashboard-nvim" } -- welcome screen
