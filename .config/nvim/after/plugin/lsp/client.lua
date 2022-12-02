@@ -68,6 +68,8 @@ local function resolve_text_document_capabilities(client, buffer)
         vim.cmd.Man { args = { vim.fn.expand "<cword>" } }
       elseif vim.fn.expand "%:t" == "Cargo.toml" then
         require("crates").show_popup()
+      elseif vim.fn.expand "%:t" == "package.json" then
+        require("package-info").show { force = true }
       else
         vim.lsp.buf.hover()
       end

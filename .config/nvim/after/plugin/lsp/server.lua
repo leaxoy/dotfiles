@@ -8,9 +8,6 @@ if not mason_status then return end
 local win_opts = require("lspconfig.ui.windows").default_options
 win_opts.border = "double"
 
-local conf_status, conf = pcall(require, "neoconf")
-if conf_status then conf.setup { plugins = { jsonls = { configured_servers_only = false } } } end
-
 mason_adapter.setup {
   automatic_installation = true,
   ensure_installed = vim.g.lsp_servers or {},
@@ -20,7 +17,7 @@ mason_adapter.setup_handlers {
   function(server_name) lsp[server_name].setup {} end,
   clangd = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.offsetEncoding = { "utf-18" }
+    capabilities.offsetEncoding = { "utf-16" }
     lsp.clangd.setup { capabilities = capabilities }
   end,
   gopls = function()

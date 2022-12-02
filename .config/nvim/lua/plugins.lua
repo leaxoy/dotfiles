@@ -59,6 +59,7 @@ return require("packer").startup {
     use { "krady21/compiler-explorer.nvim", requires = "nvim-lua/plenary.nvim" }
     use { "mfussenegger/nvim-jdtls" }
     use { "simrat39/rust-tools.nvim", requires = "mattn/webapi-vim" }
+    use { "vuki656/package-info.nvim" }
 
     -- TextDocument Capabilities
     use { "neovim/nvim-lspconfig" } -- lsp adapters

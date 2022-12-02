@@ -20,10 +20,6 @@ require("nvim-treesitter.configs").setup {
   },
   incremental_selection = { enable = true },
   indent = { enable = true },
-  rainbow = {
-    enable = true,
-    extended_mode = true,
-  },
   playground = {
     enable = true,
     disable = {},

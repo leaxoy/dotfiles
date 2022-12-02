@@ -1,383 +1,495 @@
 {
-  "lspconfig": {
-    "gopls": {
-      "build.memoryMode": "Normal",
-      "build.templateExtensions": [
-        ".tmpl",
-        ".html",
-        ".gohtml",
-        ".tmpl.html"
-      ],
-      "formatting.gofumpt": true,
-      "hints": {
-        "assignVariableTypes": true,
-        "compositeLiteralFields": true,
-        "compositeLiteralTypes": true,
-        "constantValues": true,
-        "functionTypeParameters": true,
-        "parameterNames": true,
-        "rangeVariableTypes": true
-      },
-      "ui.codelenses": {
-        "gc_details": true,
-        "generate": true,
-        "test": true,
-        "tidy": true,
-        "upgrade_dependency": true
-      },
-      "ui.completion.completionBudget": "100ms",
-      "ui.completion.experimentalPostfixCompletions": true,
-      "ui.completion.matcher": "Fuzzy",
-      "ui.completion.usePlaceholders": true,
-      "ui.diagnostic.analyses": {
-        "asmdecl": true,
-        "assign": true,
-        "atomic": true,
-        "atomicalign": true,
-        "bools": true,
-        "buildtag": true,
-        "cgocall": true,
-        "composites": true,
-        "copylocks": true,
-        "deepequalerrors": true,
-        "embed": true,
-        "errorsas": true,
-        "fieldalignment": true,
-        "fillreturns": true,
-        "fillstruct": true,
-        "httpresponse": true,
-        "ifaceassert": true,
-        "infertypeargs": true,
-        "loopclosure": true,
-        "lostcancel": true,
-        "nilfunc": true,
-        "nilness": true,
-        "nonewvars": true,
-        "noresultvalues": true,
-        "printf": true,
-        "shadow": true,
-        "shift": true,
-        "simplifycompositelit": true,
-        "simplifyrange": true,
-        "simplifyslice": true,
-        "sortslice": true,
-        "stdmethods": true,
-        "stringintconv": true,
-        "structtag": true,
-        "stubmethods": true,
-        "testinggoroutine": true,
-        "tests": true,
-        "timeformat": true,
-        "undeclaredname": true,
-        "unmarshal": true,
-        "unreachable": true,
-        "unsafeptr": true,
-        "unusedparams": true,
-        "unusedresult": true,
-        "unusedvariable": true,
-        "unusedwrite": true,
-        "useany": true
-      },
-      "ui.diagnostic.annotations": {
-        "bounds": true,
-        "escape": true,
-        "inline": true,
-        "nil": true
-      },
-      "ui.diagnostic.diagnosticsDelay": "100ms",
-      "ui.diagnostic.staticcheck": true,
-      "ui.documentation.hoverKind": "FullDocumentation",
-      "ui.documentation.linkTarget": "pkg.go.dev",
-      "ui.documentation.linksInHover": true,
-      "ui.navigation.importShortcut": "Both",
-      "ui.navigation.symbolMatcher": "FastFuzzy",
-      "ui.navigation.symbolStyle": "Full",
-      "ui.semanticTokens": true,
-      "verboseOutput": false
+    "lspconfig": {
+        "gopls": {
+            "build.memoryMode": "Normal",
+            "build.templateExtensions": [
+                ".tmpl",
+                ".html",
+                ".gohtml",
+                ".tmpl.html"
+            ],
+            "formatting.gofumpt": true,
+            "hints": {
+                "assignVariableTypes": true,
+                "compositeLiteralFields": true,
+                "compositeLiteralTypes": true,
+                "constantValues": true,
+                "functionTypeParameters": true,
+                "parameterNames": true,
+                "rangeVariableTypes": true
+            },
+            "ui.codelenses": {
+                "gc_details": true,
+                "generate": true,
+                "test": true,
+                "tidy": true,
+                "upgrade_dependency": true
+            },
+            "ui.completion.completionBudget": "100ms",
+            "ui.completion.experimentalPostfixCompletions": true,
+            "ui.completion.matcher": "Fuzzy",
+            "ui.completion.usePlaceholders": true,
+            "ui.diagnostic.analyses": {
+                "asmdecl": true,
+                "assign": true,
+                "atomic": true,
+                "atomicalign": true,
+                "bools": true,
+                "buildtag": true,
+                "cgocall": true,
+                "composites": true,
+                "copylocks": true,
+                "deepequalerrors": true,
+                "embed": true,
+                "errorsas": true,
+                "fieldalignment": true,
+                "fillreturns": true,
+                "fillstruct": true,
+                "httpresponse": true,
+                "ifaceassert": true,
+                "infertypeargs": true,
+                "loopclosure": true,
+                "lostcancel": true,
+                "nilfunc": true,
+                "nilness": true,
+                "nonewvars": true,
+                "noresultvalues": true,
+                "printf": true,
+                "shadow": true,
+                "shift": true,
+                "simplifycompositelit": true,
+                "simplifyrange": true,
+                "simplifyslice": true,
+                "sortslice": true,
+                "stdmethods": true,
+                "stringintconv": true,
+                "structtag": true,
+                "stubmethods": true,
+                "testinggoroutine": true,
+                "tests": true,
+                "timeformat": true,
+                "undeclaredname": true,
+                "unmarshal": true,
+                "unreachable": true,
+                "unsafeptr": true,
+                "unusedparams": true,
+                "unusedresult": true,
+                "unusedvariable": true,
+                "unusedwrite": true,
+                "useany": true
+            },
+            "ui.diagnostic.annotations": {
+                "bounds": true,
+                "escape": true,
+                "inline": true,
+                "nil": true
+            },
+            "ui.diagnostic.diagnosticsDelay": "100ms",
+            "ui.diagnostic.staticcheck": true,
+            "ui.documentation.hoverKind": "FullDocumentation",
+            "ui.documentation.linkTarget": "pkg.go.dev",
+            "ui.documentation.linksInHover": true,
+            "ui.navigation.importShortcut": "Both",
+            "ui.navigation.symbolMatcher": "FastFuzzy",
+            "ui.navigation.symbolStyle": "Full",
+            "ui.semanticTokens": true,
+            "verboseOutput": false
+        },
+        "jdtls": {
+            "java.autobuild.enabled": true,
+            "java.codeAction.sortMembers.avoidVolatileChanges": true,
+            "java.codeGeneration.generateComments": true,
+            "java.codeGeneration.hashCodeEquals.useInstanceof": true,
+            "java.codeGeneration.insertionLocation": "afterCursor",
+            "java.codeGeneration.toString.codeStyle": "STRING_CONCATENATION",
+            "java.codeGeneration.useBlocks": true,
+            "java.compile.nullAnalysis.mode": "automatic",
+            "java.compile.nullAnalysis.nonnull": [
+                "javax.annotation.Nonnull",
+                "org.eclipse.jdt.annotation.NonNull",
+                "org.springframework.lang.NonNull"
+            ],
+            "java.compile.nullAnalysis.nullable": [
+                "javax.annotation.Nullable",
+                "org.eclipse.jdt.annotation.Nullable",
+                "org.springframework.lang.Nullable"
+            ],
+            "java.completion.enabled": true,
+            "java.completion.guessMethodArguments": true,
+            "java.completion.importOrder": [
+                "#",
+                "java",
+                "javax",
+                "org",
+                "com",
+                ""
+            ],
+            "java.format.comments.enabled": true,
+            "java.format.enabled": true,
+            "java.format.onType.enabled": true,
+            "java.implementationsCodeLens.enabled": true,
+            "java.import.gradle.enabled": true,
+            "java.inlayHints.parameterNames.enabled": "all",
+            "java.inlayHints.parameterNames.exclusions": [],
+            "java.jdt.ls.androidSupport.enabled": "auto",
+            "java.jdt.ls.lombokSupport.enabled": true,
+            "java.jdt.ls.protobufSupport.enabled": true,
+            "java.maven.downloadSources": true,
+            "java.maven.updateSnapshots": true,
+            "java.progressReports.enabled": true,
+            "java.project.importHint": true,
+            "java.references.includeAccessors": false,
+            "java.references.includeDecompiledSources": false,
+            "java.referencesCodeLens.enabled": true,
+            "java.saveActions.organizeImports": true,
+            "java.server.launchMode": "Standard",
+            "java.signatureHelp.enabled": true,
+            "java.typeHierarchy.lazyLoad": true
+        },
+        "jsonls": {
+            "json.format.enable": true,
+            "json.format.keepLines": true,
+            "json.schemaDownload.enable": true,
+            "json.trace.server": "messages",
+            "json.validate.enable": true
+        },
+        "omnisharp": {
+            "ImplementTypeOptions": {
+                "InsertionBehavior": "AtTheEnd",
+                "PropertyGenerationBehavior": "PreferAutoProperties"
+            },
+            "csharp.format.enable": true,
+            "csharp.inlayHints.parameters.enabled": true,
+            "csharp.inlayHints.parameters.forIndexerParameters": true,
+            "csharp.inlayHints.parameters.forLiteralParameters": true,
+            "csharp.inlayHints.parameters.forObjectCreationParameters": true,
+            "csharp.inlayHints.parameters.forOtherParameters": true,
+            "csharp.inlayHints.parameters.suppressForParametersThatDifferOnlyBySuffix": true,
+            "csharp.inlayHints.parameters.suppressForParametersThatMatchArgumentName": true,
+            "csharp.inlayHints.parameters.suppressForParametersThatMatchMethodIntent": true,
+            "csharp.inlayHints.types.enabled": true,
+            "csharp.inlayHints.types.forImplicitObjectCreation": true,
+            "csharp.inlayHints.types.forImplicitVariableTypes": true,
+            "csharp.inlayHints.types.forLambdaParameterTypes": true,
+            "csharp.referencesCodeLens.enabled": true,
+            "csharp.referencesCodeLens.filteredSymbols": [],
+            "csharp.semanticHighlighting.enabled": true,
+            "csharp.testsCodeLens.enabled": true,
+            "omnisharp.analyzeOpenDocumentsOnly": false,
+            "omnisharp.autoStart": true,
+            "omnisharp.enableAsyncCompletion": true,
+            "omnisharp.enableDecompilationSupport": true,
+            "omnisharp.enableEditorConfigSupport": true,
+            "omnisharp.enableImportCompletion": true,
+            "omnisharp.organizeImportsOnFormat": true,
+            "omnisharp.sdkIncludePrereleases": true,
+            "omnisharp.useEditorFormattingSettings": true,
+            "omnisharp.useModernNet": true
+        },
+        "pyright": {
+            "python.analysis.autoSearchPaths": true,
+            "python.analysis.diagnosticMode": "workspace",
+            "python.analysis.typeCheckingMode": "basic",
+            "python.analysis.useLibraryCodeForTypes": true,
+            "python.venvPath": "~/Library/Caches/pypoetry/virtualenvs"
+        },
+        "rome": {
+            "rome.rename": true,
+            "rome_lsp.trace.server": "messages"
+        },
+        "rust_analyzer": {
+            "rust-analyzer.cargo.autoreload": true,
+            "rust-analyzer.cargo.buildScripts.enable": true,
+            "rust-analyzer.completion.autoimport.enable": true,
+            "rust-analyzer.completion.autoself.enable": true,
+            "rust-analyzer.completion.callable.snippets": "fill_arguments",
+            "rust-analyzer.completion.postfix.enable": true,
+            "rust-analyzer.completion.privateEditable.enable": false,
+            "rust-analyzer.debug.engine": "auto",
+            "rust-analyzer.debug.engineSettings": {},
+            "rust-analyzer.debug.openDebugPane": true,
+            "rust-analyzer.diagnostics.enable": true,
+            "rust-analyzer.diagnostics.experimental.enable": true,
+            "rust-analyzer.hover.actions.debug.enable": true,
+            "rust-analyzer.hover.actions.enable": true,
+            "rust-analyzer.hover.actions.gotoTypeDef.enable": true,
+            "rust-analyzer.hover.actions.implementations.enable": true,
+            "rust-analyzer.hover.actions.references.enable": true,
+            "rust-analyzer.hover.actions.run.enable": true,
+            "rust-analyzer.hover.documentation.enable": true,
+            "rust-analyzer.hover.documentation.keywords.enable": true,
+            "rust-analyzer.hover.links.enable": true,
+            "rust-analyzer.imports.granularity.group": "module",
+            "rust-analyzer.imports.group.enable": true,
+            "rust-analyzer.imports.merge.glob": true,
+            "rust-analyzer.imports.prefer.no.std": false,
+            "rust-analyzer.imports.prefix": "crate",
+            "rust-analyzer.inlayHints.bindingModeHints.enable": true,
+            "rust-analyzer.inlayHints.chainingHints.enable": true,
+            "rust-analyzer.inlayHints.closingBraceHints.enable": true,
+            "rust-analyzer.inlayHints.closingBraceHints.minLines": 25,
+            "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "with_block",
+            "rust-analyzer.inlayHints.expressionAdjustmentHints.enable": "reborrow",
+            "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "skip_trivial",
+            "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": true,
+            "rust-analyzer.inlayHints.maxLength": null,
+            "rust-analyzer.inlayHints.parameterHints.enable": true,
+            "rust-analyzer.inlayHints.reborrowHints.enable": "mutable",
+            "rust-analyzer.inlayHints.renderColons": true,
+            "rust-analyzer.inlayHints.typeHints.enable": true,
+            "rust-analyzer.inlayHints.typeHints.hideClosureInitialization": true,
+            "rust-analyzer.inlayHints.typeHints.hideNamedConstructor": true,
+            "rust-analyzer.lens.debug.enable": true,
+            "rust-analyzer.lens.enable": true,
+            "rust-analyzer.lens.forceCustomCommands": true,
+            "rust-analyzer.lens.implementations.enable": true,
+            "rust-analyzer.lens.location": "above_name",
+            "rust-analyzer.lens.references.adt.enable": true,
+            "rust-analyzer.lens.references.enumVariant.enable": true,
+            "rust-analyzer.lens.references.method.enable": true,
+            "rust-analyzer.lens.references.trait.enable": true,
+            "rust-analyzer.lens.run.enable": true,
+            "rust-analyzer.notifications.cargoTomlNotFound": true,
+            "rust-analyzer.procMacro.attributes.enable": true,
+            "rust-analyzer.procMacro.enable": true,
+            "rust-analyzer.references.excludeImports": true,
+            "rust-analyzer.restartServerOnConfigChange": true,
+            "rust-analyzer.rustfmt.rangeFormatting.enable": true,
+            "rust-analyzer.semanticHighlighting.doc.comment.inject.enable": true,
+            "rust-analyzer.semanticHighlighting.operator.enable": true,
+            "rust-analyzer.semanticHighlighting.operator.specialization.enable": true,
+            "rust-analyzer.semanticHighlighting.punctuation.enable": true,
+            "rust-analyzer.semanticHighlighting.punctuation.separate.macro.bang": true,
+            "rust-analyzer.semanticHighlighting.punctuation.specialization.enable": true,
+            "rust-analyzer.semanticHighlighting.strings.enable": true,
+            "rust-analyzer.signatureInfo.detail": "full",
+            "rust-analyzer.signatureInfo.documentation.enable": true
+        },
+        "sumneko_lua": {
+            "Lua.completion.autoRequire": true,
+            "Lua.completion.callSnippet": "Replace",
+            "Lua.completion.displayContext": 0,
+            "Lua.completion.enable": true,
+            "Lua.completion.keywordSnippet": "Replace",
+            "Lua.completion.postfix": "@",
+            "Lua.completion.requireSeparator": ".",
+            "Lua.completion.showWord": "Enable",
+            "Lua.completion.workspaceWord": true,
+            "Lua.diagnostics.enable": true,
+            "Lua.diagnostics.globals": [
+                "vim"
+            ],
+            "Lua.format.defaultConfig": {
+                "indent_size": "2",
+                "indent_style": "space",
+                "quote_style": "double"
+            },
+            "Lua.format.enable": false,
+            "Lua.hint.arrayIndex": "Disable",
+            "Lua.hint.await": true,
+            "Lua.hint.enable": true,
+            "Lua.hint.paramName": "Disable",
+            "Lua.hint.paramType": true,
+            "Lua.hint.semicolon": "Disable",
+            "Lua.hint.setType": true,
+            "Lua.hover.enable": true,
+            "Lua.hover.enumsLimit": 5,
+            "Lua.hover.expandAlias": true,
+            "Lua.hover.previewFields": 50,
+            "Lua.hover.viewNumber": true,
+            "Lua.hover.viewString": true,
+            "Lua.hover.viewStringMax": 1000,
+            "Lua.runtime.version": "LuaJIT",
+            "Lua.semantic.annotation": true,
+            "Lua.semantic.enable": true,
+            "Lua.semantic.keyword": true,
+            "Lua.semantic.variable": true,
+            "Lua.signatureHelp.enable": true,
+            "Lua.type.castNumberToInteger": true,
+            "Lua.type.weakNilCheck": false,
+            "Lua.type.weakUnionCheck": false,
+            "Lua.typeFormat.config": {
+                "auto_complete_end": "true",
+                "auto_complete_table_sep": "true",
+                "format_line": "true"
+            },
+            "Lua.workspace.checkThirdParty": false
+        },
+        "tsserver": {
+            "javascript.format.enable": true,
+            "javascript.inlayHints.enumMemberValues.enabled": true,
+            "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+            "javascript.inlayHints.parameterNames.enabled": "all",
+            "javascript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": false,
+            "javascript.inlayHints.parameterTypes.enabled": true,
+            "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+            "javascript.inlayHints.variableTypes.enabled": true,
+            "javascript.inlayHints.variableTypes.suppressWhenTypeMatchesName": false,
+            "javascript.referencesCodeLens.enabled": true,
+            "javascript.referencesCodeLens.showOnAllFunctions": true,
+            "typescript.format.enable": true,
+            "typescript.inlayHints.enumMemberValues.enabled": true,
+            "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+            "typescript.inlayHints.parameterNames.enabled": "all",
+            "typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": false,
+            "typescript.inlayHints.parameterTypes.enabled": true,
+            "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+            "typescript.inlayHints.variableTypes.enabled": true,
+            "typescript.inlayHints.variableTypes.suppressWhenTypeMatchesName": false,
+            "typescript.referencesCodeLens.enabled": true,
+            "typescript.referencesCodeLens.showOnAllFunctions": true,
+            "typescript.suggest.includeCompletionsWithSnippetText": true,
+            "typescript.tsserver.experimental.enableProjectDiagnostics": true
+        }
     },
-    "jdtls": {
-      "java.autobuild.enabled": true,
-      "java.codeAction.sortMembers.avoidVolatileChanges": true,
-      "java.codeGeneration.generateComments": true,
-      "java.codeGeneration.hashCodeEquals.useInstanceof": true,
-      "java.codeGeneration.insertionLocation": "afterCursor",
-      "java.codeGeneration.toString.codeStyle": "STRING_CONCATENATION",
-      "java.codeGeneration.useBlocks": true,
-      "java.compile.nullAnalysis.mode": "automatic",
-      "java.compile.nullAnalysis.nonnull": [
-        "javax.annotation.Nonnull",
-        "org.eclipse.jdt.annotation.NonNull",
-        "org.springframework.lang.NonNull"
-      ],
-      "java.compile.nullAnalysis.nullable": [
-        "javax.annotation.Nullable",
-        "org.eclipse.jdt.annotation.Nullable",
-        "org.springframework.lang.Nullable"
-      ],
-      "java.completion.enabled": true,
-      "java.completion.guessMethodArguments": true,
-      "java.completion.importOrder": [
-        "#",
-        "java",
-        "javax",
-        "org",
-        "com",
-        ""
-      ],
-      "java.format.comments.enabled": true,
-      "java.format.enabled": true,
-      "java.format.onType.enabled": true,
-      "java.implementationsCodeLens.enabled": true,
-      "java.import.gradle.enabled": true,
-      "java.inlayHints.parameterNames.enabled": "all",
-      "java.inlayHints.parameterNames.exclusions": [],
-      "java.jdt.ls.androidSupport.enabled": "auto",
-      "java.jdt.ls.lombokSupport.enabled": true,
-      "java.jdt.ls.protobufSupport.enabled": true,
-      "java.maven.downloadSources": true,
-      "java.maven.updateSnapshots": true,
-      "java.progressReports.enabled": true,
-      "java.project.importHint": true,
-      "java.references.includeAccessors": false,
-      "java.references.includeDecompiledSources": false,
-      "java.referencesCodeLens.enabled": true,
-      "java.saveActions.organizeImports": true,
-      "java.server.launchMode": "Standard",
-      "java.signatureHelp.enabled": true,
-      "java.typeHierarchy.lazyLoad": true
+    "mason": {
+        "compiler": [],
+        "dap": [
+            "codelldb",
+            "debugpy",
+            "delve",
+            "java-test",
+            "java-debug-adapter"
+        ],
+        "formatter": [
+            "black",
+            "jq",
+            "isort",
+            "stylua"
+        ],
+        "linter": [
+            "ruff",
+            "cspell",
+            "golangci-lint"
+        ],
+        "lsp": [
+            "bash-language-server",
+            "clangd",
+            "gopls",
+            "jdtls",
+            "json-lsp",
+            "lua-language-server",
+            "pyright",
+            "rust-analyzer",
+            "taplo"
+        ],
+        "runtime": []
     },
-    "jsonls": {
-      "json.format.enable": true,
-      "json.format.keepLines": true,
-      "json.schemaDownload.enable": true,
-      "json.trace.server": "messages",
-      "json.validate.enable": true
+    "neoconf": {
+        "filetype_jsonc": true,
+        "global_settings": "neoconf.json",
+        "import": {
+            "coc": true,
+            "nlsp": true,
+            "vscode": true
+        },
+        "live_reload": true,
+        "local_settings": ".neoconf.json",
+        "plugins": {
+            "jsonls": {
+                "configured_servers_only": false,
+                "enabled": true
+            },
+            "lspconfig": {
+                "enabled": true
+            },
+            "sumneko_lua": {
+                "enabled": true,
+                "enabled_for_neovim_config": true
+            }
+        }
     },
-    "omnisharp": {
-      "ImplementTypeOptions": {
-        "InsertionBehavior": "AtTheEnd",
-        "PropertyGenerationBehavior": "PreferAutoProperties"
-      },
-      "csharp.format.enable": true,
-      "csharp.inlayHints.parameters.enabled": true,
-      "csharp.inlayHints.parameters.forIndexerParameters": true,
-      "csharp.inlayHints.parameters.forLiteralParameters": true,
-      "csharp.inlayHints.parameters.forObjectCreationParameters": true,
-      "csharp.inlayHints.parameters.forOtherParameters": true,
-      "csharp.inlayHints.parameters.suppressForParametersThatDifferOnlyBySuffix": true,
-      "csharp.inlayHints.parameters.suppressForParametersThatMatchArgumentName": true,
-      "csharp.inlayHints.parameters.suppressForParametersThatMatchMethodIntent": true,
-      "csharp.inlayHints.types.enabled": true,
-      "csharp.inlayHints.types.forImplicitObjectCreation": true,
-      "csharp.inlayHints.types.forImplicitVariableTypes": true,
-      "csharp.inlayHints.types.forLambdaParameterTypes": true,
-      "csharp.referencesCodeLens.enabled": true,
-      "csharp.referencesCodeLens.filteredSymbols": [],
-      "csharp.semanticHighlighting.enabled": true,
-      "csharp.testsCodeLens.enabled": true,
-      "omnisharp.analyzeOpenDocumentsOnly": false,
-      "omnisharp.autoStart": true,
-      "omnisharp.enableAsyncCompletion": true,
-      "omnisharp.enableDecompilationSupport": true,
-      "omnisharp.enableEditorConfigSupport": true,
-      "omnisharp.enableImportCompletion": true,
-      "omnisharp.organizeImportsOnFormat": true,
-      "omnisharp.sdkIncludePrereleases": true,
-      "omnisharp.useEditorFormattingSettings": true,
-      "omnisharp.useModernNet": true
+    "neodev": {
+        "debug": true,
+        "experimental": {
+            "pathStrict": true
+        },
+        "library": {
+            "enabled": true,
+            "plugins": true,
+            "runtime": true,
+            "types": true
+        },
+        "lspconfig": true,
+        "override": null,
+        "setup_jsonls": true
     },
-    "pyright": {
-      "python.analysis.autoSearchPaths": true,
-      "python.analysis.diagnosticMode": "workspace",
-      "python.analysis.typeCheckingMode": "basic",
-      "python.analysis.useLibraryCodeForTypes": true,
-      "python.venvPath": "~/Library/Caches/pypoetry/virtualenvs"
+    "null_ls": {
+        "code_action": {
+            "gitsigns": {
+                "enabled": true
+            },
+            "refactoring": {
+                "extra_filetypes": [
+                    "c",
+                    "cpp",
+                    "java"
+                ]
+            }
+        },
+        "diagnostic": {
+            "fish": {
+                "enabled": true
+            },
+            "golangci_lint": {
+                "enabled": true
+            },
+            "ruff": {
+                "enabled": true
+            }
+        },
+        "formatter": {
+            "black": {
+                "enabled": true
+            },
+            "fish_indent": {
+                "enabled": true
+            },
+            "isort": {
+                "enabled": true
+            },
+            "jq": {
+                "enabled": true,
+                "extra_args": [
+                    "--sort-keys"
+                ],
+                "extra_filetypes": [
+                    "jsonc"
+                ]
+            },
+            "stylua": {
+                "enabled": true
+            }
+        }
     },
-    "rome": {
-      "rome.rename": true,
-      "rome_lsp.trace.server": "messages"
+    "treesitter": {
+        "filetypes": [
+            "bash",
+            "gomod",
+            "rust",
+            "java",
+            "typescript",
+            "json",
+            "python",
+            "toml",
+            "tsx",
+            "gowork",
+            "markdown",
+            "markdown_inline",
+            "go"
+        ],
+        "highlight": {
+            "enable": true
+        }
     },
-    "rust_analyzer": {
-      "rust-analyzer.cargo.autoreload": true,
-      "rust-analyzer.cargo.buildScripts.enable": true,
-      "rust-analyzer.completion.autoimport.enable": true,
-      "rust-analyzer.completion.autoself.enable": true,
-      "rust-analyzer.completion.callable.snippets": "fill_arguments",
-      "rust-analyzer.completion.postfix.enable": true,
-      "rust-analyzer.completion.privateEditable.enable": false,
-      "rust-analyzer.debug.engine": "auto",
-      "rust-analyzer.debug.engineSettings": {},
-      "rust-analyzer.debug.openDebugPane": true,
-      "rust-analyzer.diagnostics.enable": true,
-      "rust-analyzer.diagnostics.experimental.enable": true,
-      "rust-analyzer.hover.actions.debug.enable": true,
-      "rust-analyzer.hover.actions.enable": true,
-      "rust-analyzer.hover.actions.gotoTypeDef.enable": true,
-      "rust-analyzer.hover.actions.implementations.enable": true,
-      "rust-analyzer.hover.actions.references.enable": true,
-      "rust-analyzer.hover.actions.run.enable": true,
-      "rust-analyzer.hover.documentation.enable": true,
-      "rust-analyzer.hover.documentation.keywords.enable": true,
-      "rust-analyzer.hover.links.enable": true,
-      "rust-analyzer.imports.granularity.group": "module",
-      "rust-analyzer.imports.group.enable": true,
-      "rust-analyzer.imports.merge.glob": true,
-      "rust-analyzer.imports.prefer.no.std": false,
-      "rust-analyzer.imports.prefix": "crate",
-      "rust-analyzer.inlayHints.bindingModeHints.enable": true,
-      "rust-analyzer.inlayHints.chainingHints.enable": true,
-      "rust-analyzer.inlayHints.closingBraceHints.enable": true,
-      "rust-analyzer.inlayHints.closingBraceHints.minLines": 25,
-      "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "with_block",
-      "rust-analyzer.inlayHints.expressionAdjustmentHints.enable": "reborrow",
-      "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "skip_trivial",
-      "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": true,
-      "rust-analyzer.inlayHints.maxLength": null,
-      "rust-analyzer.inlayHints.parameterHints.enable": true,
-      "rust-analyzer.inlayHints.reborrowHints.enable": "mutable",
-      "rust-analyzer.inlayHints.renderColons": true,
-      "rust-analyzer.inlayHints.typeHints.enable": true,
-      "rust-analyzer.inlayHints.typeHints.hideClosureInitialization": true,
-      "rust-analyzer.inlayHints.typeHints.hideNamedConstructor": true,
-      "rust-analyzer.lens.debug.enable": true,
-      "rust-analyzer.lens.enable": true,
-      "rust-analyzer.lens.forceCustomCommands": true,
-      "rust-analyzer.lens.implementations.enable": true,
-      "rust-analyzer.lens.location": "above_name",
-      "rust-analyzer.lens.references.adt.enable": true,
-      "rust-analyzer.lens.references.enumVariant.enable": true,
-      "rust-analyzer.lens.references.method.enable": true,
-      "rust-analyzer.lens.references.trait.enable": true,
-      "rust-analyzer.lens.run.enable": true,
-      "rust-analyzer.notifications.cargoTomlNotFound": true,
-      "rust-analyzer.procMacro.attributes.enable": true,
-      "rust-analyzer.procMacro.enable": true,
-      "rust-analyzer.references.excludeImports": true,
-      "rust-analyzer.restartServerOnConfigChange": true,
-      "rust-analyzer.rustfmt.rangeFormatting.enable": true,
-      "rust-analyzer.semanticHighlighting.doc.comment.inject.enable": true,
-      "rust-analyzer.semanticHighlighting.operator.enable": true,
-      "rust-analyzer.semanticHighlighting.operator.specialization.enable": true,
-      "rust-analyzer.semanticHighlighting.punctuation.enable": true,
-      "rust-analyzer.semanticHighlighting.punctuation.separate.macro.bang": true,
-      "rust-analyzer.semanticHighlighting.punctuation.specialization.enable": true,
-      "rust-analyzer.semanticHighlighting.strings.enable": true,
-      "rust-analyzer.signatureInfo.detail": "full",
-      "rust-analyzer.signatureInfo.documentation.enable": true
-    },
-    "sumneko_lua": {
-      "Lua.completion.autoRequire": true,
-      "Lua.completion.callSnippet": "Replace",
-      "Lua.completion.displayContext": 0,
-      "Lua.completion.enable": true,
-      "Lua.completion.keywordSnippet": "Replace",
-      "Lua.completion.postfix": "@",
-      "Lua.completion.requireSeparator": ".",
-      "Lua.completion.showWord": "Enable",
-      "Lua.completion.workspaceWord": true,
-      "Lua.diagnostics.enable": true,
-      "Lua.diagnostics.globals": [
-        "vim"
-      ],
-      "Lua.format.defaultConfig": {
-        "indent_size": "2",
-        "indent_style": "space",
-        "quote_style": "double"
-      },
-      "Lua.format.enable": false,
-      "Lua.hint.arrayIndex": "Disable",
-      "Lua.hint.await": true,
-      "Lua.hint.enable": true,
-      "Lua.hint.paramName": "Disable",
-      "Lua.hint.paramType": true,
-      "Lua.hint.semicolon": "Disable",
-      "Lua.hint.setType": true,
-      "Lua.hover.enable": true,
-      "Lua.hover.enumsLimit": 5,
-      "Lua.hover.expandAlias": true,
-      "Lua.hover.previewFields": 50,
-      "Lua.hover.viewNumber": true,
-      "Lua.hover.viewString": true,
-      "Lua.hover.viewStringMax": 1000,
-      "Lua.runtime.version": "LuaJIT",
-      "Lua.semantic.annotation": true,
-      "Lua.semantic.enable": true,
-      "Lua.semantic.keyword": true,
-      "Lua.semantic.variable": true,
-      "Lua.signatureHelp.enable": true,
-      "Lua.type.castNumberToInteger": true,
-      "Lua.type.weakNilCheck": false,
-      "Lua.type.weakUnionCheck": false,
-      "Lua.typeFormat.config": {
-        "auto_complete_end": "true",
-        "auto_complete_table_sep": "true",
-        "format_line": "true"
-      },
-      "Lua.workspace.checkThirdParty": false
-    },
-    "tsserver": {
-      "javascript.format.enable": true,
-      "javascript.inlayHints.enumMemberValues.enabled": true,
-      "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
-      "javascript.inlayHints.parameterNames.enabled": "all",
-      "javascript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": false,
-      "javascript.inlayHints.parameterTypes.enabled": true,
-      "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
-      "javascript.inlayHints.variableTypes.enabled": true,
-      "javascript.inlayHints.variableTypes.suppressWhenTypeMatchesName": false,
-      "javascript.referencesCodeLens.enabled": true,
-      "javascript.referencesCodeLens.showOnAllFunctions": true,
-      "typescript.format.enable": true,
-      "typescript.inlayHints.enumMemberValues.enabled": true,
-      "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
-      "typescript.inlayHints.parameterNames.enabled": "all",
-      "typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": false,
-      "typescript.inlayHints.parameterTypes.enabled": true,
-      "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
-      "typescript.inlayHints.variableTypes.enabled": true,
-      "typescript.inlayHints.variableTypes.suppressWhenTypeMatchesName": false,
-      "typescript.referencesCodeLens.enabled": true,
-      "typescript.referencesCodeLens.showOnAllFunctions": true,
-      "typescript.suggest.includeCompletionsWithSnippetText": true,
-      "typescript.tsserver.experimental.enableProjectDiagnostics": true
+    "vim": {
+        "editor": {
+            "lineNumbers": "relative",
+            "ruler": true,
+            "rulercolumn": 80
+        },
+        "workbench": {
+            "theme": "catppuccin"
+        }
     }
-  },
-  "neoconf": {
-    "filetype_jsonc": true,
-    "global_settings": "neoconf.json",
-    "import": {
-      "coc": true,
-      "nlsp": true,
-      "vscode": true
-    },
-    "live_reload": true,
-    "local_settings": ".neoconf.json",
-    "plugins": {
-      "jsonls": {
-        "configured_servers_only": false,
-        "enabled": true
-      },
-      "lspconfig": {
-        "enabled": true
-      },
-      "sumneko_lua": {
-        "enabled": true,
-        "enabled_for_neovim_config": true
-      }
-    }
-  },
-  "neodev": {
-    "debug": true,
-    "experimental": {
-      "pathStrict": true
-    },
-    "library": {
-      "enabled": true,
-      "runtime": true,
-      "types": true
-    },
-    "lspconfig": true,
-    "override": null,
-    "setup_jsonls": true
-  }
 }
