@@ -189,6 +189,9 @@
         "pyright": {
             "python.analysis.autoSearchPaths": true,
             "python.analysis.diagnosticMode": "workspace",
+            "python.analysis.diagnosticSeverityOverrides": {
+                "reportGeneralTypeIssues": "warning"
+            },
             "python.analysis.typeCheckingMode": "basic",
             "python.analysis.useLibraryCodeForTypes": true,
             "python.venvPath": "~/Library/Caches/pypoetry/virtualenvs"

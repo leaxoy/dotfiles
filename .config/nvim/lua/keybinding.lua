@@ -1,10 +1,7 @@
 local fn = require "fn"
 local cmd, map, popup, term = fn.cmd_fn, fn.map_fn, fn.popup_fn, fn.term_fn
 
--- Welcome
-map("n", "<M-a>", cmd "intro", { desc = "Greeting" })
-map("n", "<M-d>", cmd "Dashboard", { desc = "Dashboard" })
-
+-- Session
 map("n", "<leader>sl", cmd "SessionLoad", { desc = "Load Session" })
 map("n", "<leader>ss", cmd "SessionSave", { desc = "Save Session" })
 
@@ -29,13 +26,15 @@ map("n", "<leader>l", popup "<leader>l", { desc = "+Mason" })
 map("n", "<leader>lm", cmd "Mason", { desc = "Manage Mason" })
 map("n", "<leader>lr", cmd "LspRestart", { desc = "Restart LSP" })
 map("n", "<leader>li", cmd "LspInfo", { desc = "Show Server Info" })
+map("n", "<leader>ln", cmd "NullLsInfo", { desc = "Show NullLs Info" })
 
+-- VCS
 map("n", "<leader>v", popup "<leader>v", { desc = "+VCS" })
 map("n", "<leader>vd", cmd("Gitsigns", { "diffthis" }), { desc = "Diff" })
 map("n", "<leader>vp", cmd("Gitsigns", { "preview_hunk" }), { desc = "Preview Diff" })
-map("n", "<leader>vv", term "lazygit", { desc = "LazyGit" })
-map("n", "<leader>vt", term "tig", { desc = "Tig" })
-map("n", "<leader>vc", [[<CMD>DiffviewOpen<CR>]], { desc = "Git Diff" })
+map("n", "<leader>vc", cmd "DiffviewOpen", { desc = "Git Diff" })
+if vim.fn.executable "lazygit" then map("n", "<leader>vv", term "lazygit", { desc = "LazyGit" }) end
+if vim.fn.executable "tig" then map("n", "<leader>vt", term "tig", { desc = "Tig" }) end
 
 -- Diagnostic
 map("n", "<leader>x", popup "<leader>x", { desc = "+Diagnostic" })
@@ -44,24 +43,14 @@ map("n", "<leader>xw", vim.diagnostic.setqflist, { desc = "Workspace Diagnostic"
 map("n", "<leader>xx", vim.diagnostic.open_float, { desc = "Line Diagnostic" })
 map("n", "<leader>x]", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
 map("n", "<leader>x[", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
-map(
-  "n",
-  "<leader>e]",
-  function() vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR } end,
-  { desc = "Next Error" }
-)
-map(
-  "n",
-  "<leader>e[",
-  function() vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR } end,
-  { desc = "Prev Error" }
-)
 
 -- Edit
 map("n", "<leader><CR>", cmd "noh", { desc = "Clear Highlight" })
 
+-- Terminal
 map("ni", "<c-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]], { desc = "Toggle Terminal" })
 
+-- Scroll
 map("", "<ScrollWheelUp>", "<Nop>", {})
 map("", "<ScrollWheelDown>", "<Nop>", {})
 map("", "<S-ScrollWheelUp>", "<Nop>", {})

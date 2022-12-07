@@ -14,6 +14,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 return require("packer").startup {
+  ---@param use function
   function(use)
     -- Packer can manage itself
     use { "wbthomason/packer.nvim" }
@@ -44,12 +45,12 @@ return require("packer").startup {
     use { "glepnir/dashboard-nvim" } -- welcome screen
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
     use { "folke/tokyonight.nvim" } -- theme
+    use { "f-person/auto-dark-mode.nvim" }
     use { "folke/noice.nvim", requires = { "MunifTanjim/nui.nvim" } }
     use { "nvim-lualine/lualine.nvim", requires = "nvim-tree/nvim-web-devicons" } -- statusline
     use { "akinsho/toggleterm.nvim" } -- terminal
     use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" } -- syntax highlighting
     use { "nvim-treesitter/playground", requires = "nvim-treesitter/nvim-treesitter" }
-    use { "David-Kunz/markid", requires = "nvim-treesitter/nvim-treesitter" } -- semantic highlighting
     use { "NvChad/nvim-colorizer.lua" } -- color highlighting
     use { "rcarriga/nvim-notify" } -- notify component
 
@@ -110,6 +111,7 @@ return require("packer").startup {
     use { "numToStr/Comment.nvim" }
     use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
     use { "ThePrimeagen/refactoring.nvim" }
+    use { "kevinhwang91/nvim-bqf" }
 
     -- Telescope Finder
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } }

@@ -25,6 +25,21 @@ local sources = {
     diagnostics_postprocess = function(diagnostic) diagnostic.severity = vim.diagnostic.severity.WARN end,
     extra_args = { "--config", "~/.config/cspell/cspell.json" },
   },
+  require("null-ls.helpers").make_builtin {
+    name = "ruff",
+    meta = {
+      url = "https://github.com/charliermarsh/ruff",
+      description = "An extremely fast Python linter, written in Rust.",
+    },
+    method = require("null-ls.methods").internal.FORMATTING,
+    filetypes = { "python" },
+    generator_opts = {
+      command = "ruff",
+      args = { "--fix", "-e", "-n", "--stdin-filename", "$FILENAME", "-" },
+      to_stdin = true,
+    },
+    factory = require("null-ls.helpers").formatter_factory,
+  },
 }
 
 ---@param collection table<string, any>

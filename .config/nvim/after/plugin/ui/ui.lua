@@ -153,4 +153,19 @@ if colorizer_status then
   colorizer.setup { filetypes = { "*", "!tsx", "!jsx", "!html", "!css" } }
 end
 
+local autotheme_status, autotheme = pcall(require, "auto-dark-mode")
+if autotheme_status then
+  autotheme.setup {
+    set_dark_mode = function()
+      vim.api.nvim_set_option("background", "dark")
+      vim.cmd "colorscheme catppuccin-mocha"
+    end,
+    set_light_mode = function()
+      vim.api.nvim_set_option("background", "light")
+      vim.cmd "colorscheme catppuccin-latte"
+    end,
+  }
+  autotheme.init()
+end
+
 vim.cmd.color(vim.g.theme or "habamax")

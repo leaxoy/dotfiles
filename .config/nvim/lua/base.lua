@@ -7,6 +7,7 @@ vim.o.swapfile = false
 vim.o.backup = false
 vim.o.splitbelow = true
 vim.o.splitright = true
+vim.o.splitkeep = "topline"
 vim.o.scrolloff = 10
 vim.o.sidescrolloff = 10
 vim.o.wrap = false
@@ -50,8 +51,6 @@ vim.o.background = "dark"
 vim.o.number = true
 vim.o.numberwidth = 4
 vim.o.relativenumber = true
--- vim.o.pumblend = 10
--- vim.o.winblend = 10
 vim.o.showmode = true
 vim.o.list = true
 vim.o.listchars = "tab:» ,extends:›,precedes:‹,nbsp:·,trail:·,multispace: "
@@ -66,14 +65,25 @@ vim.o.cursorcolumn = true
 vim.o.ruler = true
 vim.o.colorcolumn = "100"
 
--- netrw config --
-vim.g.loaded_netrwPlugin = 1 -- disable netrw plugin
-vim.g.netrw_banner = false
-vim.g.netrw_liststyle = 3
-vim.g.netrw_browse_split = 3
-vim.g.netrw_altv = 1
-vim.g.netrw_winsize = 20
-vim.g.netrw_list_hide = "^../"
-
 -- keymap config --
 vim.g.mapleader = " "
+
+-- disable builtin plugins --
+vim.g.loaded_gzip = 1
+vim.g.loaded_tar = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_zip = 1
+vim.g.loaded_zipPlugin = 1
+vim.g.loaded_getscript = 1
+vim.g.loaded_getscriptPlugin = 1
+vim.g.loaded_vimball = 1
+vim.g.loaded_vimballPlugin = 1
+vim.g.loaded_matchit = 1
+vim.g.loaded_matchparen = 1
+vim.g.loaded_2html_plugin = 1
+vim.g.loaded_logiPat = 1
+vim.g.loaded_rrhelper = 1
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrwSettings = 1
+vim.g.loaded_netrwFileHandlers = 1
