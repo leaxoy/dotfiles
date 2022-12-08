@@ -50,7 +50,6 @@ return require("packer").startup {
     use { "nvim-lualine/lualine.nvim", requires = "nvim-tree/nvim-web-devicons" } -- statusline
     use { "akinsho/toggleterm.nvim" } -- terminal
     use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" } -- syntax highlighting
-    use { "nvim-treesitter/playground", requires = "nvim-treesitter/nvim-treesitter" }
     use { "NvChad/nvim-colorizer.lua" } -- color highlighting
     use { "rcarriga/nvim-notify" } -- notify component
 
