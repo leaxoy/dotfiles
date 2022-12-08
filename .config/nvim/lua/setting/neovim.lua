@@ -1,106 +1,9 @@
 local SettingRegistry = require "neoconf.plugins"
 
----@class Setting
----@field key string
----@field schema table
----@type table<Setting>
-local options = {
-  {
-    key = "workbench.theme",
-    schema = {
-      desc = "颜色主题",
-      type = "string",
-      enum = vim.fn.getcompletion("", "color"),
-    },
-  },
-  {
-    key = "editor.lineNumbers",
-    schema = {
-      desc = "编辑器行号",
-      type = "string",
-      default = "none",
-      enum = { "none", "absolute", "relative" },
-      enumDescriptions = {
-        "Don't show line number",
-        "Show absolute line number (start from 1)",
-        "Show relative line number",
-      },
-    },
-  },
-  {
-    key = "editor.listchars",
-    schema = {
-      type = "object",
-      properties = {
-        eol = { type = "string", default = "" },
-        tab = { type = "string", default = "» " },
-        space = { type = "string", default = " " },
-        multispace = { type = "string", default = " " },
-        lead = { type = "string", default = " " },
-        leadmultispace = { type = "string", default = " " },
-        trail = { type = "string", default = "·" },
-        extends = { type = "string", default = "›" },
-        precedes = { type = "string", default = "‹" },
-        conceal = { type = "string", default = " " },
-        nbsp = { type = "string", default = "·" },
-      },
-    },
-  },
-  {
-    key = "editor.ruler",
-    schema = {
-      type = "boolean",
-      default = true,
-    },
-  },
-  {
-    key = "editor.rulercolumn",
-    schema = {
-      type = "integer",
-      default = 80,
-    },
-  },
-  {
-    key = "search.hlsearch",
-    schema = {
-      description = "",
-      type = "boolean",
-      default = true,
-    },
-  },
-  {
-    key = "search.incsearch",
-    schema = {
-      description = "",
-      type = "boolean",
-      default = true,
-    },
-  },
-  {
-    key = "search.ignorecase",
-    schema = {
-      description = "",
-      type = "boolean",
-      default = true,
-    },
-  },
-  {
-    key = "search.smartcase",
-    schema = {
-      description = "",
-      type = "boolean",
-      default = true,
-    },
-  },
-  {
-    key = "search.showmatch",
-    schema = {
-      description = "",
-      type = "boolean",
-      default = true,
-    },
-  },
-}
+---@class NeovimConfig
+---@field buf table<string, any>
+---@field global table<string, any>
+---@field win table<string, any>
 
 SettingRegistry.register {
   on_schema = function(schema)
@@ -108,8 +11,43 @@ SettingRegistry.register {
       description = "vim options",
       type = "object",
     })
-    for _, option in ipairs(options) do
-      schema:set("vim." .. option.key, option.schema)
+    schema:set("vim.buf", {
+      description = "Buffer local options",
+      type = "object",
+      properties = {},
+    })
+    schema:set("vim.global", {
+      description = "Global options",
+      type = "object",
+      properties = {},
+    })
+    schema:set("vim.win", {
+      description = "Window local options",
+      type = "object",
+      properties = {},
+    })
+
+    local all_opts = vim.api.nvim_get_all_options_info()
+    for name, opt in pairs(all_opts) do
+      local status, new
+      if opt.scope == "win" then
+        status, new = pcall(vim.api.nvim_win_get_option, 0, name)
+      elseif opt.scope == "buf" then
+        status, new = pcall(vim.api.nvim_buf_get_option, 0, name)
+      elseif opt.scope == "global" then
+        status, new = pcall(vim.api.nvim_get_option, name)
+      end
+      if not status then new = opt.default end
+      schema:set("vim." .. opt.scope .. "." .. name, {
+        type = opt.type,
+        default = opt.default,
+        description = string.format(
+          "Type: %s\nDefault Value: %s\nUser Setting: %s",
+          opt.type,
+          opt.default,
+          new
+        ),
+      })
     end
   end,
 }
