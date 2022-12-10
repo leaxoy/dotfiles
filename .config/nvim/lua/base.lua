@@ -16,7 +16,7 @@ vim.o.incsearch = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.showmatch = true
--- vim.o.inccommand = "split"
+vim.o.inccommand = "split"
 vim.o.backspace = "indent,eol,start"
 vim.o.sessionoptions =
   "blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal"
@@ -63,7 +63,7 @@ vim.o.laststatus = 3
 vim.o.cursorline = true
 vim.o.cursorcolumn = true
 vim.o.ruler = true
-vim.o.colorcolumn = "100"
+vim.o.colorcolumn = "80"
 
 -- keymap config --
 vim.g.mapleader = " "

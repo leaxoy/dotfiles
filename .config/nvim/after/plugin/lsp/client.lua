@@ -1,18 +1,3 @@
-local function resolve_lsp_command(cmds, lang)
-  return function()
-    vim.ui.select(cmds, {
-      prompt = "Execute Commands:",
-    }, function(choice)
-      if not choice then return end
-      vim.api.nvim_out_write("Execute command: " .. choice)
-      if vim.bo.filetype == "go" then
-        local arg = { URI = vim.uri_from_bufnr(vim.api.nvim_get_current_buf()) }
-        vim.lsp.buf.execute_command { command = choice, arguments = { arg } }
-      end
-    end)
-  end
-end
-
 local function resolve_text_document_capabilities(client, buffer)
   local map = function(mode, lhs, rhs, opts)
     if type(mode) == "string" and string.len(mode) > 1 then mode = vim.split(mode, "") end
@@ -31,12 +16,6 @@ local function resolve_text_document_capabilities(client, buffer)
   if caps.typeDefinitionProvider then
     map("n", "gt", vim.lsp.buf.type_definition, { desc = "Type Definition" })
   end
-  -- if caps.implementationProvider then
-  --   map("n", "gi", vim.lsp.buf.implementation, { desc = "Implementation" })
-  -- end
-  -- if caps.referencesProvider then
-  --   map("n", "gr", vim.lsp.buf.references, { desc = "References" })
-  -- end
   if caps.callHierarchyProvider then
     local ch_status, ch = pcall(require, "lspsaga.callhierarchy")
     if ch_status then
@@ -47,8 +26,6 @@ local function resolve_text_document_capabilities(client, buffer)
       map("n", "gho", vim.lsp.buf.outgoing_calls, { desc = "Outgoing Calls" })
     end
   end
-  -- if caps.typeHierarchyProvider then
-  -- end
   if caps.documentHighlightProvider then
     local group = "lsp_document_highlight"
     vim.api.nvim_create_augroup(group, { clear = false })
@@ -87,50 +64,25 @@ local function resolve_text_document_capabilities(client, buffer)
       buffer = buffer,
       callback = function() vim.lsp.codelens.refresh() end,
     })
-    vim.lsp.codelens.refresh()
-    map("n", "gad", vim.lsp.codelens.display, { desc = "Display CodeLens" })
-    map("n", "gar", vim.lsp.codelens.run, { desc = "Run CodeLens" })
-    map("n", "gaf", vim.lsp.codelens.refresh, { desc = "Refresh CodeLens" })
+    map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run CodeLens" })
   end
-  -- if caps.foldingRangeProvider then
-  -- end
-  -- if caps.selectionRangeProvider then
-  -- end
   if caps.documentSymbolProvider then
     local status, outline = pcall(require, "lspsaga.outline")
-    if status then
-      map("n", "go", function() outline:render_outline() end, { desc = "Document Symbol" })
-    else
-      map("n", "go", vim.lsp.buf.document_symbol, { desc = "Document Symbol" })
+    local function document_symbol()
+      return status and function() outline:render_outline() end or vim.lsp.buf.document_symbol
     end
+    map("n", "go", document_symbol, { desc = "Document Symbol" })
   end
-  -- if caps.semanticTokensProvider and caps.semanticTokensProvider.full then
-  --   local augroup = vim.api.nvim_create_augroup("SemanticTokens", {})
-  --   vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave", "TextChanged" }, {
-  --     group = augroup,
-  --     buffer = buffer,
-  --     callback = vim.lsp.buf.semantic_tokens_full,
-  --   })
-  --   vim.lsp.buf.semantic_tokens_full()
-  -- end
-  -- if caps.inlineValueProvider then
-  -- end
   if caps.inlayHintProvider then
     local status, hint = pcall(require, "lsp-inlayhints")
     if status then hint.on_attach(client, buffer, false) end
   end
-  -- if caps.monikerProvider then
-  -- end
-  -- if caps.completionProvider then
-  -- end
-  -- if caps.diagnosticProvider then
-  -- end
   if caps.signatureHelpProvider then
     map("n", "gs", vim.lsp.buf.signature_help, { desc = "Signature Help" })
   end
   if caps.codeActionProvider then
     local code_action = function() vim.lsp.buf.code_action { apply = true } end
-    map("nv", "<leader>a", code_action, { desc = "Code Action" })
+    map("nv", "<leader>ca", code_action, { desc = "Run Code Action" })
   end
   if caps.colorProvider then
     local document_color_status, document_color = pcall(require, "document-color")
@@ -143,16 +95,18 @@ local function resolve_text_document_capabilities(client, buffer)
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = format_group,
       buffer = buffer,
-      command = "lua vim.lsp.buf.format()",
+      callback = function() vim.lsp.buf.format() end,
     })
   end
-  -- if caps.documentRangeFormattingProvider then
-  -- end
-  -- if caps.documentOnTypeFormattingProvider then
-  -- end
-  if caps.renameProvider then map("n", "gr", vim.lsp.buf.rename, { desc = "Rename" }) end
-  -- if caps.linkedEditingRangeProvider then
-  -- end
+
+  if caps.renameProvider then
+    local function rename()
+      local rn_status = pcall(require, "inc_rename")
+      local inc_rn_cmd = string.format(":IncRename %s", vim.fn.expand "<cword>")
+      return rn_status and inc_rn_cmd or vim.lsp.buf.rename
+    end
+    map("n", "gr", rename(), { desc = "Rename" })
+  end
 end
 
 local function resolve_workspace_capabilities(client, buffer)
@@ -166,11 +120,6 @@ local function resolve_workspace_capabilities(client, buffer)
   --#region workspace start
   if caps.workspaceSymbolProvider then
     map("n", "gO", vim.lsp.buf.workspace_symbol, { desc = "Workspace Symbol" })
-  end
-  if caps.executeCommandProvider then
-    -- local cmds = caps.executeCommandProvider.commands
-    -- local langs = client.config.filetypes
-    -- map("n", "ge", resolve_lsp_command(cmds, langs), { desc = "Execute Command" })
   end
   if caps.workspace and caps.workspace.workspaceFolders then
     map("n", "gwa", vim.lsp.buf.add_workspace_folder, { desc = "Add Workspace" })

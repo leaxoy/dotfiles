@@ -46,6 +46,8 @@ map("n", "<leader>x[", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 
 -- Edit
 map("n", "<leader><CR>", cmd "noh", { desc = "Clear Highlight" })
+local function tree_layout() vim.treesitter.show_tree { command = "topleft 50vnew" } end
+map("n", "<leader>si", tree_layout, { desc = "Toggle TreeSitter Playground" })
 
 -- Terminal
 map("ni", "<c-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]], { desc = "Toggle Terminal" })

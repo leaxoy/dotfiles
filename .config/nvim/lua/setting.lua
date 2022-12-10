@@ -16,10 +16,7 @@ vim.keymap.set(
   { silent = true, noremap = true, desc = "Local Settings" }
 )
 
-require "setting.mason"
 require "setting.neovim"
-require "setting.null_ls"
-require "setting.treesitter"
 
 _G.settings = {}
 

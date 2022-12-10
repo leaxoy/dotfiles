@@ -2,7 +2,6 @@ local origin_make_client_capabilities = vim.lsp.protocol.make_client_capabilitie
 function vim.lsp.protocol.make_client_capabilities()
   local capabilities = origin_make_client_capabilities()
   local textDocument = capabilities.textDocument
-  local workspace = capabilities.workspace
   local completionItem = capabilities.textDocument.completion.completionItem
 
   completionItem.snippetSupport = true
@@ -15,11 +14,7 @@ function vim.lsp.protocol.make_client_capabilities()
   completionItem.resolveSupport =
     { properties = { "documentation", "detail", "additionalTextEdits" } }
   textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
-  textDocument.typeHierarchy = { dynamicRegistration = false }
   textDocument.colorProvider = { dynamicRegistration = true }
-  workspace.semanticTokens = { refreshSupport = true }
-  local status, tokens = pcall(require, "nvim-semantic-tokens")
-  if status then capabilities = tokens.extend_capabilities(capabilities) end
 
   return capabilities
 end

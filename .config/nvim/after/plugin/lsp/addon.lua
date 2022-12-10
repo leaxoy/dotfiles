@@ -45,14 +45,6 @@ if hint_status then
   }
 end
 
-local tokens_status, tokens = pcall(require, "nvim-semantic-tokens")
-if tokens_status then
-  tokens.setup {
-    preset = "default",
-    highlighters = { require "nvim-semantic-tokens.table-highlighter" },
-  }
-end
-
 local document_color_status, document_color = pcall(require, "document-color")
 if document_color_status then document_color.setup { mode = "background" } end
 
@@ -70,3 +62,6 @@ if glance_status then
   set("n", "<C-g>t", [[<CMD>Glance type_definitions<CR>]], { desc = "Peek TypeDefinitions" })
   set("n", "<C-g>i", [[<CMD>Glance implementations<CR>]], { desc = "Peek Implementations" })
 end
+
+local rn_status, rn = pcall(require, "inc_rename")
+if rn_status then rn.setup {} end
