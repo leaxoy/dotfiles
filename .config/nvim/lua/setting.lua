@@ -3,18 +3,8 @@ local settingRegistry = require "neoconf.plugins"
 
 setting.setup { plugins = { jsonls = { configured_servers_only = false } } }
 
-vim.keymap.set(
-  "n",
-  "<leader>,",
-  [[<CMD>Neoconf global<CR>]],
-  { silent = true, noremap = true, desc = "Global Settings" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>;",
-  [[<CMD>Neoconf local<CR>]],
-  { silent = true, noremap = true, desc = "Local Settings" }
-)
+keymap("n", "<leader>,", [[<CMD>Neoconf global<CR>]], { desc = "Global Settings" })
+keymap("n", "<leader>.", [[<CMD>Neoconf local<CR>]], { desc = "Local Settings" })
 
 require "setting.neovim"
 

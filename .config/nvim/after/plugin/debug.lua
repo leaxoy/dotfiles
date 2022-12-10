@@ -54,17 +54,21 @@ sign_def("DapBreakpointRejected", { text = "", texthl = "FoldColumn", linehl 
 sign_def("DapStopped", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" }) --  
 sign_def("DapLogPoint", { text = "◆", texthl = "", linehl = "", numhl = "" })
 
-local map = require("fn").map_fn
-map("nvi", "<F4>", bp_api.toggle_breakpoint, { desc = "Toggle Breakpoint" })
-map("nvi", "<F5>", dap.continue, { desc = "Run | Countine" })
-map("nvi", "<F6>", function() dap.step_back() end, { desc = "Step Back" })
-map("nvi", "<F7>", function() dap.step_over() end, { desc = "Step Over" })
-map("nvi", "<F8>", function() dap.step_into() end, { desc = "Step Into" })
-map("nvi", "<F9>", function() dap.step_out() end, { desc = "Step Out" })
+keymap("nvi", "<F4>", bp_api.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+keymap("nvi", "<F5>", dap.continue, { desc = "Run | Countine" })
+keymap("nvi", "<F6>", function() dap.step_back() end, { desc = "Step Back" })
+keymap("nvi", "<F7>", function() dap.step_over() end, { desc = "Step Over" })
+keymap("nvi", "<F8>", function() dap.step_into() end, { desc = "Step Into" })
+keymap("nvi", "<F9>", function() dap.step_out() end, { desc = "Step Out" })
 -- map({ "n" }, "<leader>dr", function() dap.repl.toggle() end, { desc = "Repl" })
-map("nv", "<M-e>", function() dapui.eval(nil, { enter = true }) end, { desc = "Eval Expression" })
+keymap(
+  "nv",
+  "<M-e>",
+  function() dapui.eval(nil, { enter = true }) end,
+  { desc = "Eval Expression" }
+)
 local dap_float = function() dapui.float_element("scopes", { enter = true }) end
-map("ni", "<M-f>", dap_float, { desc = "Show Floating Window" })
+keymap("ni", "<M-f>", dap_float, { desc = "Show Floating Window" })
 -- map("n", "<leader>du", ui.toggle, { desc = "Debug Window" })
 
 local mason_status, mason_adapter = pcall(require, "mason-nvim-dap")

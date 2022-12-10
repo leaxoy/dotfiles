@@ -1,6 +1,3 @@
-local fn = require "fn"
-local cmd, map = fn.cmd_fn, fn.map_fn
-
 local saga_status, saga = pcall(require, "lspsaga")
 if saga_status then
   saga.init_lsp_saga {
@@ -31,8 +28,8 @@ if saga_status then
     call_hierarchy = { show_detail = true },
   }
 
-  map("n", "gf", cmd("Lspsaga", { "lsp_finder" }), { desc = "Lsp Finder" })
-  map("n", "gp", cmd("Lspsaga", { "peek_definition" }), { desc = "Lsp Peek Definition" })
+  keymap("n", "gf", cmd_fn("Lspsaga", { "lsp_finder" }), { desc = "Lsp Finder" })
+  keymap("n", "gp", cmd_fn("Lspsaga", { "peek_definition" }), { desc = "Lsp Peek Definition" })
 end
 
 local hint_status, hint = pcall(require, "lsp-inlayhints")

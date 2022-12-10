@@ -141,7 +141,7 @@ local sources = {
 ---@param config NullLsSetting
 ---@param opts table|nil
 local function gen_source(collection, name, config, opts)
-  local args = vim.tbl_extend("keep", {
+  local args = vim.tbl_extend("force", {
     extra_args = config.extra_args or {},
     extra_filetypes = config.extra_filetypes or {},
     disabled_filetypes = config.disabled_filetypes or {},
