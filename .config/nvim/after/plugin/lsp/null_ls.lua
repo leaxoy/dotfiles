@@ -1,50 +1,39 @@
 local status, null_ls = pcall(require, "null-ls")
 if not status then return end
 
-local settings = require "neoconf"
-
----@class LspConfig
----@field enabled boolean
----@field extra_args table<string>
----@field extra_filetypes table<string>
----@field disabled_filetypes table<string>
-
----@alias LspConfigGroup table<string, LspConfig>
-
----@class LspConfigSetting
----@field code_action LspConfigGroup
----@field diagnostic LspConfigGroup
----@field formatter LspConfigGroup
-
 local ca = null_ls.builtins.code_actions
 local diag = null_ls.builtins.diagnostics
 local fmt = null_ls.builtins.formatting
 
+fmt.ruff = require("null-ls.helpers").make_builtin {
+  name = "ruff",
+  meta = {
+    url = "https://github.com/charliermarsh/ruff",
+    description = "An extremely fast Python linter, written in Rust.",
+  },
+  method = require("null-ls.methods").internal.FORMATTING,
+  filetypes = { "python" },
+  generator_opts = {
+    command = "ruff",
+    args = { "--fix", "-e", "-n", "--stdin-filename", "$FILENAME", "-" },
+    to_stdin = true,
+  },
+  factory = require("null-ls.helpers").formatter_factory,
+}
+
 local sources = {
   diag.cspell.with {
-    diagnostics_postprocess = function(diagnostic) diagnostic.severity = vim.diagnostic.severity.WARN end,
+    diagnostics_postprocess = function(diagnostic)
+      diagnostic.severity = vim.diagnostic.severity.WARN
+    end,
     extra_args = { "--config", "~/.config/cspell/cspell.json" },
   },
-  require("null-ls.helpers").make_builtin {
-    name = "ruff",
-    meta = {
-      url = "https://github.com/charliermarsh/ruff",
-      description = "An extremely fast Python linter, written in Rust.",
-    },
-    method = require("null-ls.methods").internal.FORMATTING,
-    filetypes = { "python" },
-    generator_opts = {
-      command = "ruff",
-      args = { "--fix", "-e", "-n", "--stdin-filename", "$FILENAME", "-" },
-      to_stdin = true,
-    },
-    factory = require("null-ls.helpers").formatter_factory,
-  },
+  fmt.ruff,
 }
 
 ---@param collection table<string, any>
 ---@param name string
----@param config LspConfig
+---@param config NullLsSetting
 ---@param opts table|nil
 local function gen_source(collection, name, config, opts)
   local args = vim.tbl_extend("keep", {
@@ -55,8 +44,8 @@ local function gen_source(collection, name, config, opts)
   return collection[name].with(args)
 end
 
----@type LspConfigSetting
-local null_ls_settings = settings.get("null_ls", {})
+---@type NullLsConfig
+local null_ls_settings = settings.get_null_ls_config()
 for name, config in pairs(null_ls_settings.code_action or vim.empty_dict()) do
   if config.enabled then table.insert(sources, gen_source(ca, name, config)) end
 end
@@ -67,10 +56,7 @@ for name, config in pairs(null_ls_settings.formatter or vim.empty_dict()) do
   if config.enabled then table.insert(sources, gen_source(fmt, name, config)) end
 end
 
-null_ls.setup {
-  border = "double",
-  sources = sources,
-}
+null_ls.setup { border = "double", sources = sources }
 
 local mason_status, mason_adapter = pcall(require, "mason-null-ls")
 if mason_status then

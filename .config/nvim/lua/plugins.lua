@@ -42,12 +42,13 @@ return require("packer").startup {
     }
 
     -- UI
+    use { "nvim-tree/nvim-web-devicons" }
     use { "glepnir/dashboard-nvim" } -- welcome screen
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
     use { "folke/tokyonight.nvim" } -- theme
     use { "f-person/auto-dark-mode.nvim" }
     use { "folke/noice.nvim", requires = { "MunifTanjim/nui.nvim" } }
-    use { "nvim-lualine/lualine.nvim", requires = "nvim-tree/nvim-web-devicons" } -- statusline
+    use { "feline-nvim/feline.nvim" }
     use { "akinsho/toggleterm.nvim" } -- terminal
     use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" } -- syntax highlighting
     use { "NvChad/nvim-colorizer.lua" } -- color highlighting
@@ -64,10 +65,9 @@ return require("packer").startup {
     -- TextDocument Capabilities
     use { "neovim/nvim-lspconfig" } -- lsp adapters
     use { "jose-elias-alvarez/null-ls.nvim", requires = "nvim-lua/plenary.nvim" } -- enchance lsp client
-    use { "glepnir/lspsaga.nvim", requires = "neovim/nvim-lspconfig" }
+    use { "glepnir/lspsaga.nvim", requires = "neovim/nvim-lspconfig", branch = "version_2.3" }
     use { "dnlhc/glance.nvim" }
     use { "lvimuser/lsp-inlayhints.nvim" } -- inlayHint capability
-    use { "theHamsta/nvim-semantic-tokens" } -- semanticTokens capability
     use { "mrshmllow/document-color.nvim" } -- documentColor capability
     -- completion support
     use { "hrsh7th/nvim-cmp" }
@@ -75,7 +75,7 @@ return require("packer").startup {
     use { "hrsh7th/cmp-nvim-lsp", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-buffer", requires = "hrsh7th/nvim-cmp" }
     use { "hrsh7th/cmp-cmdline", requires = "hrsh7th/nvim-cmp" }
-    use { "hrsh7th/cmp-nvim-lsp-document-symbol", requires = "hrsh7th/nvim-cmp" }
+    use { "hrsh7th/cmp-path", requires = "hrsh7th/nvim-cmp" }
     use { "b0o/SchemaStore.nvim" }
     use { "folke/neodev.nvim" }
     -- snippet config

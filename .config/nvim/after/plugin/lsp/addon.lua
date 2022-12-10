@@ -28,6 +28,7 @@ if saga_status then
     rename_action_quit = "<Esc>",
     definition_action_keys = { quit = "q" },
     code_action_lightbulb = { enable = false },
+    call_hierarchy = { show_detail = true },
   }
 
   map("n", "gf", cmd("Lspsaga", { "lsp_finder" }), { desc = "Lsp Finder" })

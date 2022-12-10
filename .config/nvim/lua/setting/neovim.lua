@@ -5,6 +5,10 @@ local SettingRegistry = require "neoconf.plugins"
 ---@field global table<string, any>
 ---@field win table<string, any>
 
+---@class NeovimUiConfig
+---@field statusBar.git table
+---@field statusBar.lsp_info table
+
 SettingRegistry.register {
   on_schema = function(schema)
     schema:set("vim", {
@@ -25,6 +29,39 @@ SettingRegistry.register {
       description = "Window local options",
       type = "object",
       properties = {},
+    })
+    schema:set("vim.ui", {
+      description = "Ui options",
+      type = "object",
+      properties = {
+        ["statusBar.git"] = {
+          description = "StatusBar git component",
+          type = "object",
+          properties = {
+            enabled = {
+              type = "boolean",
+              description = "Whether enabled git component",
+              default = true,
+            },
+            with_diff = {
+              type = "boolean",
+              description = "Whether show diff info",
+              default = true,
+            },
+          },
+        },
+        ["statusBar.lsp_info"] = {
+          description = "StatusBar lsp_info component",
+          type = "object",
+          properties = {
+            enabled = {
+              type = "boolean",
+              description = "Whether enabled lsp_info component",
+              default = true,
+            },
+          },
+        },
+      },
     })
 
     local all_opts = vim.api.nvim_get_all_options_info()

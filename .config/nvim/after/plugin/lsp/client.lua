@@ -38,8 +38,14 @@ local function resolve_text_document_capabilities(client, buffer)
   --   map("n", "gr", vim.lsp.buf.references, { desc = "References" })
   -- end
   if caps.callHierarchyProvider then
-    map("n", "ghi", vim.lsp.buf.incoming_calls, { desc = "Incoming Calls" })
-    map("n", "gho", vim.lsp.buf.outgoing_calls, { desc = "Outgoing Calls" })
+    local ch_status, ch = pcall(require, "lspsaga.callhierarchy")
+    if ch_status then
+      map("n", "ghi", function() ch:incoming_calls() end, { desc = "Incoming Calls" })
+      map("n", "gho", function() ch:outgoing_calls() end, { desc = "Incoming Calls" })
+    else
+      map("n", "ghi", vim.lsp.buf.incoming_calls, { desc = "Incoming Calls" })
+      map("n", "gho", vim.lsp.buf.outgoing_calls, { desc = "Outgoing Calls" })
+    end
   end
   -- if caps.typeHierarchyProvider then
   -- end
@@ -61,7 +67,7 @@ local function resolve_text_document_capabilities(client, buffer)
   -- if caps.documentLinkProvider then
   -- end
   if caps.hoverProvider then
-    local hover = function()
+    local function hover()
       if vim.tbl_contains({}, vim.bo.filetype) then
         vim.cmd.help { args = { vim.fn.expand "<cword>" } }
       elseif vim.bo.filetype == "man" then
@@ -98,15 +104,15 @@ local function resolve_text_document_capabilities(client, buffer)
       map("n", "go", vim.lsp.buf.document_symbol, { desc = "Document Symbol" })
     end
   end
-  if caps.semanticTokensProvider and caps.semanticTokensProvider.full then
-    local augroup = vim.api.nvim_create_augroup("SemanticTokens", {})
-    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave", "TextChanged" }, {
-      group = augroup,
-      buffer = buffer,
-      callback = vim.lsp.buf.semantic_tokens_full,
-    })
-    vim.lsp.buf.semantic_tokens_full()
-  end
+  -- if caps.semanticTokensProvider and caps.semanticTokensProvider.full then
+  --   local augroup = vim.api.nvim_create_augroup("SemanticTokens", {})
+  --   vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave", "TextChanged" }, {
+  --     group = augroup,
+  --     buffer = buffer,
+  --     callback = vim.lsp.buf.semantic_tokens_full,
+  --   })
+  --   vim.lsp.buf.semantic_tokens_full()
+  -- end
   -- if caps.inlineValueProvider then
   -- end
   if caps.inlayHintProvider then

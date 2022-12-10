@@ -5,11 +5,10 @@ local SettingResitry = require "neoconf.plugins"
 ---@field extra_args table<string>
 ---@field extra_filetypes table<string>
 ---@field disabled_filetypes table<string>
----@alias NullLsGroup table<string, NullLsSetting>
 ---@class NullLsConfig
----@field code_action NullLsGroup
----@field diagnostic NullLsGroup
----@field formatting NullLsGroup
+---@field code_action table<string, NullLsSetting>
+---@field diagnostic table<string, NullLsSetting>
+---@field formatter table<string, NullLsSetting>
 
 SettingResitry.register {
   on_schema = function(schema)

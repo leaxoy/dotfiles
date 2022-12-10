@@ -82,9 +82,7 @@ cmp.setup {
     },
   },
   snippet = {
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` user.
-    end,
+    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
   },
   sorting = {
     comparators = {
@@ -92,16 +90,12 @@ cmp.setup {
       cmp.config.compare.exact,
       cmp.config.compare.score,
       cmp.config.compare.recently_used,
-      function(entry1, entry2)
-        local _, entry1_under = entry1.completion_item.label:find "^_+"
-        local _, entry2_under = entry2.completion_item.label:find "^_+"
-        entry1_under = entry1_under or 0
-        entry2_under = entry2_under or 0
-        if entry1_under > entry2_under then
-          return false
-        elseif entry1_under < entry2_under then
-          return true
-        end
+      function(lhs, rhs)
+        local _, lhs_under = lhs.completion_item.label:find "^_+"
+        local _, rhs_under = rhs.completion_item.label:find "^_+"
+        lhs_under = lhs_under or 0
+        rhs_under = rhs_under or 0
+        return lhs_under < rhs_under
       end,
       cmp.config.compare.kind,
       cmp.config.compare.sort_text,
@@ -116,15 +110,17 @@ cmp.setup {
   },
 }
 
--- Use buffer source for `/`.
-cmp.setup.cmdline("/", {
+-- Use buffer source for `/` & `?`.
+cmp.setup.cmdline({ "/", "?" }, {
   view = { entries = { name = "wildmenu" } },
-  sources = { { name = "buffer" }, { name = "nvim_lsp_document_symbol" } },
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = { { name = "buffer" } },
 })
 
 -- Use cmdline & path source for ':'.
 cmp.setup.cmdline(":", {
   view = { entries = { name = "wildmenu" } },
+  mapping = cmp.mapping.preset.cmdline(),
   sources = { { name = "path" }, { name = "cmdline" } },
 })
 

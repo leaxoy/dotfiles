@@ -78,10 +78,10 @@ mason_adapter.setup {
 }
 
 mason_adapter.setup_handlers {
-  lldb = function()
+  codelldb = function()
     local lldb_path = vim.fn.stdpath "data" .. "/mason/packages/codelldb/extension"
 
-    dap.adapters.lldb = {
+    dap.adapters.codelldb = {
       type = "server",
       port = "${port}",
       executable = {
@@ -99,9 +99,14 @@ mason_adapter.setup_handlers {
     local codelldb = {
       {
         name = "Launch",
-        type = "lldb",
+        type = "codelldb",
         request = "launch",
-        program = function() return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file") end,
+        program = function()
+          return vim.fn.input {
+            prompt = "Path to executable: ",
+            default = vim.fn.getcwd() .. "/a.out",
+          }
+        end,
         cwd = "${workspaceFolder}",
         stopOnEntry = true,
         args = {},

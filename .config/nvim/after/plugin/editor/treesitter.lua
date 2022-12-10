@@ -8,6 +8,6 @@ require("nvim-treesitter.configs").setup {
 vim.keymap.set(
   "n",
   "<leader>si",
-  vim.treesitter.show_tree,
+  function() vim.treesitter.show_tree { command = "topleft 50vnew" } end,
   { desc = "Toggle TreeSitter Playground" }
 )
