@@ -21,7 +21,7 @@ which_key.setup {
   icons = { breadcrumb = "»", separator = "ﲖ", group = "+" },
   popup_mappings = { scroll_down = "<c-d>", scroll_up = "<c-u>" },
   window = {
-    border = "double", -- none, single, double, shadow
+    border = "single", -- none, single, double, shadow
     position = "bottom", -- bottom, top
     margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
     padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]

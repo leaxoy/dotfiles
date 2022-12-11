@@ -46,7 +46,6 @@ return require("packer").startup {
     use { "glepnir/dashboard-nvim" } -- welcome screen
     use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
     use { "folke/tokyonight.nvim" } -- theme
-    use { "f-person/auto-dark-mode.nvim" }
     use { "folke/noice.nvim", requires = { "MunifTanjim/nui.nvim" } }
     use { "feline-nvim/feline.nvim" }
     use { "akinsho/toggleterm.nvim" } -- terminal
@@ -65,11 +64,11 @@ return require("packer").startup {
     -- TextDocument Capabilities
     use { "neovim/nvim-lspconfig" } -- lsp adapters
     use { "jose-elias-alvarez/null-ls.nvim", requires = "nvim-lua/plenary.nvim" } -- enchance lsp client
-    use { "glepnir/lspsaga.nvim", requires = "neovim/nvim-lspconfig", branch = "version_2.3" }
+    use { "glepnir/lspsaga.nvim", branch = "version_2.3" }
     use { "dnlhc/glance.nvim" }
     use { "lvimuser/lsp-inlayhints.nvim" } -- inlayHint capability
     use { "mrshmllow/document-color.nvim" } -- documentColor capability
-    use { "smjonas/inc-rename.nvim", config = function() require("inc_rename").setup() end }
+    use { "smjonas/inc-rename.nvim" }
     -- completion support
     use { "hrsh7th/nvim-cmp" }
     -- completion plugins

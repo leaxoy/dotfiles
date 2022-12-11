@@ -53,11 +53,10 @@ if glance_status then
     list = { position = "right", width = 0.3 },
     theme = { enable = true, mode = "auto" },
   }
-  local set = vim.keymap.set
-  set("n", "<C-g>d", [[<CMD>Glance definitions<CR>]], { desc = "Peek Definition" })
-  set("n", "<C-g>r", [[<CMD>Glance references<CR>]], { desc = "Peek References" })
-  set("n", "<C-g>t", [[<CMD>Glance type_definitions<CR>]], { desc = "Peek TypeDefinitions" })
-  set("n", "<C-g>i", [[<CMD>Glance implementations<CR>]], { desc = "Peek Implementations" })
+  keymap("n", "<C-g>d", [[<CMD>Glance definitions<CR>]], { desc = "Peek Definition" })
+  keymap("n", "<C-g>r", [[<CMD>Glance references<CR>]], { desc = "Peek References" })
+  keymap("n", "<C-g>t", [[<CMD>Glance type_definitions<CR>]], { desc = "Peek TypeDefinitions" })
+  keymap("n", "<C-g>i", [[<CMD>Glance implementations<CR>]], { desc = "Peek Implementations" })
 end
 
 local rn_status, rn = pcall(require, "inc_rename")

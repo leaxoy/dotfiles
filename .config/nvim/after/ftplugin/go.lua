@@ -75,7 +75,6 @@ local function switch_test_file(bang, cmd)
 end
 
 local function go_tag_list(a, l, p) return { "json", "yaml", "xml", "db" } end
-
 local function cmd(n, f, narg, desc, cmp)
   vim.api.nvim_create_user_command(n, f, { nargs = narg, desc = desc, complete = cmp })
 end

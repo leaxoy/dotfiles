@@ -1,9 +1,5 @@
 local function resolve_text_document_capabilities(client, buffer)
-  local map = function(mode, lhs, rhs, opts)
-    if type(mode) == "string" and string.len(mode) > 1 then mode = vim.split(mode, "") end
-    opts = vim.tbl_extend("force", { noremap = true, silent = true, buffer = buffer }, opts)
-    vim.keymap.set(mode, lhs, rhs, opts)
-  end
+  local function map(mode, lhs, rhs, opts) buffer_keymap(mode, lhs, rhs, buffer, opts) end
 
   local caps = client.server_capabilities
 
@@ -101,19 +97,16 @@ local function resolve_text_document_capabilities(client, buffer)
 
   if caps.renameProvider then
     local function rename()
-      local rn_status = pcall(require, "inc_rename")
-      local inc_rn_cmd = string.format(":IncRename %s", vim.fn.expand "<cword>")
-      return rn_status and inc_rn_cmd or vim.lsp.buf.rename
+      return is_plugin_installed "inc-rename.nvim"
+          and string.format(":IncRename %s", vim.fn.expand "<cword>")
+        or vim.lsp.buf.rename
     end
     map("n", "gr", rename(), { desc = "Rename" })
   end
 end
 
 local function resolve_workspace_capabilities(client, buffer)
-  local map = function(mode, lhs, rhs, opts)
-    opts = vim.tbl_extend("force", { noremap = true, silent = true, buffer = buffer }, opts)
-    vim.keymap.set(mode, lhs, rhs, opts)
-  end
+  local function map(mode, lhs, rhs, opts) buffer_keymap(mode, lhs, rhs, buffer, opts) end
 
   local caps = client.server_capabilities
 

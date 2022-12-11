@@ -36,6 +36,17 @@ settings.register {
   end,
 }
 
+local parsers = require("nvim-treesitter.parsers").get_parser_configs()
+
+parsers.thrift = {
+  install_info = {
+    url = "https://github.com/duskmoon314/tree-sitter-thrift",
+    files = { "src/parser.c" },
+    revision = "main",
+  },
+  filetype = "thrift",
+}
+
 ts_config.setup {
   ensure_installed = vim.g.ts_syntaxes,
   highlight = { enable = true },
