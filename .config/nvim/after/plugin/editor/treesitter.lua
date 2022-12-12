@@ -1,7 +1,7 @@
 local ts_config_status, ts_config = pcall(require, "nvim-treesitter.configs")
 if not ts_config_status then return end
 
-settings.register {
+vim.settings.register {
   name = "treesitter",
   on_schema = function(schema)
     local all_configs = require("nvim-treesitter.parsers").get_parser_configs()

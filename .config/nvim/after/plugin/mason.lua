@@ -1,7 +1,7 @@
 local status, mason = pcall(require, "mason")
 if not status then return end
 
-settings.register {
+vim.settings.register {
   on_schema = function(schema)
     local mason_registry = require "mason-registry"
 

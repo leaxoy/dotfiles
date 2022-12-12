@@ -20,8 +20,5 @@ toggleterm.setup {
 
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "term://*",
-  callback = function()
-    buffer_keymap("t", "<Esc>", "<C-\\><C-n>")
-    buffer_keymap("t", "jk", "<C-\\><C-n>")
-  end,
+  callback = function() buffer_keymap("t", "<Esc>", "<C-\\><C-n>") end,
 })

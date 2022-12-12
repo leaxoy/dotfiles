@@ -17,7 +17,7 @@ end
 ---@param buffer integer|nil
 ---@param opts table|nil
 function _G.buffer_keymap(mode, lhs, rhs, buffer, opts)
-  opts = vim.tbl_extend("keep", opts or vim.empty_dict(), { buffer = buffer or 0 })
+  opts = vim.tbl_extend("keep", opts or vim.empty_dict(), { buffer = buffer or true })
   keymap(mode, lhs, rhs, opts)
 end
 
@@ -30,7 +30,7 @@ end
 
 ---cmd_fn make function that call command with args
 ---@param cmd string command name
----@param args table command arguments
+---@param args table|nil command arguments
 ---@return fun()
 function _G.cmd_fn(cmd, args)
   return function() vim.cmd { cmd = cmd, args = args } end

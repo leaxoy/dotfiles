@@ -11,7 +11,7 @@ if not status then return end
 ---@field diagnostic table<string, NullLsSetting>
 ---@field formatter table<string, NullLsSetting>
 
-settings.register {
+vim.settings.register {
   on_schema = function(schema)
     schema:set("null_ls", {
       description = "null ls config",
@@ -127,12 +127,12 @@ fmt.ruff = require("null-ls.helpers").make_builtin {
 }
 
 local sources = {
-  diag.cspell.with {
-    diagnostics_postprocess = function(diagnostic)
-      diagnostic.severity = vim.diagnostic.severity.WARN
-    end,
-    extra_args = { "--config", "~/.config/cspell/cspell.json" },
-  },
+  -- diag.cspell.with {
+  --   diagnostics_postprocess = function(diagnostic)
+  --     diagnostic.severity = vim.diagnostic.severity.WARN
+  --   end,
+  --   extra_args = { "--config", "~/.config/cspell/cspell.json" },
+  -- },
   fmt.ruff,
 }
 
@@ -150,7 +150,7 @@ local function gen_source(collection, name, config, opts)
 end
 
 ---@type NullLsConfig
-local null_ls_settings = settings.get_null_ls_config()
+local null_ls_settings = vim.settings.get_null_ls_config()
 for name, config in pairs(null_ls_settings.code_action or vim.empty_dict()) do
   if config.enabled then table.insert(sources, gen_source(ca, name, config)) end
 end
