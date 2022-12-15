@@ -3,8 +3,8 @@ local settingRegistry = require "neoconf.plugins"
 
 setting.setup { plugins = { jsonls = { configured_servers_only = false } } }
 
-keymap("n", "<leader>,", [[<CMD>Neoconf global<CR>]], { desc = "Global Settings" })
-keymap("n", "<leader>.", [[<CMD>Neoconf local<CR>]], { desc = "Local Settings" })
+keymap("n", "<leader>w,", [[<CMD>Neoconf global<CR>]], { desc = "Global Settings" })
+keymap("n", "<leader>w.", [[<CMD>Neoconf local<CR>]], { desc = "Local Settings" })
 
 require "setting.neovim"
 

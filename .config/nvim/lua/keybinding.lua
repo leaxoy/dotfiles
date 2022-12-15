@@ -38,6 +38,22 @@ keymap("n", "<CR>", "o", { desc = "New Line" })
 keymap("n", "<leader>/", cmd_fn "vs", { desc = "Split Vertically" })
 keymap("ni", "<c-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]], { desc = "Toggle Terminal" })
 
+-- WorkBench
+keymap("n", "<leader>w", partial(show_keymap, "<leader>w"), { desc = "+WorkBench" })
+keymap("n", "<leader>wu", function()
+  vim.cmd.PackerSync()
+  vim.cmd.PackerCompile()
+end, { desc = "Update Extensions" })
+keymap("n", "<leader>wt", function()
+  if vim.o.background == "dark" then
+    vim.opt.background = "light"
+    vim.cmd.color(vim.settings.get("vim.ui.preferredLightTheme", "tokyonight-day"))
+  else
+    vim.opt.background = "dark"
+    vim.cmd.color(vim.settings.get("vim.ui.preferredDarkTheme", "tokyonight-night"))
+  end
+end, { desc = "Switch Theme" })
+
 -- Scroll disabled
 keymap("", "<ScrollWheelUp>", "<Nop>")
 keymap("", "<ScrollWheelDown>", "<Nop>")

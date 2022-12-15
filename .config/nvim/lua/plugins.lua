@@ -64,7 +64,7 @@ return require("packer").startup {
     -- TextDocument Capabilities
     use { "neovim/nvim-lspconfig" } -- lsp adapters
     use { "jose-elias-alvarez/null-ls.nvim", requires = "nvim-lua/plenary.nvim" } -- enchance lsp client
-    use { "glepnir/lspsaga.nvim", branch = "version_2.3" }
+    use { "glepnir/lspsaga.nvim" }
     use { "dnlhc/glance.nvim" }
     use { "lvimuser/lsp-inlayhints.nvim" } -- inlayHint capability
     use { "mrshmllow/document-color.nvim" } -- documentColor capability
