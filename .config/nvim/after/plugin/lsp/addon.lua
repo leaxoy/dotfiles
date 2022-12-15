@@ -52,12 +52,39 @@ if glance_status then
     folds = { folded = true, fold_open = "▾", fold_closed = "▸" },
     list = { position = "right", width = 0.3 },
     theme = { enable = true, mode = "auto" },
+    mappings = {
+      list = {
+        q = glance.actions.close,
+        v = glance.actions.jump_vsplit,
+        s = glance.actions.jump_split,
+        t = glance.actions.jump_tab,
+        ["<Esc>"] = glance.actions.close,
+        ["<Tab>"] = glance.actions.enter_win "preview",
+        ["<CR>"] = glance.actions.jump,
+      },
+      preview = {
+        q = glance.actions.close,
+        ["<Esc>"] = glance.actions.close,
+        ["<Tab>"] = glance.actions.enter_win "list",
+      },
+    },
+    hooks = {
+      ---@param results table
+      ---@param open fun(table)
+      ---@param jump fun(any)
+      ---@param method string
+      before_open = function(results, open, jump, method)
+        print(method)
+        if #results == 1 then
+          jump(results[1]) -- argument is optional
+        else
+          open(results) -- argument is optional
+        end
+      end,
+    },
   }
   keymap("n", "<C-g>d", [[<CMD>Glance definitions<CR>]], { desc = "Peek Definition" })
   keymap("n", "<C-g>r", [[<CMD>Glance references<CR>]], { desc = "Peek References" })
   keymap("n", "<C-g>t", [[<CMD>Glance type_definitions<CR>]], { desc = "Peek TypeDefinitions" })
   keymap("n", "<C-g>i", [[<CMD>Glance implementations<CR>]], { desc = "Peek Implementations" })
 end
-
-local rn_status, rn = pcall(require, "inc_rename")
-if rn_status then rn.setup {} end

@@ -68,7 +68,6 @@ return require("packer").startup {
     use { "dnlhc/glance.nvim" }
     use { "lvimuser/lsp-inlayhints.nvim" } -- inlayHint capability
     use { "mrshmllow/document-color.nvim" } -- documentColor capability
-    use { "smjonas/inc-rename.nvim" }
     -- completion support
     use { "hrsh7th/nvim-cmp" }
     -- completion plugins

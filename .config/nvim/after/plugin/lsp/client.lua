@@ -95,14 +95,7 @@ local function resolve_text_document_capabilities(client, buffer)
     })
   end
 
-  if caps.renameProvider then
-    local function rename()
-      return is_plugin_installed "inc-rename.nvim"
-          and string.format(":IncRename %s", vim.fn.expand "<cword>")
-        or vim.lsp.buf.rename
-    end
-    map("n", "gr", rename(), { desc = "Rename" })
-  end
+  if caps.renameProvider then map("n", "gr", vim.lsp.buf.rename, { desc = "Rename" }) end
 end
 
 local function resolve_workspace_capabilities(client, buffer)
