@@ -114,25 +114,22 @@ if tokyo_status then
     dim_inactive = false, -- dims inactive windows
     lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
 
-    --- You can override specific color groups to use other groups or a hex color
-    --- function will be called with a ColorScheme table
     ---@param colors ColorScheme
     on_colors = function(colors) end,
 
-    --- You can override specific highlights to use other groups or a hex color
-    --- function will be called with a Highlights and ColorScheme table
     ---@param hl Highlights
     ---@param c ColorScheme
     on_highlights = function(hl, c)
       hl.Normal = { fg = "NONE" }
       hl.NormalFloat = { link = "Normal" }
       hl.TelescopeNormal = { link = "Normal" }
+      hl.TelescopeBorder = { link = "Normal" }
       hl.Comment = { italic = true }
       hl.FloatTitle = { link = "Normal" }
       hl.FloatBorder = { link = "Normal" }
       hl.FloatShadow = { link = "Normal" }
       hl.FloatShadowThrough = { link = "Normal" }
-      -- LspInlayHint = { link = "Comment" },
+      hl.LspInlayHint = { link = "Comment" }
       hl.LspFloatWinNormal = { link = "Normal" }
 
       hl.CursorLine = { link = "CursorColumn" }
