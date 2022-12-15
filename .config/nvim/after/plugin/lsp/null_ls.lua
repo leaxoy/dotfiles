@@ -52,7 +52,7 @@ vim.settings.register {
       },
     }
 
-    local templete = {
+    local template = {
       with_source = "%s: %s\nDescription: %s\nHomepage: %s\nDefault Filetypes: [%s]",
       without_source = "%s: %s\nDefault Filetypes: [%s]",
     }
@@ -65,7 +65,7 @@ vim.settings.register {
       local source_status, source = pcall(require, "null-ls.builtins." .. module .. "." .. name)
       if source_status then
         return string.format(
-          templete.with_source,
+          template.with_source,
           type_,
           name,
           source.meta and source.meta.description or "",
@@ -74,7 +74,7 @@ vim.settings.register {
         )
       else
         return string.format(
-          templete.without_source,
+          template.without_source,
           type_,
           name,
           table.concat(fts or { "all" }, ", ")
@@ -126,15 +126,7 @@ fmt.ruff = require("null-ls.helpers").make_builtin {
   factory = require("null-ls.helpers").formatter_factory,
 }
 
-local sources = {
-  -- diag.cspell.with {
-  --   diagnostics_postprocess = function(diagnostic)
-  --     diagnostic.severity = vim.diagnostic.severity.WARN
-  --   end,
-  --   extra_args = { "--config", "~/.config/cspell/cspell.json" },
-  -- },
-  fmt.ruff,
-}
+local sources = {}
 
 ---@param collection table<string, any>
 ---@param name string
@@ -169,7 +161,7 @@ if mason_status then
     automatic_installation = true,
     ensure_installed = {
       -- diagnostic
-      "cspell",
+      "codespell",
       "fish",
       "golangci_lint",
       "ruff",

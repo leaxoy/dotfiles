@@ -431,6 +431,9 @@
             }
         },
         "diagnostic": {
+            "codespell": {
+                "enabled": true
+            },
             "fish": {
                 "enabled": true
             },
@@ -459,6 +462,9 @@
                 "extra_filetypes": [
                     "jsonc"
                 ]
+            },
+            "ruff": {
+                "enabled": true
             },
             "stylua": {
                 "enabled": true
