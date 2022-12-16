@@ -35,8 +35,10 @@ keymap("n", "<leader><CR>", cmd_fn "noh", { desc = "Clear Highlight" })
 local function tree_layout() vim.treesitter.show_tree { command = "topleft 50vnew" } end
 keymap("n", "<leader>s", tree_layout, { desc = "Toggle TreeSitter Playground" })
 keymap("n", "<CR>", "o", { desc = "New Line" })
-keymap("n", "<leader>/", cmd_fn "vs", { desc = "Split Vertically" })
+keymap("n", ",", cmd_fn "vs", { desc = "Split Vertically" })
 keymap("ni", "<c-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]], { desc = "Toggle Terminal" })
+keymap("n", "vv", "V", { desc = "Visual Line" })
+keymap("n", "vc", "<C-v>", { desc = "Visual Block" })
 
 -- WorkBench
 keymap("n", "<leader>w", partial(show_keymap, "<leader>w"), { desc = "+WorkBench" })

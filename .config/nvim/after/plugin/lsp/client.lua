@@ -1,16 +1,34 @@
 local function resolve_text_document_capabilities(client, buffer)
   local function map(mode, lhs, rhs, opts) buffer_keymap(mode, lhs, rhs, buffer, opts) end
+  map("n", "<leader>c", partial(show_keymap, "<leader>c"), { desc = "+Code" })
 
   local caps = client.server_capabilities
+  local has_glance = is_plugin_installed "glance.nvim"
+  local has_lspsaga = is_plugin_installed "lspsaga.nvim"
 
   if caps.declarationProvider then
     map("n", "gD", vim.lsp.buf.declaration, { desc = "Declaration" })
   end
   if caps.definitionProvider then
-    map("n", "gd", vim.lsp.buf.definition, { desc = "Definition" })
+    if has_lspsaga then
+      map("n", "gf", [[<CMD>Lspsaga lsp_finder<CR>]], { desc = "Lsp Finder" })
+      map("n", "gp", [[<CMD>Lspsaga peek_definition<CR>]], { desc = "Peek Definition" })
+    end
+    local def = has_glance and [[<CMD>Glance definitions<CR>]] or vim.lsp.buf.definition
+    map("n", "gd", def, { desc = "Definition" })
   end
   if caps.typeDefinitionProvider then
-    map("n", "gt", vim.lsp.buf.type_definition, { desc = "Type Definition" })
+    local type_def = has_glance and [[<CMD>Glance type_definitions<CR>]]
+      or vim.lsp.buf.type_definition
+    map("n", "gt", type_def, { desc = "Type Definition" })
+  end
+  if caps.implementationProvider then
+    local impl = has_glance and [[<CMD>Glance implementations<CR>]] or vim.lsp.buf.implementation
+    map("n", "gi", impl, { desc = "Implementation" })
+  end
+  if caps.referencesProvider then
+    local ref = has_glance and [[<CMD>Glance references<CR>]] or vim.lsp.buf.references
+    map("n", "gr", ref, { desc = "References" })
   end
   if caps.callHierarchyProvider then
     local ch_status, ch = pcall(require, "lspsaga.callhierarchy")
@@ -63,18 +81,15 @@ local function resolve_text_document_capabilities(client, buffer)
     map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run CodeLens" })
   end
   if caps.documentSymbolProvider then
-    local status, outline = pcall(require, "lspsaga.outline")
-    local function document_symbol()
-      return status and function() outline:render_outline() end or vim.lsp.buf.document_symbol
-    end
-    map("n", "go", document_symbol, { desc = "Document Symbol" })
+    local symbol = has_lspsaga and [[<CMD>Lspsaga outline<CR>]] or vim.lsp.buf.document_symbol
+    map("n", "<leader>co", symbol, { desc = "Document Symbol" })
   end
   if caps.inlayHintProvider then
     local status, hint = pcall(require, "lsp-inlayhints")
     if status then hint.on_attach(client, buffer, false) end
   end
   if caps.signatureHelpProvider then
-    map("n", "gs", vim.lsp.buf.signature_help, { desc = "Signature Help" })
+    map("n", "<leader>cs", vim.lsp.buf.signature_help, { desc = "Signature Help" })
   end
   if caps.codeActionProvider then
     local code_action = function() vim.lsp.buf.code_action { apply = true } end
@@ -94,8 +109,7 @@ local function resolve_text_document_capabilities(client, buffer)
       callback = function() vim.lsp.buf.format() end,
     })
   end
-
-  if caps.renameProvider then map("n", "gr", vim.lsp.buf.rename, { desc = "Rename" }) end
+  if caps.renameProvider then map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" }) end
 end
 
 local function resolve_workspace_capabilities(client, buffer)
@@ -105,13 +119,13 @@ local function resolve_workspace_capabilities(client, buffer)
 
   --#region workspace start
   if caps.workspaceSymbolProvider then
-    map("n", "gO", vim.lsp.buf.workspace_symbol, { desc = "Workspace Symbol" })
+    map("n", "<leader>cO", vim.lsp.buf.workspace_symbol, { desc = "Workspace Symbol" })
   end
   if caps.workspace and caps.workspace.workspaceFolders then
-    map("n", "gwa", vim.lsp.buf.add_workspace_folder, { desc = "Add Workspace" })
-    map("n", "gwr", vim.lsp.buf.remove_workspace_folder, { desc = "Remove Workspace" })
+    map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "Add Workspace" })
+    map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, { desc = "Remove Workspace" })
     local print_workspaces = function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end
-    map("n", "gwl", print_workspaces, { desc = "List Workspace" })
+    map("n", "<leader>wl", print_workspaces, { desc = "List Workspace" })
   end
 end
 

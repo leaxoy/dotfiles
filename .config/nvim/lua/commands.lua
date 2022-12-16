@@ -14,9 +14,9 @@ autocmd("Filetype", {
 autocmd("FileType", {
   desc = "Unlist quickfist buffers",
   group = augroup("unlist_quickfist", { clear = true }),
-  pattern = "qf",
+  pattern = { "qf", "help", "man", "lssagaoutline" },
   callback = function()
-    vim.opt_local.buflisted = false
+    vim.bo.buflisted = false
     buffer_keymap("n", "q", "<CMD>q<CR>")
   end,
 })
@@ -35,6 +35,6 @@ autocmd("TextYankPost", {
 autocmd({ "BufRead", "BufNewFile" }, {
   desc = "Detect thrift filetype",
   pattern = "*.thrift",
-  callback = function() vim.opt_local.filetype = "thrift" end,
+  callback = function() vim.bo.filetype = "thrift" end,
 })
 --#endregion

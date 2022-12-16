@@ -27,9 +27,6 @@ if saga_status then
     code_action_lightbulb = { enable = false },
     -- call_hierarchy = { show_detail = true },
   }
-
-  keymap("n", "gf", cmd_fn("Lspsaga", { "lsp_finder" }), { desc = "Lsp Finder" })
-  keymap("n", "gp", cmd_fn("Lspsaga", { "peek_definition" }), { desc = "Lsp Peek Definition" })
 end
 
 local hint_status, hint = pcall(require, "lsp-inlayhints")
@@ -68,6 +65,7 @@ if glance_status then
         ["<Tab>"] = glance.actions.enter_win "list",
       },
     },
+    winbar = { enable = false },
     hooks = {
       ---@param results table
       ---@param open fun(table)
@@ -83,8 +81,4 @@ if glance_status then
       end,
     },
   }
-  keymap("n", "<C-g>d", [[<CMD>Glance definitions<CR>]], { desc = "Peek Definition" })
-  keymap("n", "<C-g>r", [[<CMD>Glance references<CR>]], { desc = "Peek References" })
-  keymap("n", "<C-g>t", [[<CMD>Glance type_definitions<CR>]], { desc = "Peek TypeDefinitions" })
-  keymap("n", "<C-g>i", [[<CMD>Glance implementations<CR>]], { desc = "Peek Implementations" })
 end

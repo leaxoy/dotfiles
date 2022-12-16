@@ -14,7 +14,7 @@ noice.setup {
     },
   },
   messages = { enabled = true, view = false, view_warn = false, view_error = false },
-  popupmenu = { backend = "nui" },
+  popupmenu = { backend = "cmp" },
   presets = {
     bottom_search = false,
     command_palette = false,
@@ -23,7 +23,7 @@ noice.setup {
   },
   views = {
     hover = {
-      border = { padding = { 0, 0 } },
+      border = { padding = { 0, 1 } },
       size = { max_width = 80, max_height = 16 },
       position = { row = 1, col = 0 },
     },
