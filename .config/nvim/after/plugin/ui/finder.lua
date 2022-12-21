@@ -13,6 +13,7 @@ telescope.setup {
     prompt_prefix = "🔍 ",
     selection_caret = "> ",
     multi_icon = "+",
+    initial_mode = "normal",
     -- default border is ivy border config
     border = true,
     borderchars = {
@@ -67,11 +68,9 @@ telescope.setup {
     buffer_previewer_maker = previewers.buffer_previewer_maker,
   },
   pickers = {
-    buffers = { initial_mode = "normal" },
-    builtin = { previewer = false },
+    builtin = { previewer = false, initial_mode = "insert" },
     colorscheme = { enable_preview = true },
-    diagnostics = { initial_mode = "normal" },
-    find_files = { hidden = true },
+    find_files = { hidden = true, initial_mode = "insert" },
   },
   extensions = {
     file_browser = {
@@ -86,10 +85,11 @@ telescope.setup {
       hidden = true,
       grouped = true,
       previewer = false,
-      initial_mode = "normal",
+      -- initial_mode = "normal",
     },
     live_grep_args = {
       auto_quoting = true,
+      initial_mode = "insert",
     },
     notify = { initial_mode = "normal" },
     ["ui-select"] = {

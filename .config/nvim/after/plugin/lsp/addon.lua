@@ -21,7 +21,7 @@ if saga_status then
     },
     show_outline = { auto_enter = false, jump_key = "<CR>" },
     finder_request_timeout = 5000,
-    finder_icons = { def = " ", imp = " ", ref = " " },
+    finder_icons = { def = " ", imp = " ", ref = " " },
     rename_action_quit = "<Esc>",
     definition_action_keys = { quit = "q" },
     code_action_lightbulb = { enable = false },
@@ -71,8 +71,8 @@ if glance_status then
       ---@param open fun(table)
       ---@param jump fun(any)
       ---@param method string
+      ---@diagnostic disable-next-line: unused-local
       before_open = function(results, open, jump, method)
-        print(method)
         if #results == 1 then
           jump(results[1]) -- argument is optional
         else

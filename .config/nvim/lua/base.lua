@@ -1,5 +1,6 @@
 -- base config --base
-vim.opt.mousemodel = "popup_setpos"
+vim.opt.mousemodel = "extend"
+vim.cmd [[aunmenu PopUp]]
 vim.opt.updatetime = 200
 vim.opt.timeoutlen = 200
 vim.opt.clipboard = "unnamedplus"

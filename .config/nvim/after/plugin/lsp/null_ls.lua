@@ -110,22 +110,6 @@ local ca = null_ls.builtins.code_actions
 local diag = null_ls.builtins.diagnostics
 local fmt = null_ls.builtins.formatting
 
-fmt.ruff = require("null-ls.helpers").make_builtin {
-  name = "ruff",
-  meta = {
-    url = "https://github.com/charliermarsh/ruff",
-    description = "An extremely fast Python linter, written in Rust.",
-  },
-  method = require("null-ls.methods").internal.FORMATTING,
-  filetypes = { "python" },
-  generator_opts = {
-    command = "ruff",
-    args = { "--fix", "-e", "-n", "--stdin-filename", "$FILENAME", "-" },
-    to_stdin = true,
-  },
-  factory = require("null-ls.helpers").formatter_factory,
-}
-
 local sources = {}
 
 ---@param collection table<string, any>
@@ -147,7 +131,10 @@ for name, config in pairs(null_ls_settings.code_action or vim.empty_dict()) do
   if config.enabled then table.insert(sources, gen_source(ca, name, config)) end
 end
 for name, config in pairs(null_ls_settings.diagnostic or vim.empty_dict()) do
-  if config.enabled then table.insert(sources, gen_source(diag, name, config)) end
+  if config.enabled then
+    local source = gen_source(diag, name, config, { diagnostics_format = "[#{c}] #{m} (#{s})" })
+    table.insert(sources, source)
+  end
 end
 for name, config in pairs(null_ls_settings.formatter or vim.empty_dict()) do
   if config.enabled then table.insert(sources, gen_source(fmt, name, config)) end
@@ -160,6 +147,9 @@ if mason_status then
   mason_adapter.setup {
     automatic_installation = true,
     ensure_installed = {
+      --code actions
+      "gomodifytags",
+
       -- diagnostic
       "codespell",
       "fish",

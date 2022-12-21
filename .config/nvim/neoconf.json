@@ -422,6 +422,9 @@
             "gitsigns": {
                 "enabled": true
             },
+            "gomodifytags": {
+                "enabled": true
+            },
             "refactoring": {
                 "extra_filetypes": [
                     "c",
@@ -468,6 +471,9 @@
             },
             "stylua": {
                 "enabled": true
+            },
+            "yamlfmt": {
+                "enabled": true
             }
         }
     },
@@ -479,8 +485,11 @@
             "java",
             "typescript",
             "json",
+            "jsonc",
             "python",
             "toml",
+            "vim",
+            "regex",
             "tsx",
             "gowork",
             "markdown",
@@ -492,13 +501,12 @@
         }
     },
     "vim": {
-        "editor": {
-            "lineNumbers": "relative",
-            "ruler": true,
-            "rulercolumn": 80
-        },
-        "workbench": {
-            "theme": "catppuccin"
+        "ui": {
+            "preferredDarkTheme": "tokyonight-night",
+            "preferredLightTheme": "tokyonight-day",
+            "statusBar.git": {
+                "enabled": true
+            }
         }
     }
 }

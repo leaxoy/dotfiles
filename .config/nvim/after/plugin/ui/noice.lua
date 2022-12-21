@@ -13,7 +13,6 @@ noice.setup {
       ["cmp.entry.get_documentation"] = true,
     },
   },
-  messages = { enabled = true, view = false, view_warn = false, view_error = false },
   popupmenu = { backend = "cmp" },
   presets = {
     bottom_search = false,

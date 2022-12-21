@@ -42,6 +42,12 @@ keymap("n", "vc", "<C-v>", { desc = "Visual Block" })
 
 -- WorkBench
 keymap("n", "<leader>w", partial(show_keymap, "<leader>w"), { desc = "+WorkBench" })
+keymap("n", "<leader>wi", function()
+  local ft = vim.api.nvim_buf_get_option(0, "filetype")
+  local name = vim.api.nvim_buf_get_name(0)
+  vim.notify(vim.inspect { filetype = ft, name = name })
+end, { desc = "Inspect Buffer" })
+keymap("n", "<leader>wI", [[<CMD>Inspect<CR>]], { desc = "Inspect Position" })
 keymap("n", "<leader>wu", function()
   vim.cmd.PackerSync()
   vim.cmd.PackerCompile()

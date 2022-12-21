@@ -14,7 +14,7 @@ autocmd("Filetype", {
 autocmd("FileType", {
   desc = "Unlist quickfist buffers",
   group = augroup("unlist_quickfist", { clear = true }),
-  pattern = { "qf", "help", "man", "lssagaoutline" },
+  pattern = { "qf", "help", "man", "lspsagaoutline" },
   callback = function()
     vim.bo.buflisted = false
     buffer_keymap("n", "q", "<CMD>q<CR>")

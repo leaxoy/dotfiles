@@ -48,8 +48,8 @@ parsers.thrift = {
 }
 
 ts_config.setup {
-  ensure_installed = vim.g.ts_syntaxes,
-  highlight = { enable = true },
+  ensure_installed = vim.settings.get("treesitter.filetypes", vim.g.ts_syntaxes),
+  highlight = { enable = vim.settings.get("treesitter.highlight.enable", true) },
   incremental_selection = { enable = true },
   indent = { enable = true },
 }

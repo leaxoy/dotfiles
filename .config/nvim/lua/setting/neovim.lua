@@ -34,6 +34,14 @@ SettingRegistry.register {
       description = "Ui options",
       type = "object",
       properties = {
+        preferredDarkTheme = {
+          description = "Dark Theme",
+          type = "string",
+        },
+        preferredLightTheme = {
+          description = "Light Theme",
+          type = "string",
+        },
         ["statusBar.git"] = {
           description = "StatusBar git component",
           type = "object",

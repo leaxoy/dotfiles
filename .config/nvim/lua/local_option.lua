@@ -49,8 +49,6 @@ vim.g.copilot_filetypes = {
   Outline = false,
   DressingInput = false,
 }
--- filetype config
-vim.g.rust_recommended_style = 0
 
 -- neovide
 if vim.fn.exists "neovide" then
