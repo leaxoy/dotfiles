@@ -77,10 +77,13 @@ components.active[3] = {
   {
     provider = "position",
     hl = hl_fn { fg = choice("lightgrey", "orange") },
-    left_sep = { { str = " ", hl = hl_fn {} } },
+    left_sep = {
+      { str = " ", hl = hl_fn {} },
+      { str = "left", hl = hl_fn { fg = "fg" } },
+      { str = " ", hl = hl_fn {} },
+    },
     right_sep = {
       { str = " ", hl = hl_fn {} },
-      { str = "slant_right_2_thin", hl = hl_fn { fg = "fg" } },
     },
   },
   { provider = "scroll_bar", hl = hl_fn { fg = "skyblue", style = "bold" } },
