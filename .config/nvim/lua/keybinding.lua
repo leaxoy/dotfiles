@@ -9,6 +9,12 @@ keymap("nvt", "<C-l>", cmd_fn("wincmd", { "l" }), { desc = "Goto Right Window" }
 keymap("nvt", "<C-j>", cmd_fn("wincmd", { "j" }), { desc = "Goto Bottom Window" })
 keymap("nvt", "<C-k>", cmd_fn("wincmd", { "k" }), { desc = "Goto Top Window" })
 
+--- Cursor Movement
+keymap("i", "<C-h>", "<Left>", { desc = "Move Cursor Left" })
+keymap("i", "<C-j>", "<Down>", { desc = "Move Cursor Down" })
+keymap("i", "<C-k>", "<Up>", { desc = "Move Cursor Up" })
+keymap("i", "<C-l>", "<Right>", { desc = "Move Cursor Right" })
+
 -- LSP or DAP or Linter or Formatter
 keymap("n", "<leader>l", partial(show_keymap, "<leader>l"), { desc = "+Mason" })
 keymap("n", "<leader>lm", cmd_fn "Mason", { desc = "Manage Mason" })
