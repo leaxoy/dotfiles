@@ -1,5 +1,3 @@
-vim.g.theme = "vscode"
-
 -- lsp server config --
 vim.g.lsp_servers = {
   "clangd",

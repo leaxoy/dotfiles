@@ -12,10 +12,8 @@ toggleterm.setup {
   end,
   hidden = true,
   hide_numbers = true,
-  -- direction = "tab",
   direction = "horizontal",
-  shade_terminals = true,
-  float_opts = { border = "double" },
+  shade_terminals = false,
 }
 
 vim.api.nvim_create_autocmd("TermOpen", {

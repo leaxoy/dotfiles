@@ -23,10 +23,10 @@ if code_status then
 
       WhichKeyFloat = { link = "Normal" },
 
-      -- LspCodeLens = { link = "Comment" },
-      -- LspCodeLensText = { link = "Comment" },
-      -- LspCodeLensTextSign = { link = "Comment" },
-      -- LspCodeLensTextSeparator = { link = "Boolean" },
+      LspCodeLens = { link = "CursorLineFold" },
+      LspCodeLensText = { link = "CursorLineFold" },
+      LspCodeLensTextSign = { link = "CursorLineFold" },
+      LspCodeLensTextSeparator = { link = "Boolean" },
     },
   }
 end
@@ -36,4 +36,4 @@ if colorizer_status then
   colorizer.setup { filetypes = { "*", "!tsx", "!jsx", "!html", "!css" } }
 end
 
-vim.cmd.color(vim.g.theme or "habamax")
+vim.cmd.color "vscode"

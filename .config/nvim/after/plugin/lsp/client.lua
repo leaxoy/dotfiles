@@ -41,32 +41,26 @@ local function resolve_text_document_capabilities(client, buffer)
     end
   end
   if caps.documentHighlightProvider then
-    local group = "lsp_document_highlight"
-    vim.api.nvim_create_augroup(group, { clear = false })
-    vim.api.nvim_clear_autocmds { buffer = buffer, group = group }
+    local au = vim.api.nvim_create_augroup("document_highlight", {})
     vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-      group = group,
+      group = au,
       buffer = buffer,
       callback = vim.lsp.buf.document_highlight,
     })
     vim.api.nvim_create_autocmd("CursorMoved", {
-      group = group,
+      group = au,
       buffer = buffer,
       callback = vim.lsp.buf.clear_references,
     })
   end
-  -- if caps.documentLinkProvider then
-  -- end
   if caps.hoverProvider then
     local function hover()
       if vim.tbl_contains({}, vim.bo.filetype) then
         vim.cmd.help { args = { vim.fn.expand "<cword>" } }
       elseif vim.bo.filetype == "man" then
         vim.cmd.Man { args = { vim.fn.expand "<cword>" } }
-      elseif vim.fn.expand "%:t" == "Cargo.toml" then
+      elseif vim.fn.expand "%:t" == "Cargo.toml" and is_plugin_installed "crates.nvim" then
         require("crates").show_popup()
-      elseif vim.fn.expand "%:t" == "package.json" then
-        require("package-info").show { force = true }
       else
         vim.lsp.buf.hover()
       end
@@ -75,6 +69,7 @@ local function resolve_text_document_capabilities(client, buffer)
   end
   if caps.codeLensProvider then
     vim.api.nvim_create_autocmd({ "BufEnter", "TextChanged" }, {
+      group = vim.api.nvim_create_augroup("codelens", {}),
       buffer = buffer,
       callback = function() vim.lsp.codelens.refresh() end,
     })
@@ -84,8 +79,6 @@ local function resolve_text_document_capabilities(client, buffer)
     local symbol = has_lspsaga and [[<CMD>Lspsaga outline<CR>]] or vim.lsp.buf.document_symbol
     map("n", "<leader>co", symbol, { desc = "Document Symbol" })
   end
-  if caps.inlayHintProvider then
-  end
   if caps.signatureHelpProvider then
     map("n", "<leader>cs", vim.lsp.buf.signature_help, { desc = "Signature Help" })
   end
@@ -93,14 +86,9 @@ local function resolve_text_document_capabilities(client, buffer)
     local code_action = function() vim.lsp.buf.code_action { apply = true } end
     map("nv", "<leader>ca", code_action, { desc = "Run Code Action" })
   end
-  if caps.colorProvider then
-  end
   if caps.documentFormattingProvider then
-    local format_group = "document_formatting"
-    vim.api.nvim_create_augroup(format_group, { clear = false })
-    vim.api.nvim_clear_autocmds { buffer = buffer, group = format_group }
     vim.api.nvim_create_autocmd("BufWritePre", {
-      group = format_group,
+      group = vim.api.nvim_create_augroup("document_formatting", {}),
       buffer = buffer,
       callback = function() vim.lsp.buf.format() end,
     })

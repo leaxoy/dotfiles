@@ -233,9 +233,10 @@
             "rust-analyzer.inlayHints.closingBraceHints.minLines": 25,
             "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "with_block",
             "rust-analyzer.inlayHints.expressionAdjustmentHints.enable": "reborrow",
+            "rust-analyzer.inlayHints.expressionAdjustmentHints.hideOutsideUnsafe": true,
             "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "skip_trivial",
             "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": true,
-            "rust-analyzer.inlayHints.maxLength": null,
+            "rust-analyzer.inlayHints.locationLinks": true,
             "rust-analyzer.inlayHints.parameterHints.enable": true,
             "rust-analyzer.inlayHints.reborrowHints.enable": "mutable",
             "rust-analyzer.inlayHints.renderColons": true,
@@ -493,8 +494,6 @@
     },
     "vim": {
         "ui": {
-            "preferredDarkTheme": "tokyonight-night",
-            "preferredLightTheme": "tokyonight-day",
             "statusBar.git": {
                 "enabled": true
             }
