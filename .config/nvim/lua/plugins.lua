@@ -44,8 +44,7 @@ return require("packer").startup {
     -- UI
     use { "nvim-tree/nvim-web-devicons" }
     use { "glepnir/dashboard-nvim" } -- welcome screen
-    use { "catppuccin/nvim", as = "catppuccin", run = ":CatppuccinCompile" } -- theme
-    use { "folke/tokyonight.nvim" } -- theme
+    use { "Mofiqul/vscode.nvim" }
     use { "folke/noice.nvim", requires = { "MunifTanjim/nui.nvim" } }
     use { "feline-nvim/feline.nvim" }
     use { "akinsho/toggleterm.nvim" } -- terminal
@@ -66,8 +65,6 @@ return require("packer").startup {
     use { "jose-elias-alvarez/null-ls.nvim", requires = "nvim-lua/plenary.nvim" } -- enchance lsp client
     use { "glepnir/lspsaga.nvim" }
     use { "dnlhc/glance.nvim" }
-    use { "lvimuser/lsp-inlayhints.nvim" } -- inlayHint capability
-    use { "mrshmllow/document-color.nvim" } -- documentColor capability
     -- completion support
     use { "hrsh7th/nvim-cmp" }
     -- completion plugins

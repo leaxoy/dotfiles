@@ -46,7 +46,6 @@ vim.opt.foldenable = false
 -- vim.opt.foldcolumn = "auto"
 
 -- ui config --
-vim.opt.background = "dark"
 vim.opt.number = true
 vim.opt.numberwidth = 4
 vim.opt.relativenumber = true

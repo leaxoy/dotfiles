@@ -85,8 +85,6 @@ local function resolve_text_document_capabilities(client, buffer)
     map("n", "<leader>co", symbol, { desc = "Document Symbol" })
   end
   if caps.inlayHintProvider then
-    local status, hint = pcall(require, "lsp-inlayhints")
-    if status then hint.on_attach(client, buffer, false) end
   end
   if caps.signatureHelpProvider then
     map("n", "<leader>cs", vim.lsp.buf.signature_help, { desc = "Signature Help" })
@@ -96,8 +94,6 @@ local function resolve_text_document_capabilities(client, buffer)
     map("nv", "<leader>ca", code_action, { desc = "Run Code Action" })
   end
   if caps.colorProvider then
-    local document_color_status, document_color = pcall(require, "document-color")
-    if document_color_status then document_color.buf_attach(buffer) end
   end
   if caps.documentFormattingProvider then
     local format_group = "document_formatting"

@@ -20,19 +20,6 @@ mason_adapter.setup_handlers {
     capabilities.offsetEncoding = { "utf-16" }
     lsp.clangd.setup { capabilities = capabilities }
   end,
-  gopls = function()
-    lsp.gopls.setup {
-      init_options = { allExperiments = true },
-      settings = {
-        gopls = {
-          -- more settings: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
-          allExperiments = true,
-          deepCompletion = true,
-        },
-      },
-    }
-  end,
-  hls = function() end,
   jdtls = function() end,
   jsonls = function()
     lsp.jsonls.setup { settings = { json = { schemas = require("schemastore").json.schemas() } } }
@@ -47,11 +34,7 @@ mason_adapter.setup_handlers {
       tools = { inlay_hints = { auto = false } },
       server = { standalone = true },
       dap = {
-        adapter = {
-          type = "executable",
-          command = "codelldb",
-          name = "codelldb",
-        },
+        adapter = { type = "executable", command = "codelldb", name = "codelldb" },
       },
     }
   end,
@@ -59,33 +42,5 @@ mason_adapter.setup_handlers {
     require("neodev").setup {}
     local root_dir = require("lspconfig").util.root_pattern("init.lua", "lua")
     lsp.sumneko_lua.setup { root_dir = root_dir }
-  end,
-  tsserver = function()
-    lsp.tsserver.setup {
-      settings = {
-        typescript = {
-          inlayHints = {
-            includeInlayParameterNameHints = "all",
-            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayVariableTypeHints = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayEnumMemberValueHints = true,
-          },
-        },
-        javascript = {
-          inlayHints = {
-            includeInlayParameterNameHints = "all",
-            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayVariableTypeHints = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayEnumMemberValueHints = true,
-          },
-        },
-      },
-    }
   end,
 }

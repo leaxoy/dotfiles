@@ -1,32 +1,8 @@
-vim.g.theme = "tokyonight"
-
--- treesitter config --
-vim.g.ts_syntaxes = {
-  "bash",
-  "c",
-  "cmake",
-  "cpp",
-  "go",
-  "gomod",
-  "gowork",
-  "java",
-  "javascript",
-  "lua",
-  "markdown",
-  "markdown_inline",
-  "rust",
-  "org",
-  "python",
-  "toml",
-  "tsx",
-  "typescript",
-}
+vim.g.theme = "vscode"
 
 -- lsp server config --
 vim.g.lsp_servers = {
-  "bashls",
   "clangd",
-  "cmake",
   "gopls",
   "jdtls",
   "jsonls",

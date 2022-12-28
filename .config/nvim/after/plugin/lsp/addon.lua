@@ -29,19 +29,6 @@ if saga_status then
   }
 end
 
-local hint_status, hint = pcall(require, "lsp-inlayhints")
-if hint_status then
-  hint.setup {
-    inlay_hints = {
-      type_hints = { prefix = " " },
-      parameter_hints = { prefix = " " },
-    },
-  }
-end
-
-local document_color_status, document_color = pcall(require, "document-color")
-if document_color_status then document_color.setup { mode = "background" } end
-
 local glance_status, glance = pcall(require, "glance")
 if glance_status then
   glance.setup {

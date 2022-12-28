@@ -5,10 +5,6 @@ local status, symbol = pcall(require, "lspsaga.symbolwinbar")
 
 local components = { active = {} }
 
----@param light string
----@param dark string
-local function choice(light, dark) return vim.o.background == "light" and light or dark end
-
 ---@param opts table|nil
 local function hl_fn(opts) return vim.tbl_extend("force", { bg = "NONE" }, opts or {}) end
 
@@ -35,7 +31,7 @@ components.active[1] = {
   },
   {
     provider = "git_branch",
-    hl = hl_fn { fg = choice("black", "white"), style = "bold" },
+    hl = hl_fn { fg = "cyan", style = "bold" },
   },
   {
     provider = "git_diff_added",
@@ -76,7 +72,7 @@ components.active[3] = {
   { provider = "diagnostic_info", hl = hl_fn { fg = "skyblue" } },
   {
     provider = "position",
-    hl = hl_fn { fg = choice("lightgrey", "orange") },
+    hl = hl_fn { fg = "orange" },
     left_sep = {
       { str = " ", hl = hl_fn {} },
       { str = "left", hl = hl_fn { fg = "fg" } },
@@ -98,11 +94,12 @@ fe.setup {
   force_inactive = {},
 }
 
-local breadcrumb = {
-  provider = function()
-    if vim.bo.filetype == "dap-repl" then return end
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "CursorMoved" }, {
+  pattern = "*",
+  callback = function()
     local excludes = {
       "",
+      "noice",
       "toggleterm",
       "prompt",
       "help",
@@ -116,18 +113,11 @@ local breadcrumb = {
       "dapui_stacks",
       "dapui_watches",
       "dapui_console",
+      "dap-repl",
     }
-    local renamed = { tsplayground = "TreeSitter Playground" }
-    if vim.api.nvim_win_get_config(0).zindex or vim.tbl_contains(excludes, vim.bo.filetype) then
-      return ""
-    elseif vim.tbl_contains(vim.tbl_keys(renamed), vim.bo.filetype) then
-      return renamed[vim.bo.filetype]
-    else
-      return not status and vim.fn.bufname() or symbol:get_symbol_node() or ""
-    end
+    local is_float_win = vim.api.nvim_win_get_config(0).zindex
+    local excluded = vim.tbl_contains(excludes, vim.bo.filetype)
+    if is_float_win or excluded then return end
+    vim.wo.winbar = not status and vim.fn.bufname() or symbol:get_symbol_node() or ""
   end,
-}
-
-fe.winbar.setup {
-  components = { active = { { breadcrumb } } },
-}
+})

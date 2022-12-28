@@ -154,12 +154,10 @@ if mason_status then
       "codespell",
       "fish",
       "golangci_lint",
-      "ruff",
 
       -- formatter
       "black",
       "jq",
-      "isort",
       "stylua",
     },
   }

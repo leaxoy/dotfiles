@@ -12,26 +12,19 @@ local feedkey = function(key, mode)
 end
 
 cmp.setup {
-  view = { entries = { name = "custom" } },
-  window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
-  },
-  completion = { completeopt = "menu,menuone,noselect" },
+  completion = { completeopt = "menu,menuone,noinsert" },
   experimental = { ghost_text = true },
   formatting = {
     fields = { "kind", "abbr", "menu" },
+    ---@param entry cmp.Entry
+    ---@param item vim.CompletedItem
+    ---@return vim.CompletedItem
     format = function(entry, item)
-      local menu = {
-        nvim_lsp = "[  ]",
-        vsnip = "[  ]",
-        buffer = "[  ]",
-        crates = "[  ]",
-      }
       item.kind = vim.lsp.protocol.CompletionItemKind[item.kind] or item.kind
-      item.menu = menu[entry.source.name] or ("[" .. string.upper(entry.source.name) .. "]")
       local shorten = string.sub(item.abbr, 0, 30)
       if shorten ~= item.abbr then item.abbr = shorten .. " " end
+      local completion_item = entry:get_completion_item()
+      item.menu = completion_item and completion_item.detail
       return item
     end,
   },
@@ -39,7 +32,7 @@ cmp.setup {
     ["<C-d>"] = cmp.mapping.scroll_docs(5),
     ["<C-u>"] = cmp.mapping.scroll_docs(-5),
     ["<C-Space>"] = cmp.mapping.complete { reason = cmp.ContextReason.Auto },
-    ["<C-e>"] = cmp.mapping.close(),
+    ["<C-g>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm {
       select = true,
       behavior = cmp.ConfirmBehavior.Replace,
@@ -105,21 +98,23 @@ cmp.setup {
   },
   sources = {
     { name = "nvim_lsp" },
-    { name = "vsnip" }, -- For vsnip user.
+    { name = "vsnip" },
     { name = "buffer" },
+  },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
   },
 }
 
 -- Use buffer source for `/` & `?`.
 cmp.setup.cmdline({ "/", "?" }, {
-  view = { entries = { name = "wildmenu" } },
   mapping = cmp.mapping.preset.cmdline(),
   sources = { { name = "buffer" } },
 })
 
 -- Use cmdline & path source for ':'.
 cmp.setup.cmdline(":", {
-  view = { entries = { name = "wildmenu" } },
   mapping = cmp.mapping.preset.cmdline(),
   sources = { { name = "path" }, { name = "cmdline" } },
 })

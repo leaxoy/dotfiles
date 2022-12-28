@@ -357,16 +357,13 @@
         "formatter": [
             "black",
             "jq",
-            "isort",
             "stylua"
         ],
         "linter": [
-            "ruff",
             "cspell",
             "golangci-lint"
         ],
         "lsp": [
-            "bash-language-server",
             "clangd",
             "gopls",
             "jdtls",
@@ -442,9 +439,6 @@
             },
             "golangci_lint": {
                 "enabled": true
-            },
-            "ruff": {
-                "enabled": true
             }
         },
         "formatter": {
@@ -454,7 +448,7 @@
             "fish_indent": {
                 "enabled": true
             },
-            "isort": {
+            "golines": {
                 "enabled": true
             },
             "jq": {
@@ -465,9 +459,6 @@
                 "extra_filetypes": [
                     "jsonc"
                 ]
-            },
-            "ruff": {
-                "enabled": true
             },
             "stylua": {
                 "enabled": true

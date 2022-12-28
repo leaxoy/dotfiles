@@ -33,14 +33,12 @@ keymap("n", "<leader>x", partial(show_keymap, "<leader>x"), { desc = "+Diagnosti
 keymap("n", "<leader>xx", vim.diagnostic.open_float, { desc = "Line Diagnostic" })
 keymap("n", "<leader>xb", vim.diagnostic.setloclist, { desc = "Buffer Diagnostic" })
 keymap("n", "<leader>xw", vim.diagnostic.setqflist, { desc = "Workspace Diagnostic" })
--- map("n", "<leader>x]", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
--- map("n", "<leader>x[", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 
 -- Editor
 keymap("n", "<leader><CR>", cmd_fn "noh", { desc = "Clear Highlight" })
 local function tree_layout() vim.treesitter.show_tree { command = "topleft 50vnew" } end
 keymap("n", "<leader>s", tree_layout, { desc = "Toggle TreeSitter Playground" })
-keymap("n", "<CR>", "o", { desc = "New Line" })
+keymap("n", "<CR>", "i<CR><ESC>", { desc = "New Line" })
 keymap("n", ",", cmd_fn "vs", { desc = "Split Vertically" })
 keymap("ni", "<c-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]], { desc = "Toggle Terminal" })
 keymap("n", "vv", "V", { desc = "Visual Line" })
@@ -59,13 +57,8 @@ keymap("n", "<leader>wu", function()
   vim.cmd.PackerCompile()
 end, { desc = "Update Extensions" })
 keymap("n", "<leader>wt", function()
-  if vim.o.background == "dark" then
-    vim.opt.background = "light"
-    vim.cmd.color(vim.settings.get("vim.ui.preferredLightTheme", "tokyonight-day"))
-  else
-    vim.opt.background = "dark"
-    vim.cmd.color(vim.settings.get("vim.ui.preferredDarkTheme", "tokyonight-night"))
-  end
+  local mode = vim.o.background == "dark" and "light" or "dark"
+  vim.opt.background = mode
 end, { desc = "Switch Theme" })
 
 -- Scroll disabled
