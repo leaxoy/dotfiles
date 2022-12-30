@@ -154,10 +154,6 @@
             "json.validate.enable": true
         },
         "omnisharp": {
-            "ImplementTypeOptions": {
-                "InsertionBehavior": "AtTheEnd",
-                "PropertyGenerationBehavior": "PreferAutoProperties"
-            },
             "csharp.format.enable": true,
             "csharp.inlayHints.parameters.enabled": true,
             "csharp.inlayHints.parameters.forIndexerParameters": true,
@@ -181,6 +177,7 @@
             "omnisharp.enableDecompilationSupport": true,
             "omnisharp.enableEditorConfigSupport": true,
             "omnisharp.enableImportCompletion": true,
+            "omnisharp.enableRoslynAnalyzers": true,
             "omnisharp.organizeImportsOnFormat": true,
             "omnisharp.sdkIncludePrereleases": true,
             "omnisharp.useEditorFormattingSettings": true,
@@ -193,12 +190,7 @@
                 "reportGeneralTypeIssues": "warning"
             },
             "python.analysis.typeCheckingMode": "basic",
-            "python.analysis.useLibraryCodeForTypes": true,
-            "python.venvPath": "~/Library/Caches/pypoetry/virtualenvs"
-        },
-        "rome": {
-            "rome.rename": true,
-            "rome_lsp.trace.server": "messages"
+            "python.analysis.useLibraryCodeForTypes": true
         },
         "rust_analyzer": {
             "rust-analyzer.cargo.autoreload": true,
@@ -318,32 +310,6 @@
                 "format_line": "true"
             },
             "Lua.workspace.checkThirdParty": false
-        },
-        "tsserver": {
-            "javascript.format.enable": true,
-            "javascript.inlayHints.enumMemberValues.enabled": true,
-            "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
-            "javascript.inlayHints.parameterNames.enabled": "all",
-            "javascript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": false,
-            "javascript.inlayHints.parameterTypes.enabled": true,
-            "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
-            "javascript.inlayHints.variableTypes.enabled": true,
-            "javascript.inlayHints.variableTypes.suppressWhenTypeMatchesName": false,
-            "javascript.referencesCodeLens.enabled": true,
-            "javascript.referencesCodeLens.showOnAllFunctions": true,
-            "typescript.format.enable": true,
-            "typescript.inlayHints.enumMemberValues.enabled": true,
-            "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
-            "typescript.inlayHints.parameterNames.enabled": "all",
-            "typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": false,
-            "typescript.inlayHints.parameterTypes.enabled": true,
-            "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
-            "typescript.inlayHints.variableTypes.enabled": true,
-            "typescript.inlayHints.variableTypes.suppressWhenTypeMatchesName": false,
-            "typescript.referencesCodeLens.enabled": true,
-            "typescript.referencesCodeLens.showOnAllFunctions": true,
-            "typescript.suggest.includeCompletionsWithSnippetText": true,
-            "typescript.tsserver.experimental.enableProjectDiagnostics": true
         }
     },
     "mason": {
@@ -365,7 +331,6 @@
             "golangci-lint"
         ],
         "lsp": [
-            "clangd",
             "gopls",
             "jdtls",
             "json-lsp",

@@ -30,11 +30,3 @@ autocmd("TextYankPost", {
   pattern = "*",
   callback = function() vim.highlight.on_yank() end,
 })
-
---#region filetype detect
-autocmd({ "BufRead", "BufNewFile" }, {
-  desc = "Detect thrift filetype",
-  pattern = "*.thrift",
-  callback = function() vim.bo.filetype = "thrift" end,
-})
---#endregion

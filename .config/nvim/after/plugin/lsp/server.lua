@@ -29,15 +29,15 @@ mason_adapter.setup_handlers {
       cmd = { "dotnet", vim.fn.stdpath "data" .. "/mason/packages/omnisharp/OmniSharp.dll" },
     }
   end,
-  -- rust_analyzer = function()
-  --   require("rust-tools").setup {
-  --     tools = { inlay_hints = { auto = true } },
-  --     server = { standalone = true },
-  --     dap = {
-  --       adapter = { type = "executable", command = "codelldb", name = "codelldb" },
-  --     },
-  --   }
-  -- end,
+  rust_analyzer = function()
+    require("rust-tools").setup {
+      tools = { inlay_hints = { auto = false } },
+      server = { standalone = true },
+      dap = {
+        adapter = { type = "executable", command = "codelldb", name = "codelldb" },
+      },
+    }
+  end,
   sumneko_lua = function()
     require("neodev").setup {}
     local root_dir = require("lspconfig").util.root_pattern("init.lua", "lua")

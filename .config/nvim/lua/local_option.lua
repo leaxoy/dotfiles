@@ -1,6 +1,5 @@
 -- lsp server config --
 vim.g.lsp_servers = {
-  "clangd",
   "gopls",
   "jdtls",
   "jsonls",
@@ -8,7 +7,6 @@ vim.g.lsp_servers = {
   "rust_analyzer",
   "sumneko_lua",
   "taplo",
-  "tsserver",
 }
 
 -- copilot config --

@@ -1,8 +1,6 @@
 local saga_status, saga = pcall(require, "lspsaga")
 if saga_status then
   saga.init_lsp_saga {
-    border_style = "double",
-    max_preview_lines = 25,
     symbol_in_winbar = {
       enable = true,
       in_custom = false,
@@ -21,11 +19,16 @@ if saga_status then
     },
     show_outline = { auto_enter = false, jump_key = "<CR>" },
     finder_request_timeout = 5000,
-    finder_icons = { def = " ", imp = " ", ref = " " },
+    ui = {
+      border = "single",
+      finder_def = " ",
+      finder_imp = " ",
+      finder_ref = " ",
+    },
     rename_action_quit = "<Esc>",
     definition_action_keys = { quit = "q" },
     code_action_lightbulb = { enable = false },
-    -- call_hierarchy = { show_detail = true },
+    call_hierarchy = { show_detail = true },
   }
 end
 

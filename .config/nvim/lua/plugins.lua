@@ -53,7 +53,6 @@ return require("packer").startup {
     use { "rcarriga/nvim-notify" } -- notify component
 
     -- Lang specifies
-    use { "solarnz/thrift.vim", opt = true, ft = "thrift" }
     use { "saecki/crates.nvim", requires = "nvim-lua/plenary.nvim" }
     use { "krady21/compiler-explorer.nvim", requires = "nvim-lua/plenary.nvim" }
     use { "mfussenegger/nvim-jdtls" }
@@ -62,7 +61,7 @@ return require("packer").startup {
     -- TextDocument Capabilities
     use { "neovim/nvim-lspconfig" } -- lsp adapters
     use { "jose-elias-alvarez/null-ls.nvim", requires = "nvim-lua/plenary.nvim" } -- enchance lsp client
-    use { "glepnir/lspsaga.nvim" }
+    use { "glepnir/lspsaga.nvim", branch = "version_2.3" }
     use { "dnlhc/glance.nvim" }
     -- completion support
     use { "hrsh7th/nvim-cmp" }

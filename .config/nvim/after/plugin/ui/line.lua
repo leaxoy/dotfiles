@@ -94,7 +94,7 @@ fe.setup {
   force_inactive = {},
 }
 
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "CursorMoved" }, {
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "CursorMoved", "CursorMovedI" }, {
   pattern = "*",
   callback = function()
     local excludes = {
