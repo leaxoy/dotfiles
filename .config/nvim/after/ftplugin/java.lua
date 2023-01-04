@@ -41,6 +41,6 @@ jdtls.start_or_attach {
     os.getenv "HOME" .. "/.cache/jdtls/workspace/" .. project_name,
   },
   init_options = {
-    bundles = vim.list_extend(debug_bundles, test_bundles, 1, #test_bundles),
+    bundles = vim.list_extend(debug_bundles, test_bundles),
   },
 }
