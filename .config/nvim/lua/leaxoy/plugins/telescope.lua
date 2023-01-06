@@ -6,6 +6,23 @@ return {
     "nvim-telescope/telescope-dap.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
   },
+  cmd = "Telescope",
+  keys = {
+    { "fw", [[<CMD>Telescope<CR>]], desc = "Open Telescope Window" },
+    { "ff", [[<CMD>Telescope find_files<CR>]], desc = "File Finder" },
+    { "fl", [[<CMD>Telescope file_browser<CR>]], desc = "File Browser" },
+    { "fg", [[<CMD>Telescope live_grep_args<CR>]], desc = "Live Grep" },
+    { "fc", [[<CMD>Telescope grep_string<CR>]], desc = "Grep Cursor String" },
+    { "fh", [[<CMD>Telescope help_tags<CR>]], desc = "Help" },
+    { "fb", [[<CMD>Telescope buffers<CR>]], desc = "All Buffers" },
+    { "fn", [[<CMD>Telescope notify<CR>]], desc = "Notifications" },
+    { "fx", [[<CMD>Telescope diagnostics<CR>]], desc = "Diagnostics" },
+    { "ft", [[<CMD>TodoTelescope<CR>]], desc = "Todo List" },
+    { "fdb", [[<CMD>Telescope dap list_breakpoints<CR>]], desc = "Dap: List Breakpoints" },
+    { "fdc", [[<CMD>Telescope dap configurations<CR>]], desc = "Dap: Configurations" },
+    { "fdf", [[<CMD>Telescope dap frames<CR>]], desc = "Dap: Frames" },
+    { "fdv", [[<CMD>Telescope dap variables<CR>]], desc = "Dap: Variables" },
+  },
   config = function()
     local telescope = require "telescope"
     local actions = require "telescope.actions"
@@ -99,9 +116,7 @@ return {
           initial_mode = "insert",
         },
         notify = { initial_mode = "normal" },
-        ["ui-select"] = {
-          themes.get_dropdown {},
-        },
+        ["ui-select"] = { themes.get_dropdown {} },
       },
     }
 
@@ -111,20 +126,5 @@ return {
     pcall(telescope.load_extension, "todo-comments")
     pcall(telescope.load_extension, "notify")
     pcall(telescope.load_extension, "ui-select")
-
-    keymap("n", "fw", builtin.builtin, { desc = "Open Telescope Window" })
-    keymap("n", "ff", builtin.find_files, { desc = "File Finder" })
-    keymap("n", "fl", extensions.file_browser.file_browser, { desc = "File Browser" })
-    keymap("n", "fg", extensions.live_grep_args.live_grep_args, { desc = "Live Grep" })
-    keymap("n", "fc", builtin.grep_string, { desc = "Grep Cursor String" })
-    keymap("n", "fh", builtin.help_tags, { desc = "Help" })
-    keymap("n", "fb", builtin.buffers, { desc = "All Buffers" })
-    keymap("n", "fn", extensions.notify.notify, { desc = "Notifications" })
-    keymap("n", "fx", builtin.diagnostics, { desc = "Diagnostics" })
-    keymap("n", "ft", [[<CMD>TodoTelescope<CR>]], { desc = "Todo List" })
-    keymap("n", "fdb", extensions.dap.list_breakpoints, { desc = "Dap: List Breakpoints" })
-    keymap("n", "fdc", extensions.dap.configurations, { desc = "Dap: Configurations" })
-    keymap("n", "fdf", extensions.dap.frames, { desc = "Dap: Frames" })
-    keymap("n", "fdv", extensions.dap.variables, { desc = "Dap: Variables" })
   end,
 }

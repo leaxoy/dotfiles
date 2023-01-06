@@ -6,6 +6,20 @@ return {
     "Weissle/persistent-breakpoints.nvim",
     "jayp0521/mason-nvim-dap.nvim",
   },
+  event = "BufReadPost",
+  keys = {
+    {
+      "<F4>",
+      [[<CMD>PBToggleBreakpoint<CR>]],
+      desc = "Toggle Breakpoint",
+      mode = { "n", "v", "i" },
+    },
+    { "<F5>", [[<CMD>DapCoutinue<CR>]], desc = "Run | Countine", mode = { "n", "v", "i" } },
+    { "<F7>", [[<CMD>DapStepBack<CR>]], desc = "Step Back", mode = { "n", "v", "i" } },
+    { "<F7>", [[<CMD>DapStepOver<CR>]], desc = "Step Over", mode = { "n", "v", "i" } },
+    { "<F8>", [[<CMD>DapStepInto<CR>]], desc = "Step Into", mode = { "n", "v", "i" } },
+    { "<F9>", [[<CMD>DapStepOut<CR>]], desc = "Step Out", mode = { "n", "v", "i" } },
+  },
   config = function()
     local dap = require "dap"
     local dapui = require "dapui"
@@ -63,29 +77,15 @@ return {
       "DapBreakpointRejected",
       { text = "", texthl = "FoldColumn", linehl = "", numhl = "" }
     )
-    sign_def("DapStopped", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" }) --  
+    sign_def("DapStopped", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" }) --  
     sign_def("DapLogPoint", { text = "◆", texthl = "", linehl = "", numhl = "" })
 
-    keymap("nvi", "<F4>", bp_api.toggle_breakpoint, { desc = "Toggle Breakpoint" })
-    keymap("nvi", "<F5>", dap.continue, { desc = "Run | Countine" })
-    keymap("nvi", "<F6>", function() dap.step_back() end, { desc = "Step Back" })
-    keymap("nvi", "<F7>", function() dap.step_over() end, { desc = "Step Over" })
-    keymap("nvi", "<F8>", function() dap.step_into() end, { desc = "Step Into" })
-    keymap("nvi", "<F9>", function() dap.step_out() end, { desc = "Step Out" })
-    -- map({ "n" }, "<leader>dr", function() dap.repl.toggle() end, { desc = "Repl" })
-    keymap(
-      "nv",
-      "<M-e>",
-      function() dapui.eval(nil, { enter = true }) end,
-      { desc = "Eval Expression" }
-    )
+    local function eval() dapui.eval(nil, { enter = true }) end
+    keymap("nv", "<M-e>", eval, { desc = "Eval Expression" })
     local dap_float = function() dapui.float_element("scopes", { enter = true }) end
     keymap("ni", "<M-f>", dap_float, { desc = "Show Floating Window" })
-    -- map("n", "<leader>du", ui.toggle, { desc = "Debug Window" })
 
-    local mason_status, mason_adapter = pcall(require, "mason-nvim-dap")
-
-    if not mason_status then return end
+    local mason_adapter = require "mason-nvim-dap"
 
     mason_adapter.setup {
       automatic_installation = true,

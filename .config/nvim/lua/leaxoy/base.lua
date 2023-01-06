@@ -69,4 +69,5 @@ vim.opt.colorcolumn = "80"
 
 --#region keymap config
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 --#endregion

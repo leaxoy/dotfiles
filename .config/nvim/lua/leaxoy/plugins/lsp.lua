@@ -134,6 +134,7 @@ return {
     "simrat39/rust-tools.nvim",
     "b0o/SchemaStore.nvim",
   },
+  event = "BufReadPost",
   config = function()
     require("neoconf").setup {}
     local lsp = require "lspconfig"
@@ -188,8 +189,9 @@ return {
       end,
       sumneko_lua = function()
         require("neodev").setup {}
-        local root_dir = lsp.util.root_pattern("init.lua", "lua")
-        lsp.sumneko_lua.setup { root_dir = root_dir }
+        -- local root_dir = lsp.util.root_pattern("init.lua", "lua")
+        -- lsp.sumneko_lua.setup { root_dir = root_dir }
+        lsp.sumneko_lua.setup {}
       end,
     }
   end,

@@ -1,4 +1,5 @@
 local origin_make_client_capabilities = vim.lsp.protocol.make_client_capabilities
+---@diagnostic disable-next-line: duplicate-set-field
 function vim.lsp.protocol.make_client_capabilities()
   local capabilities = origin_make_client_capabilities()
   local textDocument = capabilities.textDocument

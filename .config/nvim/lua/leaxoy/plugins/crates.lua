@@ -1,5 +1,6 @@
 return {
   "saecki/crates.nvim",
+  event = "BufEnter Cargo.toml",
   config = function()
     local crates = require "crates"
 

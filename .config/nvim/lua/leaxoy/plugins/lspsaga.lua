@@ -1,6 +1,7 @@
 return {
   "glepnir/lspsaga.nvim",
   branch = "version_2.3",
+  event = "LspAttach",
   config = function()
     require("lspsaga").init_lsp_saga {
       ui = {
@@ -24,13 +25,13 @@ return {
         keys = { quit = "q", exec = "<CR>" },
       },
       lightbulb = {
-        enable = true,
+        enable = false,
         enable_in_insert = false,
         cache_code_action = true,
-        sign = true,
+        sign = false,
         update_time = 100,
         sign_priority = 40,
-        virtual_text = false,
+        virtual_text = true,
       },
       preview = { lines_above = 0, lines_below = 15 },
       scroll_preview = { scroll_down = "<C-d>", scroll_up = "<C-u>" },

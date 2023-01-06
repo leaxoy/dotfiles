@@ -9,6 +9,7 @@ return {
     "nvim-neotest/neotest-python",
     "rouge8/neotest-rust",
   },
+  event = "BufReadPost",
   config = function()
     local neotest = (require "neotest")
 

@@ -1,6 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
+  event = "BufReadPost",
   config = function()
     local ts_config_status, ts_config = pcall(require, "nvim-treesitter.configs")
     if not ts_config_status then return end

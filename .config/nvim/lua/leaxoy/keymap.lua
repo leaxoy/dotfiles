@@ -50,8 +50,8 @@ keymap("n", "vc", "<C-v>", { desc = "Visual Block" })
 --#endregion
 
 --#region WorkBench
-keymap("n", "<leader>wi", cmd_fn [[Inspect]], { desc = "Inspect Position" })
-keymap("n", "<leader>wu", cmd_fn [[Lazy sync]], { desc = "Update Extensions" })
+keymap("n", "<leader>wi", "<CMD>Inspect<CR>", { desc = "Inspect Position" })
+keymap("n", "<leader>wu", "<CMD>Lazy sync<CR>", { desc = "Update Extensions" })
 keymap("n", "<leader>wt", function()
   local mode = vim.o.background == "dark" and "light" or "dark"
   vim.opt.background = mode

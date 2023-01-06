@@ -1,6 +1,7 @@
 return {
   "jose-elias-alvarez/null-ls.nvim",
   dependencies = { "jay-babu/mason-null-ls.nvim", "nvim-lua/plenary.nvim" },
+  event = "BufReadPost",
   config = function()
     local null_ls = require "null-ls"
 

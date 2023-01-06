@@ -19,7 +19,8 @@ vim.opt.runtimepath:prepend(lazypath)
 
 require("lazy").setup {
   spec = "leaxoy.plugins",
-  install = { colorscheme = { "vscode", "habamax" } },
+  checker = { enabled = true },
+  install = { colorscheme = { "gruvbox-material", "vscode", "habamax" } },
   performance = {
     cache = { enabled = true },
     rtp = {
