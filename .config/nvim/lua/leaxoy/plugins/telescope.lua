@@ -8,7 +8,7 @@ return {
   },
   cmd = "Telescope",
   keys = {
-    { "fw", [[<CMD>Telescope<CR>]], desc = "Open Telescope Window" },
+    { "fw", [[<CMD>Telescope<CR>]], desc = "Telescope Window" },
     { "ff", [[<CMD>Telescope find_files<CR>]], desc = "File Finder" },
     { "fl", [[<CMD>Telescope file_browser<CR>]], desc = "File Browser" },
     { "fg", [[<CMD>Telescope live_grep_args<CR>]], desc = "Live Grep" },
@@ -26,8 +26,6 @@ return {
   config = function()
     local telescope = require "telescope"
     local actions = require "telescope.actions"
-    local builtin = require "telescope.builtin"
-    local extensions = telescope.extensions
     local previewers = require "telescope.previewers"
     local sorters = require "telescope.sorters"
     local themes = require "telescope.themes"
@@ -126,5 +124,6 @@ return {
     pcall(telescope.load_extension, "todo-comments")
     pcall(telescope.load_extension, "notify")
     pcall(telescope.load_extension, "ui-select")
+    pcall(telescope.load_extension, "noice")
   end,
 }

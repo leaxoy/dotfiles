@@ -20,7 +20,7 @@ return {
       },
       operators = { gc = "Comments" },
       key_labels = { ["<space>"] = "SPC", ["<cr>"] = "RET", ["<tab>"] = "TAB" },
-      icons = { breadcrumb = "»", separator = "ﲖ", group = "+" },
+      -- icons = { breadcrumb = "", separator = "", group = " " },
       popup_mappings = { scroll_down = "<c-d>", scroll_up = "<c-u>" },
       window = {
         border = "rounded", -- none, single, double, shadow
@@ -52,6 +52,7 @@ return {
       ["["] = { name = "+Prev" },
       ["<leader>l"] = { name = "+Packager" },
       ["<leader>c"] = { name = "+Code" },
+      ["<leader>t"] = { name = "+Task" },
       ["<leader>v"] = { name = "+VCS" },
       ["<leader>x"] = { name = "+Diagnostics" },
       ["<leader>w"] = { name = "+Workspace" },

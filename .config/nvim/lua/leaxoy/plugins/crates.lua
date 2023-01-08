@@ -1,6 +1,7 @@
 return {
   "saecki/crates.nvim",
-  event = "BufEnter Cargo.toml",
+  event = "BufRead Cargo.toml",
+  dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     local crates = require "crates"
 

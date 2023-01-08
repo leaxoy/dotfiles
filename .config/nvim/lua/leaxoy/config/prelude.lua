@@ -33,5 +33,6 @@ end
 ---@param name string plugin name
 ---@return boolean
 function _G.is_plugin_installed(name)
-  return vim.tbl_contains(vim.tbl_keys(package.loaded or {}), name)
+  local status, _ = pcall(require, name)
+  return status
 end

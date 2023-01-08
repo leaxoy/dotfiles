@@ -6,6 +6,7 @@ vim.opt.timeoutlen = 200
 vim.opt.clipboard = "unnamedplus"
 vim.opt.swapfile = false
 vim.opt.backup = false
+vim.opt.writebackup = false
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.splitkeep = "topline"
@@ -26,6 +27,7 @@ vim.opt.confirm = true
 vim.opt.spelloptions = "camel,noplainbuffer"
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = ""
+vim.opt.signcolumn = "yes"
 --#endregion
 
 --#region indent config --
@@ -65,6 +67,7 @@ vim.opt.cursorline = true
 vim.opt.cursorcolumn = true
 vim.opt.ruler = true
 vim.opt.colorcolumn = "80"
+vim.opt.pumheight = 10
 --#endregion
 
 --#region keymap config

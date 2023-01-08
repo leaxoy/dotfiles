@@ -1,9 +1,9 @@
-require "leaxoy.base"
-require "leaxoy.prelude"
-require "leaxoy.commands"
-require "leaxoy.keymap"
-require "leaxoy.diagnostic"
-require "leaxoy.lsp"
+require "leaxoy.config.base"
+require "leaxoy.config.prelude"
+require "leaxoy.config.commands"
+require "leaxoy.config.keymap"
+require "leaxoy.config.diagnostic"
+require "leaxoy.config.lsp"
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -20,7 +20,7 @@ vim.opt.runtimepath:prepend(lazypath)
 require("lazy").setup {
   spec = "leaxoy.plugins",
   checker = { enabled = true },
-  install = { colorscheme = { "gruvbox-material", "vscode", "habamax" } },
+  install = { colorscheme = { "tokyonight", "vscode", "habamax" } },
   performance = {
     cache = { enabled = true },
     rtp = {

@@ -25,7 +25,7 @@ return {
       },
       views = {
         hover = {
-          border = { padding = { 0, 1 } },
+          border = { padding = { 0, 0 } },
           size = { max_width = 80, max_height = 16 },
           position = { row = 1, col = 0 },
         },

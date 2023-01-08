@@ -41,7 +41,7 @@ keymap("n", "]x", vim.diagnostic.goto_prev, { desc = "Next Diagnostic" })
 --#region Editor
 keymap("n", "<leader><CR>", cmd_fn "noh", { desc = "Clear Highlight" })
 local function tree_layout() vim.treesitter.show_tree { command = "topleft 50vnew" } end
-keymap("n", "<leader>s", tree_layout, { desc = "Toggle TreeSitter Playground" })
+keymap("n", "<leader>ct", tree_layout, { desc = "TreeSitter Playground" })
 keymap("n", "<CR>", "i<CR><ESC>", { desc = "New Line" })
 keymap("n", ",", cmd_fn "vs", { desc = "Split Vertically" })
 keymap("ni", "<c-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]], { desc = "Toggle Terminal" })

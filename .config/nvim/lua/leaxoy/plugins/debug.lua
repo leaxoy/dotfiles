@@ -14,7 +14,7 @@ return {
       desc = "Toggle Breakpoint",
       mode = { "n", "v", "i" },
     },
-    { "<F5>", [[<CMD>DapCoutinue<CR>]], desc = "Run | Countine", mode = { "n", "v", "i" } },
+    { "<F5>", [[<CMD>DapContinue<CR>]], desc = "Run | Continue", mode = { "n", "v", "i" } },
     { "<F7>", [[<CMD>DapStepBack<CR>]], desc = "Step Back", mode = { "n", "v", "i" } },
     { "<F7>", [[<CMD>DapStepOver<CR>]], desc = "Step Over", mode = { "n", "v", "i" } },
     { "<F8>", [[<CMD>DapStepInto<CR>]], desc = "Step Into", mode = { "n", "v", "i" } },
@@ -57,6 +57,19 @@ return {
           position = "bottom",
         },
       },
+      controls = {
+        element = "repl",
+        icons = {
+          pause = "",
+          play = "",
+          step_into = "",
+          step_over = "",
+          step_out = "",
+          step_back = "",
+          run_last = "",
+          terminate = "",
+        },
+      },
       floating = {
         max_height = nil, -- These can be integers or a float between 0 and 1.
         max_width = nil, -- Floats will be treated as percentage of your screen.
@@ -67,18 +80,11 @@ return {
       render = {},
     }
 
-    local sign_def = vim.fn.sign_define
-    sign_def("DapBreakpoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
-    sign_def(
-      "DapBreakpointCondition",
-      { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" }
-    )
-    sign_def(
-      "DapBreakpointRejected",
-      { text = "", texthl = "FoldColumn", linehl = "", numhl = "" }
-    )
-    sign_def("DapStopped", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" }) --  
-    sign_def("DapLogPoint", { text = "◆", texthl = "", linehl = "", numhl = "" })
+    vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "ErrorMsg" })
+    vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "ErrorMsg" })
+    vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "FoldColumn" })
+    vim.fn.sign_define("DapStopped", { text = "", texthl = "ErrorMsg" }) --  
+    vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "" })
 
     local function eval() dapui.eval(nil, { enter = true }) end
     keymap("nv", "<M-e>", eval, { desc = "Eval Expression" })

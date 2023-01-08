@@ -10,9 +10,6 @@ local function resolve_text_document_capabilities(client, buffer)
     map("n", "gD", vim.lsp.buf.declaration, { desc = "Declaration" })
   end
   if caps.definitionProvider then
-    if has_lspsaga then
-      map("n", "gf", [[<CMD>Lspsaga lsp_finder<CR>]], { desc = "[LSP] Finder" })
-    end
     local def = has_glance and [[<CMD>Glance definitions<CR>]] or vim.lsp.buf.definition
     map("n", "gd", def, { desc = "[LSP] Definition" })
   end
@@ -58,7 +55,11 @@ local function resolve_text_document_capabilities(client, buffer)
         vim.cmd.help { args = { vim.fn.expand "<cword>" } }
       elseif vim.bo.filetype == "man" then
         vim.cmd.Man { args = { vim.fn.expand "<cword>" } }
-      elseif vim.fn.expand "%:t" == "Cargo.toml" and is_plugin_installed "crates.nvim" then
+      elseif
+        vim.fn.expand "%:t" == "Cargo.toml"
+        and is_plugin_installed "crates"
+        and require("crates").popup_available()
+      then
         require("crates").show_popup()
       else
         vim.lsp.buf.hover()
@@ -159,24 +160,36 @@ return {
       function(server_name) lsp[server_name].setup {} end,
       clangd = function()
         local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities.offsetEncoding = {
-          "utf-16",
-        }
+        capabilities.offsetEncoding = { "utf-16" }
         lsp.clangd.setup { capabilities = capabilities }
+      end,
+      gopls = function()
+        lsp.gopls.setup {
+          settings = {
+            gopls = {
+              ["ui.codelenses"] = {
+                gc_details = true,
+                generate = true,
+                regenerate_cgo = true,
+                run_govulncheck = true,
+                test = true,
+                tidy = true,
+                upgrade_dependency = true,
+                vendor = true,
+              },
+              ["ui.semanticTokens"] = true,
+            },
+          },
+        }
       end,
       jdtls = function() end,
       jsonls = function()
-        lsp.jsonls.setup {
-          settings = { json = { schemas = require("schemastore").json.schemas() } },
-        }
+        local schemas = require("schemastore").json.schemas()
+        lsp.jsonls.setup { settings = { json = { schemas = schemas } } }
       end,
       omnisharp = function()
-        lsp.omnisharp.setup {
-          cmd = {
-            "dotnet",
-            vim.fn.stdpath "data" .. "/mason/packages/omnisharp/OmniSharp.dll",
-          },
-        }
+        local dll = vim.fn.stdpath "data" .. "/mason/packages/omnisharp/OmniSharp.dll"
+        lsp.omnisharp.setup { cmd = { "dotnet", dll } }
       end,
       rust_analyzer = function()
         require("rust-tools").setup {

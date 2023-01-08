@@ -1,1 +1,1 @@
-require "leaxoy"
+require "leaxoy.config"

@@ -75,8 +75,12 @@ return {
     event = "BufReadPre",
     config = function()
       require("gitsigns").setup {
+        current_line_blame = true,
+        current_line_blame_opts = { delay = 150 },
         yadm = { enable = true },
       }
     end,
   },
+
+  { "NvChad/nvim-colorizer.lua", config = function() require("colorizer").setup() end },
 }

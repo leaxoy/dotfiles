@@ -34,18 +34,22 @@ return {
       {
         provider = "git_branch",
         hl = hl_fn { fg = "cyan", style = "bold" },
+        icon = "  ",
       },
       {
         provider = "git_diff_added",
         hl = hl_fn { fg = "green" },
+        icon = "  ",
       },
       {
         provider = "git_diff_removed",
         hl = hl_fn { fg = "red" },
+        icon = "  ",
       },
       {
         provider = "git_diff_changed",
         hl = hl_fn { fg = "orange" },
+        icon = "  ",
       },
     }
 
@@ -67,7 +71,7 @@ return {
     }
 
     components.active[3] = {
-      { provider = "search_count", hl = hl_fn { fg = "lightblue" } },
+      { provider = "search_count", hl = hl_fn { fg = "lightblue" }, icon = " " },
       { provider = "diagnostic_errors", hl = hl_fn { fg = "red" } },
       { provider = "diagnostic_warnings", hl = hl_fn { fg = "yellow" } },
       { provider = "diagnostic_hints", hl = hl_fn { fg = "cyan" } },

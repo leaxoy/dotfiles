@@ -22,5 +22,10 @@ return {
       pattern = "term://*",
       callback = function() buffer_keymap("t", "<Esc>", "<C-\\><C-n>") end,
     })
+
+    if vim.fn.executable "gitui" then
+      local git = require("toggleterm.terminal").Terminal:new { cmd = "gitui" }
+      keymap("n", "<leader>vv", function() git:toggle() end, { desc = "Git UI" })
+    end
   end,
 }

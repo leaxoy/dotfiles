@@ -2,6 +2,9 @@ return {
   "glepnir/lspsaga.nvim",
   branch = "version_2.3",
   event = "LspAttach",
+  keys = {
+    { "gf", [[<CMD>Lspsaga lsp_finder<CR>]], desc = "[LSP] Finder" },
+  },
   config = function()
     require("lspsaga").init_lsp_saga {
       ui = {
@@ -11,7 +14,9 @@ return {
         code_action = "",
         incoming = " ",
         outgoing = " ",
-        normal = "NONE",
+        colors = {
+          normal_bg = "NONE",
+        },
       },
       symbol_in_winbar = {
         enable = true,

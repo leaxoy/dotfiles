@@ -11,6 +11,16 @@ return {
     "rafamadriz/friendly-snippets",
   },
   config = function()
+    ---comment
+    ---@param s string
+    ---@param patterns table<string>
+    local function contains_any(s, patterns)
+      for _, p in ipairs(patterns) do
+        if type(s) == "string" and s:find(p, 1, true) then return true end
+      end
+      return false
+    end
+
     local cmp = require "cmp"
 
     local has_words_before = function()
@@ -108,8 +118,22 @@ return {
           cmp.config.compare.order,
         },
       },
-      sources = {
-        { name = "nvim_lsp" },
+      sources = cmp.config.sources {
+        {
+          name = "nvim_lsp",
+          ---@param entry cmp.Entry
+          ---@param ctx cmp.Context
+          ---@return boolean
+          entry_filter = function(entry, ctx)
+            local item = entry:get_completion_item()
+            local ft = ctx.filetype
+            local boilerplate_method =
+              contains_any(item.label, { "ReadField", "FastRead", "WriteField", "FastWrite" })
+
+            if ft == "go" and boilerplate_method then return false end
+            return true
+          end,
+        },
         { name = "vsnip" },
         { name = "buffer" },
       },
@@ -134,7 +158,7 @@ return {
     cmp.setup.filetype({ "dap-repl" }, { sources = { { name = "dap" } } })
 
     vim.api.nvim_create_autocmd("BufRead", {
-      group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
+      group = vim.api.nvim_create_augroup("CmpSourceCargo", {}),
       pattern = "Cargo.toml",
       callback = function() cmp.setup.buffer { sources = { { name = "crates" } } } end,
     })

@@ -3,8 +3,7 @@ return {
   config = function()
     local dashboard = require "dashboard"
 
-    vim.api.nvim_create_autocmd("VimLeave", { callback = function() vim.cmd "SessionSave" end })
-
+    dashboard.session_auto_save_on_exit = true
     dashboard.session_directory = vim.fn.stdpath "data" .. "/session"
     dashboard.hide_statusline = true
     dashboard.hide_tabline = true
@@ -30,28 +29,45 @@ return {
     dashboard.center_pad = 1
     dashboard.footer_pad = 1
     dashboard.custom_center = {
-      { icon = " ", desc = "Load Session  ", shortcut = "SPC s l", action = "SessionLoad" },
       {
-        icon = " ",
-        desc = "Find File     ",
+        icon = " ",
+        desc = "Load Session                      ",
+        shortcut = "SPC s l",
+        action = "SessionLoad",
+      },
+      {
+        icon = " ",
+        desc = "Commands                          ",
+        shortcut = "  f w  ",
+        action = "Telescope",
+      },
+      {
+        icon = " ",
+        desc = "Find File                         ",
         shortcut = "  f f  ",
         action = "Telescope find_files",
       },
       {
-        icon = " ",
-        desc = "File Browser  ",
+        icon = " ",
+        desc = "File Browser                      ",
         shortcut = "  f l  ",
         action = "Telescope file_browser",
       },
       {
-        icon = " ",
-        desc = "Find Word     ",
+        icon = " ",
+        desc = "Find Word                         ",
         shortcut = "  f g  ",
         action = "Telescope live_grep",
       },
       {
-        icon = "ﲉ ",
-        desc = "Help          ",
+        icon = " ",
+        desc = "Open Terminal                     ",
+        shortcut = " <C-t> ",
+        action = "ToggleTerm",
+      },
+      {
+        icon = " ",
+        desc = "Help                              ",
         shortcut = "  f h  ",
         action = "Telescope help_tags",
       },
