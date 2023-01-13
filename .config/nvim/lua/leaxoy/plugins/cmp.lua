@@ -10,8 +10,8 @@ return {
     "hrsh7th/vim-vsnip",
     "rafamadriz/friendly-snippets",
   },
+  event = "InsertEnter",
   config = function()
-    ---comment
     ---@param s string
     ---@param patterns table<string>
     local function contains_any(s, patterns)
@@ -105,6 +105,9 @@ return {
           cmp.config.compare.exact,
           cmp.config.compare.score,
           cmp.config.compare.recently_used,
+          ---@param lhs cmp.Entry
+          ---@param rhs cmp.Entry
+          ---@return boolean
           function(lhs, rhs)
             local _, lhs_under = lhs.completion_item.label:find "^_+"
             local _, rhs_under = rhs.completion_item.label:find "^_+"

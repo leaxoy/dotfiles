@@ -1,5 +1,6 @@
 return {
   "kevinhwang91/nvim-bqf",
+  ft = "qf",
   config = function()
     local fn = vim.fn
 

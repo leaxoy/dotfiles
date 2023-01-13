@@ -1,5 +1,10 @@
 --#region Lsp Client Configuration
 local function resolve_text_document_capabilities(client, buffer)
+  --#region HACK
+  --hack ruff_lsp
+  if client.name == "ruff_lsp" then client.server_capabilities.hoverProvider = nil end
+  --#endregion
+
   local function map(mode, lhs, rhs, opts) buffer_keymap(mode, lhs, rhs, buffer, opts) end
 
   local caps = client.server_capabilities
@@ -137,7 +142,6 @@ return {
   },
   event = "BufReadPost",
   config = function()
-    require("neoconf").setup {}
     local lsp = require "lspconfig"
     require("lspconfig.ui.windows").default_options.border = "double"
 
@@ -167,6 +171,18 @@ return {
         lsp.gopls.setup {
           settings = {
             gopls = {
+              hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                compositeLiteralTypes = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeVariableTypes = true,
+              },
+              ["formatting.gofumpt"] = true,
+              ["ui.completion.experimentalPostfixCompletions"] = true,
+              ["ui.completion.usePlaceholders"] = true,
               ["ui.codelenses"] = {
                 gc_details = true,
                 generate = true,
@@ -177,6 +193,22 @@ return {
                 upgrade_dependency = true,
                 vendor = true,
               },
+              ["ui.diagnostic.annotations"] = {
+                bounds = true,
+                escape = true,
+                inline = true,
+                ["nil"] = true,
+              },
+              ["ui.diagnostic.analyses"] = {
+                fieldalignment = true,
+                nilness = true,
+                shadow = true,
+                unusedparams = true,
+                unusedvariable = true,
+                unusedwrite = true,
+                useany = true,
+              },
+              ["ui.diagnostic.staticcheck"] = true,
               ["ui.semanticTokens"] = true,
             },
           },
@@ -202,8 +234,6 @@ return {
       end,
       sumneko_lua = function()
         require("neodev").setup {}
-        -- local root_dir = lsp.util.root_pattern("init.lua", "lua")
-        -- lsp.sumneko_lua.setup { root_dir = root_dir }
         lsp.sumneko_lua.setup {}
       end,
     }

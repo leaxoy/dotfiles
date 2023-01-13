@@ -1,5 +1,8 @@
 return {
   "akinsho/toggleterm.nvim",
+  keys = {
+    { "<C-t>", "<CMD>ToggleTerm<CR>" },
+  },
   config = function()
     local toggleterm = (require "toggleterm")
 

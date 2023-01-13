@@ -1,22 +1,28 @@
 return {
   "glepnir/lspsaga.nvim",
-  branch = "version_2.3",
   event = "LspAttach",
   keys = {
     { "gf", [[<CMD>Lspsaga lsp_finder<CR>]], desc = "[LSP] Finder" },
   },
   config = function()
-    require("lspsaga").init_lsp_saga {
+    require("lspsaga").setup {
       ui = {
         theme = "round",
         border = "rounded",
         preview = " ",
-        code_action = "",
+        expand = "▸",
+        collaspe = "▾",
+        code_action = " ",
+        diagnostic = " ",
         incoming = " ",
         outgoing = " ",
         colors = {
           normal_bg = "NONE",
         },
+      },
+      diagnostic = {
+        twice_into = true,
+        keys = { exec_action = "<CR>" },
       },
       symbol_in_winbar = {
         enable = true,
@@ -34,25 +40,39 @@ return {
         enable_in_insert = false,
         cache_code_action = true,
         sign = false,
-        update_time = 100,
         sign_priority = 40,
         virtual_text = true,
+        update_time = 100,
       },
-      preview = { lines_above = 0, lines_below = 15 },
+      preview = { lines_above = 0, lines_below = 10 },
       scroll_preview = { scroll_down = "<C-d>", scroll_up = "<C-u>" },
       outline = { auto_enter = false, keys = { jump = "<CR>" } },
-      call_hierarchy = { show_detail = true },
+      callhierarchy = { show_detail = true, keys = { jump = "<CR>" } },
+      request_timeout = 5000,
       finder = {
-        request_timeout = 5000,
-        keys = {
-          open = { "o", "<CR>" },
-          quit = { "q", "<Esc>" },
-          vsplit = "v",
-          split = "s",
-        },
+        open = { "o", "<CR>" },
+        quit = { "q", "<Esc>" },
+        vsplit = "v",
+        split = "s",
       },
-      definition = { keys = { quit = "q" } },
+      definition = { quit = "q" },
       rename = { quit = "<Esc>" },
     }
+
+    vim.keymap.del("n", "[x")
+    vim.keymap.del("n", "]x")
+    vim.keymap.del("n", "<leader>xx")
+    vim.keymap.del("n", "<leader>xb")
+    local m = keymap
+    m("n", "[x", [[<CMD>Lspsaga diagnostic_jump_prev<CR>]], { desc = "Prev Diagnostic" })
+    m("n", "]x", [[<CMD>Lspsaga diagnostic_jump_next<CR>]], { desc = "Next Diagnostic" })
+    m("n", "<leader>xx", "<CMD>Lspsaga show_line_diagnostics<CR>", { desc = "Line Diagnostics" })
+    m("n", "<leader>xb", "<CMD>Lspsaga show_buf_diagnostics<CR>", { desc = "Buffer Diagnostics" })
+
+    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+      group = vim.api.nvim_create_augroup("diagnostic", {}),
+      command = "Lspsaga show_cursor_diagnostics",
+      desc = "automatic open float diagnostic window",
+    })
   end,
 }

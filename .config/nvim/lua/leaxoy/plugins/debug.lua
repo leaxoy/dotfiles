@@ -6,7 +6,8 @@ return {
     "Weissle/persistent-breakpoints.nvim",
     "jayp0521/mason-nvim-dap.nvim",
   },
-  event = "BufReadPost",
+  -- event = "BufReadPost",
+  ---@type LazyKeys[]
   keys = {
     {
       "<F4>",
@@ -15,10 +16,11 @@ return {
       mode = { "n", "v", "i" },
     },
     { "<F5>", [[<CMD>DapContinue<CR>]], desc = "Run | Continue", mode = { "n", "v", "i" } },
-    { "<F7>", [[<CMD>DapStepBack<CR>]], desc = "Step Back", mode = { "n", "v", "i" } },
+    { "<F6>", [[<CMD>DapStepBack<CR>]], desc = "Step Back", mode = { "n", "v", "i" } },
     { "<F7>", [[<CMD>DapStepOver<CR>]], desc = "Step Over", mode = { "n", "v", "i" } },
     { "<F8>", [[<CMD>DapStepInto<CR>]], desc = "Step Into", mode = { "n", "v", "i" } },
     { "<F9>", [[<CMD>DapStepOut<CR>]], desc = "Step Out", mode = { "n", "v", "i" } },
+    { "<F10>", [[<CMD>DapTerminate<CR>]], desc = "Terminate", mode = { "n", "v", "i" } },
   },
   config = function()
     local dap = require "dap"

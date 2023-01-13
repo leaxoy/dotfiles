@@ -7,6 +7,7 @@ return {
     "nvim-telescope/telescope-ui-select.nvim",
   },
   cmd = "Telescope",
+  ---@type LazyKeys[]
   keys = {
     { "fw", [[<CMD>Telescope<CR>]], desc = "Telescope Window" },
     { "ff", [[<CMD>Telescope find_files<CR>]], desc = "File Finder" },

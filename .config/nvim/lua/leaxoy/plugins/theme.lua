@@ -29,6 +29,8 @@ local highlights = {
 return {
   {
     "Mofiqul/vscode.nvim",
+    priority = 1000,
+    enabled = false,
     config = function()
       require("vscode").setup {
         transparent = true,
@@ -39,11 +41,12 @@ return {
   },
   {
     "folke/tokyonight.nvim",
+    priority = 1000,
     config = function()
       require("tokyonight").setup {
         use_background = "auto",
-        style = "night",
-        light_style = "day",
+        -- style = "night",
+        -- light_style = "day",
         transparent = true,
         sidebars = {},
         styles = { sidebars = "normal", floats = "normal" },

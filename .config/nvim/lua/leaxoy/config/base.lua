@@ -47,7 +47,6 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldenable = false
 -- vim.opt.foldlevel = 99
 -- vim.opt.foldlevelstart = 99
--- vim.opt.foldcolumn = "auto"
 --#endregion
 
 --#region ui config
@@ -74,3 +73,8 @@ vim.opt.pumheight = 10
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 --#endregion
+
+vim.fn.sign_define {
+  { name = "CodelensRun", text = " ", texthl = "@attribute" },
+  { name = "CodelensDebug", text = " ", texthl = "@attribute" },
+}
