@@ -3,7 +3,6 @@ return {
   dependencies = {
     "nvim-telescope/telescope-file-browser.nvim",
     "nvim-telescope/telescope-live-grep-args.nvim",
-    "nvim-telescope/telescope-dap.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
   },
   cmd = "Telescope",
@@ -19,10 +18,6 @@ return {
     { "fn", [[<CMD>Telescope notify<CR>]], desc = "Notifications" },
     { "fx", [[<CMD>Telescope diagnostics<CR>]], desc = "Diagnostics" },
     { "ft", [[<CMD>TodoTelescope<CR>]], desc = "Todo List" },
-    { "fdb", [[<CMD>Telescope dap list_breakpoints<CR>]], desc = "Dap: List Breakpoints" },
-    { "fdc", [[<CMD>Telescope dap configurations<CR>]], desc = "Dap: Configurations" },
-    { "fdf", [[<CMD>Telescope dap frames<CR>]], desc = "Dap: Frames" },
-    { "fdv", [[<CMD>Telescope dap variables<CR>]], desc = "Dap: Variables" },
   },
   config = function()
     local telescope = require "telescope"
@@ -121,7 +116,6 @@ return {
 
     pcall(telescope.load_extension, "file_browser")
     pcall(telescope.load_extension, "live_grep_args")
-    pcall(telescope.load_extension, "dap")
     pcall(telescope.load_extension, "todo-comments")
     pcall(telescope.load_extension, "notify")
     pcall(telescope.load_extension, "ui-select")

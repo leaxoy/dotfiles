@@ -157,13 +157,5 @@ return {
       mapping = cmp.mapping.preset.cmdline(),
       sources = { { name = "path" }, { name = "cmdline" } },
     })
-
-    cmp.setup.filetype({ "dap-repl" }, { sources = { { name = "dap" } } })
-
-    vim.api.nvim_create_autocmd("BufRead", {
-      group = vim.api.nvim_create_augroup("CmpSourceCargo", {}),
-      pattern = "Cargo.toml",
-      callback = function() cmp.setup.buffer { sources = { { name = "crates" } } } end,
-    })
   end,
 }

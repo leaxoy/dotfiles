@@ -2,7 +2,6 @@ return {
   "folke/noice.nvim",
   event = "VeryLazy",
   dependencies = { "MunifTanjim/nui.nvim" },
-  enabled = false,
   config = function()
     require("noice").setup {
       cmdline = { opts = { size = { min_width = 20 } } },
@@ -23,7 +22,7 @@ return {
       },
       views = {
         hover = {
-          border = { padding = { 0, 0 } },
+          border = { padding = { 0, 1 } },
           size = { max_width = 80, max_height = 16 },
           position = { row = 1, col = 0 },
         },

@@ -89,6 +89,7 @@
             "omnisharp.useModernNet": true
         },
         "pyright": {
+            "python.analysis.autoImportCompletions": true,
             "python.analysis.autoSearchPaths": true,
             "python.analysis.diagnosticMode": "workspace",
             "python.analysis.diagnosticSeverityOverrides": {
@@ -177,9 +178,6 @@
             "Lua.completion.showWord": "Enable",
             "Lua.completion.workspaceWord": true,
             "Lua.diagnostics.enable": true,
-            "Lua.diagnostics.globals": [
-                "vim"
-            ],
             "Lua.format.defaultConfig": {
                 "indent_size": "2",
                 "indent_style": "space",

@@ -47,7 +47,7 @@ return {
 
       diag.codespell.with { diagnostics_format = "[#{c}] #{m} (#{s})" },
       diag.fish.with { diagnostics_format = "[#{c}] #{m} (#{s})" },
-      diag.golangci_lint.with { diagnostics_format = "[#{c}] #{m} (#{s})" },
+      -- diag.golangci_lint.with { diagnostics_format = "[#{c}] #{m} (#{s})" },
 
       fmt.black,
       fmt.fish_indent,
@@ -66,7 +66,7 @@ return {
         -- diagnostic
         "codespell",
         "fish",
-        "golangci_lint",
+        -- "golangci_lint",
 
         -- formatter
         "black",

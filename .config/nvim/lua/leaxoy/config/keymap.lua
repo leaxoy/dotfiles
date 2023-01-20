@@ -33,6 +33,8 @@ keymap("n", "<leader>vp", cmd_fn("Gitsigns", { "preview_hunk" }), { desc = "Prev
 --#endregion
 
 --#region Diagnostic
+local function cursor_diagnostic() vim.diagnostic.open_float { scope = "c" } end
+keymap("n", "<leader>xc", cursor_diagnostic, { desc = "Line Diagnostic" })
 keymap("n", "<leader>xx", vim.diagnostic.open_float, { desc = "Line Diagnostic" })
 keymap("n", "<leader>xb", vim.diagnostic.setloclist, { desc = "Buffer Diagnostic" })
 keymap("n", "<leader>xw", vim.diagnostic.setqflist, { desc = "Workspace Diagnostic" })
@@ -45,15 +47,19 @@ keymap("n", "vv", "V", { desc = "Visual Line" })
 keymap("n", "vc", "<C-v>", { desc = "Visual Block" })
 keymap("v", ">", ">gv")
 keymap("v", "<", "<gv")
-keymap("n", "<leader><CR>", cmd_fn "noh", { desc = "Clear Highlight" })
-local function tree_layout() vim.treesitter.show_tree { command = "topleft 50vnew" } end
-keymap("n", "<leader>ct", tree_layout, { desc = "TreeSitter Playground" })
-keymap("n", ",", "vsplit")
+keymap("n", "<CR>", cmd_fn "noh", { desc = "Clear Highlight" })
+if has "nvim-0.9" then
+  local function tree_layout() vim.treesitter.show_tree { command = "topleft 50vnew" } end
+  keymap("n", "<leader>ct", tree_layout, { desc = "TreeSitter Playground" })
+end
+keymap("n", ",", "<CMD>vsplit<CR>", { desc = "Vertical Split" })
 keymap("nvi", "<c-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]])
 --#endregion
 
 --#region WorkBench
-keymap("n", "<leader>wi", "<CMD>Inspect<CR>", { desc = "Inspect Position" })
+if has "nvim-0.9" then
+  keymap("n", "<leader>wi", "<CMD>Inspect<CR>", { desc = "Inspect Position" })
+end
 keymap("n", "<leader>wu", "<CMD>Lazy sync<CR>", { desc = "Update Extensions" })
 keymap("n", "<leader>wt", function()
   local mode = vim.o.background == "dark" and "light" or "dark"

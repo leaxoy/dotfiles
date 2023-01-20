@@ -44,7 +44,6 @@ return {
     wk.register {
       mode = { "n", "v" },
       f = { name = "+Finder" },
-      fd = { name = "+Dap" },
       g = { name = "+Goto" },
       gh = { name = "+Hierarchy" },
       t = { name = "+Test" },

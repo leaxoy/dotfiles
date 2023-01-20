@@ -1,8 +1,7 @@
 --#region Lsp Client Configuration
 local function resolve_text_document_capabilities(client, buffer)
   --#region HACK
-  --hack ruff_lsp
-  if client.name == "ruff_lsp" then client.server_capabilities.hoverProvider = nil end
+  --hack ruff_lsp if client.name == "ruff_lsp" then client.server_capabilities.hoverProvider = nil end
   --#endregion
 
   local function map(mode, lhs, rhs, opts) buffer_keymap(mode, lhs, rhs, buffer, opts) end
@@ -15,7 +14,14 @@ local function resolve_text_document_capabilities(client, buffer)
     map("n", "gD", vim.lsp.buf.declaration, { desc = "Declaration" })
   end
   if caps.definitionProvider then
-    local def = has_glance and [[<CMD>Glance definitions<CR>]] or vim.lsp.buf.definition
+    local def
+    if has_glance then
+      def = [[<CMD>Glance definitions<CR>]]
+    elseif has_lspsaga then
+      def = [[<CMD>Lspsaga goto_definition<CR>]]
+    else
+      def = vim.lsp.buf.definition
+    end
     map("n", "gd", def, { desc = "[LSP] Definition" })
   end
   if caps.typeDefinitionProvider then
@@ -32,14 +38,10 @@ local function resolve_text_document_capabilities(client, buffer)
     map("n", "gr", ref, { desc = "[LSP] References" })
   end
   if caps.callHierarchyProvider then
-    local ch_status, ch = pcall(require, "lspsaga.callhierarchy")
-    if ch_status then
-      map("n", "ghi", function() ch:incoming_calls() end, { desc = "[LSP] Incoming Calls" })
-      map("n", "gho", function() ch:outgoing_calls() end, { desc = "[LSP] Incoming Calls" })
-    else
-      map("n", "ghi", vim.lsp.buf.incoming_calls, { desc = "[LSP] Incoming Calls" })
-      map("n", "gho", vim.lsp.buf.outgoing_calls, { desc = "[LSP] Outgoing Calls" })
-    end
+    local incoming = has_lspsaga and "<CMD>Lspsaga incoming_calls<CR>" or vim.lsp.buf.incoming_calls
+    local outgoing = has_lspsaga and "<CMD>Lspsaga outgoing_calls<CR>" or vim.lsp.buf.outgoing_calls
+    map("n", "ghi", incoming, { desc = "[LSP] Incoming Calls" })
+    map("n", "gho", outgoing, { desc = "[LSP] Outgoing Calls" })
   end
   if caps.documentHighlightProvider then
     local au = vim.api.nvim_create_augroup("document_highlight", {})
@@ -78,6 +80,7 @@ local function resolve_text_document_capabilities(client, buffer)
       buffer = buffer,
       callback = function() vim.lsp.codelens.refresh() end,
     })
+    vim.lsp.codelens.refresh() -- NOTE: call it because autocmd will take effect on next event fired.
     map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run CodeLens" })
   end
   if caps.documentSymbolProvider then
@@ -88,7 +91,8 @@ local function resolve_text_document_capabilities(client, buffer)
     map("n", "<leader>cs", vim.lsp.buf.signature_help, { desc = "Signature Help" })
   end
   if caps.codeActionProvider then
-    local code_action = function() vim.lsp.buf.code_action { apply = true } end
+    local code_action = has_lspsaga and [[<CMD>Lspsaga code_action<CR>]]
+      or function() vim.lsp.buf.code_action { apply = true } end
     map("nv", "<leader>ca", code_action, { desc = "Run Code Action" })
   end
   if caps.documentFormattingProvider then
@@ -99,7 +103,10 @@ local function resolve_text_document_capabilities(client, buffer)
     })
     map("n", "<leader>cf", vim.lsp.buf.format, { desc = "Format" })
   end
-  if caps.renameProvider then map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" }) end
+  if caps.renameProvider then
+    local r = has_lspsaga and [[<CMD>Lspsaga rename<CR>]] or vim.lsp.buf.rename
+    map("n", "<leader>cr", r, { desc = "Rename" })
+  end
 end
 
 local function resolve_workspace_capabilities(client, buffer)
@@ -135,107 +142,42 @@ return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
+    "williamboman/mason.nvim",
     "folke/neoconf.nvim",
-    "folke/neodev.nvim",
-    "simrat39/rust-tools.nvim",
-    "b0o/SchemaStore.nvim",
   },
   event = "BufReadPost",
-  config = function()
-    local lsp = require "lspconfig"
+  ---@class LazyLspConfig
+  ---@field servers table<string, table>
+  ---@field setups table<string, fun(table)>
+  opts = { servers = {}, setups = {} },
+  ---@param _ LazyPlugin
+  ---@param opts LazyLspConfig
+  config = function(_, opts)
     require("lspconfig.ui.windows").default_options.border = "double"
 
     local mason_adapter = require "mason-lspconfig"
+    local ensure_installed = {}
+    for _, name in pairs(vim.tbl_keys(opts.servers)) do
+      table.insert(ensure_installed, name)
+    end
+    for _, name in pairs(vim.tbl_keys(opts.setups)) do
+      if not vim.tbl_contains(ensure_installed, name) then table.insert(ensure_installed, name) end
+    end
     mason_adapter.setup {
       automatic_installation = true,
-      ensure_installed = {
-        "gopls", -- go
-        "jdtls", -- java
-        "jsonls", -- json
-        "pyright", -- python
-        "ruff_lsp", -- python
-        "rust_analyzer", -- rust
-        "sumneko_lua", -- lua
-        "taplo", -- toml
-      },
+      ensure_installed = vim.tbl_keys(opts.servers),
     }
-
     mason_adapter.setup_handlers {
-      function(server_name) lsp[server_name].setup {} end,
-      clangd = function()
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities.offsetEncoding = { "utf-16" }
-        lsp.clangd.setup { capabilities = capabilities }
+      function(server_name)
+        local server_opts = opts.servers[server_name] or {}
+        local setup = opts.setups[server_name]
+        if setup then
+          setup(server_opts)
+        else
+          require("lspconfig")[server_name].setup(server_opts)
+        end
       end,
-      gopls = function()
-        lsp.gopls.setup {
-          settings = {
-            gopls = {
-              hints = {
-                assignVariableTypes = true,
-                compositeLiteralFields = true,
-                compositeLiteralTypes = true,
-                constantValues = true,
-                functionTypeParameters = true,
-                parameterNames = true,
-                rangeVariableTypes = true,
-              },
-              ["formatting.gofumpt"] = true,
-              ["ui.completion.experimentalPostfixCompletions"] = true,
-              ["ui.completion.usePlaceholders"] = true,
-              ["ui.codelenses"] = {
-                gc_details = true,
-                generate = true,
-                regenerate_cgo = true,
-                run_govulncheck = true,
-                test = true,
-                tidy = true,
-                upgrade_dependency = true,
-                vendor = true,
-              },
-              ["ui.diagnostic.annotations"] = {
-                bounds = true,
-                escape = true,
-                inline = true,
-                ["nil"] = true,
-              },
-              ["ui.diagnostic.analyses"] = {
-                fieldalignment = true,
-                nilness = true,
-                shadow = true,
-                unusedparams = true,
-                unusedvariable = true,
-                unusedwrite = true,
-                useany = true,
-              },
-              ["ui.diagnostic.staticcheck"] = true,
-              ["ui.semanticTokens"] = true,
-            },
-          },
-        }
-      end,
-      jdtls = function() end,
-      jsonls = function()
-        local schemas = require("schemastore").json.schemas()
-        lsp.jsonls.setup { settings = { json = { schemas = schemas } } }
-      end,
-      omnisharp = function()
-        local dll = vim.fn.stdpath "data" .. "/mason/packages/omnisharp/OmniSharp.dll"
-        lsp.omnisharp.setup { cmd = { "dotnet", dll } }
-      end,
-      rust_analyzer = function()
-        require("rust-tools").setup {
-          tools = { inlay_hints = { auto = false } },
-          server = { standalone = true },
-          dap = {
-            adapter = { type = "executable", command = "codelldb", name = "codelldb" },
-          },
-        }
-      end,
-      sumneko_lua = function()
-        require("neodev").setup {}
-        lsp.sumneko_lua.setup {}
-      end,
+      jdtls = function() end, -- NOTE: must setup in ftplugin
     }
   end,
 }

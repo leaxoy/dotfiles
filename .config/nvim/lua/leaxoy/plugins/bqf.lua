@@ -1,7 +1,7 @@
 return {
   "kevinhwang91/nvim-bqf",
   ft = "qf",
-  config = function()
+  init = function()
     local fn = vim.fn
 
     function _G.qftf(info)
@@ -22,7 +22,7 @@ return {
       end
       local limit = 31
       local fnameFmt1, fnameFmt2 = "%-" .. limit .. "s", "…%." .. (limit - 1) .. "s"
-      local validFmt = "%s │%5d:%-3d│%s %s"
+      local validFmt = "%s │%4d:%-3d│%s %s"
       for i = info.start_idx, info.end_idx do
         local e = items[i]
         local fname = ""
@@ -33,7 +33,8 @@ return {
             if fname == "" then
               fname = "[No Name]"
             else
-              fname = fname:gsub("^" .. vim.env.HOME, "~")
+              -- fname = fname:gsub("^" .. vim.env.HOME, "~")
+              fname = fname:gsub("^" .. vim.fn.getcwd(), "")
             end
             -- char in fname may occur more than 1 width, ignore this issue in order to keep performance
             if #fname <= limit then
@@ -55,20 +56,15 @@ return {
     end
 
     vim.o.qftf = "{info -> v:lua._G.qftf(info)}"
-    local qf = require "bqf"
-
-    qf.setup {
+  end,
+  config = function()
+    require("bqf").setup {
       auto_enable = true,
       auto_resize_height = true,
       magic_window = true,
-      preview = {
-        auto_preview = true,
-        show_title = true,
-      },
+      preview = { auto_preview = true, show_title = true },
       filter = {
-        fzf = {
-          extra_opts = { "--bind", "ctrl-o:toggle-all", "--delimiter", "│" },
-        },
+        fzf = { extra_opts = { "--bind", "ctrl-o:toggle-all", "--delimiter", "│" } },
       },
     }
   end,

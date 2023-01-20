@@ -54,3 +54,8 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
   vim.lsp.handlers.signature_help,
   { border = "rounded", title = { { "SignatureHelp", "Boolean" } } }
 )
+vim.lsp.handlers["window/showMessage"] = function(err, result, ctx, _)
+  local level = result.type == vim.lsp.protocol.MessageType.Log and "info" or "warn"
+  vim.notify(result.message, level, {title = "[LSP]"})
+  return result
+end

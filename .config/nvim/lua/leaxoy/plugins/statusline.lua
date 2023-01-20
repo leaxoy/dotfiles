@@ -72,17 +72,18 @@ return {
 
     components.active[3] = {
       { provider = "search_count", hl = hl_fn { fg = "lightblue" }, icon = " " },
-      { provider = "diagnostic_errors", hl = hl_fn { fg = "red" } },
-      { provider = "diagnostic_warnings", hl = hl_fn { fg = "yellow" } },
-      { provider = "diagnostic_hints", hl = hl_fn { fg = "cyan" } },
-      { provider = "diagnostic_info", hl = hl_fn { fg = "skyblue" } },
+      { provider = "diagnostic_errors", hl = hl_fn { fg = "red" }, icon = "  " },
+      { provider = "diagnostic_warnings", hl = hl_fn { fg = "yellow" }, icon = "  " },
+      { provider = "diagnostic_hints", hl = hl_fn { fg = "cyan" }, icon = "  " },
+      { provider = "diagnostic_info", hl = hl_fn { fg = "skyblue" }, icon = "  " },
       {
         provider = "position",
         hl = hl_fn { fg = "orange" },
+        icon = " ",
         left_sep = {
           { str = " ", hl = hl_fn {} },
-          { str = "left", hl = hl_fn { fg = "fg" } },
-          { str = " ", hl = hl_fn {} },
+          -- { str = " ", hl = hl_fn { fg = "fg" } },
+          -- { str = " ", hl = hl_fn {} },
         },
         right_sep = {
           { str = " ", hl = hl_fn {} },

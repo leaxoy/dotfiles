@@ -31,8 +31,8 @@ autocmd("TextYankPost", {
   callback = function() vim.highlight.on_yank() end,
 })
 
-autocmd({ "CursorHold", "CursorHoldI" }, {
-  group = augroup("diagnostic", {}),
-  callback = function() vim.diagnostic.open_float { scope = "cursor" } end,
-  desc = "automatic open float diagnostic window",
-})
+-- autocmd({ "CursorHold", "CursorHoldI" }, {
+--   group = augroup("diagnostic", {}),
+--   callback = function() vim.diagnostic.open_float { scope = "cursor" } end,
+--   desc = "automatic open float diagnostic window",
+-- })

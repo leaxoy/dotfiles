@@ -1,5 +1,5 @@
-require "leaxoy.config.base"
 require "leaxoy.config.prelude"
+require "leaxoy.config.base"
 require "leaxoy.config.commands"
 require "leaxoy.config.keymap"
 require "leaxoy.config.diagnostic"
@@ -18,7 +18,14 @@ end
 vim.opt.runtimepath:prepend(lazypath)
 
 require("lazy").setup {
-  spec = "leaxoy.plugins",
+  spec = {
+    { import = "leaxoy.plugins.extras.lang.go" },
+    { import = "leaxoy.plugins.extras.lang.json" },
+    { import = "leaxoy.plugins.extras.lang.lua" },
+    { import = "leaxoy.plugins.extras.lang.python" },
+    { import = "leaxoy.plugins.extras.lang.rust" },
+    { import = "leaxoy.plugins" },
+  },
   checker = { enabled = true },
   install = { colorscheme = { "tokyonight", "vscode", "habamax" } },
   performance = {

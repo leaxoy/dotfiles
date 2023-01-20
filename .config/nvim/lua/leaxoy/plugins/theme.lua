@@ -20,8 +20,8 @@ local highlights = {
   -- LspReferenceText = { default = true },
   -- LspReferenceRead = { default = true },
   -- LspReferenceWrite = { default = true },
-  LspCodeLens = { link = "Comment" },
-  LspCodeLensSeparator = { link = "Boolean" },
+  LspCodeLens = { link = "@comment" },
+  LspCodeLensSeparator = { link = "@comment" },
   -- LspSignatureActiveParameter = { default = true },
   --#endregion
 }
@@ -40,8 +40,46 @@ return {
     end,
   },
   {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    build = ":CatppuccinCompile",
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup {
+        compile_path = vim.fn.stdpath "cache" .. "/catppuccin",
+        -- transparent_background = true,
+        background = { -- :h background
+          light = "latte",
+          dark = "mocha",
+        },
+        term_colors = true,
+        custom_highlights = highlights,
+        integrations = {
+          cmp = true,
+          dap = {
+            enabled = true,
+            enable_ui = true,
+          },
+          dashboard = true,
+          gitsigns = true,
+          lsp_saga = true,
+          mason = true,
+          neotest = true,
+          noice = true,
+          notify = true,
+          overseer = true,
+          telescope = true,
+          treesitter = true,
+          which_key = true,
+        },
+      }
+      vim.cmd.colorscheme "catppuccin"
+    end,
+  },
+  {
     "folke/tokyonight.nvim",
     priority = 1000,
+    enabled = false,
     config = function()
       require("tokyonight").setup {
         use_background = "auto",

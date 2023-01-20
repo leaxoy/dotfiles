@@ -3,10 +3,10 @@ return {
   dependencies = {
     "rcarriga/nvim-dap-ui",
     "rcarriga/cmp-dap",
+    "hrsh7th/nvim-cmp",
     "Weissle/persistent-breakpoints.nvim",
-    "jayp0521/mason-nvim-dap.nvim",
+    "jay-babu/mason-nvim-dap.nvim",
   },
-  -- event = "BufReadPost",
   ---@type LazyKeys[]
   keys = {
     {
@@ -21,6 +21,20 @@ return {
     { "<F8>", [[<CMD>DapStepInto<CR>]], desc = "Step Into", mode = { "n", "v", "i" } },
     { "<F9>", [[<CMD>DapStepOut<CR>]], desc = "Step Out", mode = { "n", "v", "i" } },
     { "<F10>", [[<CMD>DapTerminate<CR>]], desc = "Terminate", mode = { "n", "v", "i" } },
+
+    {
+      "<M-e>",
+      [[<CMD>lua require('dapui').eval(nil, { enter = true })<CR>]],
+      desc = "Eval Expression",
+      mode = { "n", "v", "i" },
+    },
+
+    {
+      "<M-f>",
+      [[<CMD>lua require('dapui').float_element("scopes", { enter = true })<CR>]],
+      desc = "Show Floating Window",
+      mode = { "n", "v", "i" },
+    },
   },
   config = function()
     local dap = require "dap"
@@ -28,15 +42,26 @@ return {
     local bp = require "persistent-breakpoints"
     local bp_api = require "persistent-breakpoints.api"
 
-    bp.setup { save_dir = vim.fn.stdpath "data" .. "/dap" }
+    bp.setup {
+      save_dir = vim.fn.stdpath "data" .. "/dap",
+      load_breakpoints_event = "BufReadPost",
+    }
 
-    vim.api.nvim_create_autocmd("BufReadPost", { callback = bp_api.load_breakpoints })
     vim.api.nvim_create_autocmd({ "VimLeave", "BufLeave" }, { callback = bp_api.store_breakpoints })
-    dap.listeners.after.event_initialized["dapui_config"] = dapui.open
-    dap.listeners.before.event_terminated["dapui_config"] = dapui.close
-    dap.listeners.before.event_exited["dapui_config"] = dapui.close
+
+    require("cmp").setup.filetype({ "dap-repl" }, { sources = { { name = "dap" } } })
+
+    dap.listeners.after.event_initialized = {
+      dapui_config = function(_, _) dapui.open {} end,
+    }
+    dap.listeners.before.event_terminated = {
+      dapui_config = function(_, _) dapui.close {} end,
+    }
+    dap.listeners.before.event_exited = {
+      dapui_config = function(_, _) dapui.close {} end,
+    }
     dapui.setup {
-      icons = { expanded = "▾", collapsed = "▸" },
+      icons = { expanded = "▾", collapsed = "▸", current_frame = "" },
       -- icons = { expanded = "", collapsed = "" },
       mappings = {
         -- Use a table to apply multiple mappings
@@ -87,11 +112,6 @@ return {
     vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "FoldColumn" })
     vim.fn.sign_define("DapStopped", { text = "", texthl = "ErrorMsg" }) --  
     vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "" })
-
-    local function eval() dapui.eval(nil, { enter = true }) end
-    keymap("nv", "<M-e>", eval, { desc = "Eval Expression" })
-    local dap_float = function() dapui.float_element("scopes", { enter = true }) end
-    keymap("ni", "<M-f>", dap_float, { desc = "Show Floating Window" })
 
     local mason_adapter = require "mason-nvim-dap"
 
@@ -183,7 +203,7 @@ return {
             -- The first three options are required by nvim-dap
             type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
             request = "launch",
-            name = "Current File",
+            name = "Python: Launch File",
 
             -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
 

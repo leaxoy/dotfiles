@@ -3,6 +3,7 @@ return {
   event = "LspAttach",
   keys = {
     { "gf", [[<CMD>Lspsaga lsp_finder<CR>]], desc = "[LSP] Finder" },
+    { "gp", [[<CMD>Lspsaga peek_definition<CR>]], desc = "[LSP] Peek Definition" },
   },
   config = function()
     require("lspsaga").setup {
@@ -11,7 +12,7 @@ return {
         border = "rounded",
         preview = " ",
         expand = "▸",
-        collaspe = "▾",
+        collapse = "▾",
         code_action = " ",
         diagnostic = " ",
         incoming = " ",
@@ -20,16 +21,13 @@ return {
           normal_bg = "NONE",
         },
       },
-      diagnostic = {
-        twice_into = true,
-        keys = { exec_action = "<CR>" },
-      },
+      diagnostic = {},
       symbol_in_winbar = {
         enable = true,
         in_custom = false,
         show_file = true,
         separator = "  ",
-        folder_level = 5,
+        respect_root = true,
       },
       code_action = {
         num_shortcut = true,
@@ -66,13 +64,8 @@ return {
     local m = keymap
     m("n", "[x", [[<CMD>Lspsaga diagnostic_jump_prev<CR>]], { desc = "Prev Diagnostic" })
     m("n", "]x", [[<CMD>Lspsaga diagnostic_jump_next<CR>]], { desc = "Next Diagnostic" })
+    m("n", "<leader>xc", "<CMD>Lspsaga show_cursor_diagnostics<CR>", { desc = "Cursor Diagnostic" })
     m("n", "<leader>xx", "<CMD>Lspsaga show_line_diagnostics<CR>", { desc = "Line Diagnostics" })
     m("n", "<leader>xb", "<CMD>Lspsaga show_buf_diagnostics<CR>", { desc = "Buffer Diagnostics" })
-
-    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-      group = vim.api.nvim_create_augroup("diagnostic", {}),
-      command = "Lspsaga show_cursor_diagnostics",
-      desc = "automatic open float diagnostic window",
-    })
   end,
 }

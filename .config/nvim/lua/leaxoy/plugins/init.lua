@@ -1,4 +1,6 @@
 return {
+  { "folke/lazy.nvim", version = false },
+
   "nvim-lua/plenary.nvim",
   "nvim-tree/nvim-web-devicons",
   {
@@ -6,22 +8,16 @@ return {
     event = "VeryLazy",
     config = function() require("notify").setup { background_colour = "#000000" } end,
   },
-  { "mfussenegger/nvim-jdtls", ft = "java" },
-  {
-    "windwp/nvim-autopairs",
-    event = "BufReadPost",
-    config = function() require("nvim-autopairs").setup {} end,
-  },
-
-  {
-    "numToStr/Comment.nvim",
-    event = "BufReadPost",
-    config = function() require("Comment").setup { ignore = "^$", mappings = { extra = false } } end,
-  },
+  { "mfussenegger/nvim-jdtls", lazy = true },
 
   {
     "folke/todo-comments.nvim",
     event = "BufReadPost",
+    ---@type LazyKeys[]
+    keys = {
+      { "[T", [[<CMD>lua require("todo-comments").jump_prev()<CR>]], desc = "Prev Todo" },
+      { "]T", [[<CMD>lua require("todo-comments").jump_next()<CR>]], desc = "Next Todo" },
+    },
     config = function()
       require("todo-comments").setup {
         keywords = {
@@ -37,17 +33,12 @@ return {
     end,
   },
 
-  {
-    "p00f/godbolt.nvim",
-    cmd = { "Godbolt", "GodboltCompiler" },
-    config = function() require("godbolt").setup {} end,
-  },
-
   { "ThePrimeagen/refactoring.nvim", event = "BufReadPost" },
 
   {
     "folke/neoconf.nvim",
     priority = 1000,
+    cmd = "Neoconf",
     keys = {
       { "<leader>w,", [[<CMD>Neoconf global<CR>]], desc = "Global Settings" },
       { "<leader>w.", [[<CMD>Neoconf local<CR>]], desc = "Local Settings" },
@@ -56,6 +47,7 @@ return {
   },
   {
     "williamboman/mason.nvim",
+    cmd = "Mason",
     config = function()
       require("mason").setup {
         ui = {
@@ -90,6 +82,7 @@ return {
   {
     "luukvbaal/statuscol.nvim",
     event = "BufWinEnter",
+    enabled = has "nvim-0.9",
     config = function()
       local function click_diagnostic(args)
         if args.button == "l" then

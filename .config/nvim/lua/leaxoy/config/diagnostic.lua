@@ -11,7 +11,7 @@ vim.diagnostic.config {
     close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
     source = true,
   },
-  update_in_insert = true,
+  update_in_insert = false,
   severity_sort = false,
 }
 
