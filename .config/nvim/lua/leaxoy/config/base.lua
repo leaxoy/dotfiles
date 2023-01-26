@@ -73,6 +73,11 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 --#endregion
 
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 vim.fn.sign_define {
   { name = "CodelensRun", text = " ", texthl = "@attribute" },
   { name = "CodelensDebug", text = " ", texthl = "@attribute" },
@@ -80,3 +85,9 @@ vim.fn.sign_define {
 
 vim.cmd [[let &t_Cs = "\e[4:3m"]]
 vim.cmd [[let &t_Ce = "\e[4:0m"]]
+
+vim.filetype.add {
+  extension = {
+    thrift = "thrift",
+  },
+}

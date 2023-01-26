@@ -1,32 +1,36 @@
----keymap is global function add new key binding
----@param mode string|table<string>
----@param lhs string
----@param rhs function|string
----@param opts table|nil
-function _G.keymap(mode, lhs, rhs, opts)
-  -- mode support single char, list of single char(aka table), and string
-  if type(mode) == "string" and string.len(mode) > 1 then mode = vim.split(mode, "", {}) end
-  opts = vim.tbl_extend("keep", opts or vim.empty_dict(), { noremap = true, silent = true })
-  vim.keymap.set(mode, lhs, rhs, opts)
+---map is global function add new keymap
+---@param keys LazyKeys
+function _G.map(keys)
+  local lhs = keys[1]
+  local rhs = keys[2]
+  if not rhs then return end
+  local opts = {
+    desc = keys.desc,
+    noremap = keys.noremap,
+    remap = keys.remap,
+    expr = keys.expr,
+    silent = true,
+  }
+  vim.keymap.set(keys.mode or "n", lhs, rhs, opts)
 end
 
----keymap is global function add new key binding for current buffer local
----@param mode string|table<string>
----@param lhs string
----@param rhs function|string
+---map_local is global function add new keymap for buffer local
+---if no buffer specified, use current buffer
+---@param keys LazyKeys
 ---@param buffer integer|nil
----@param opts table|nil
-function _G.buffer_keymap(mode, lhs, rhs, buffer, opts)
-  opts = vim.tbl_extend("keep", opts or vim.empty_dict(), { buffer = buffer or true })
-  keymap(mode, lhs, rhs, opts)
-end
-
----cmd_fn make function that call command with args
----@param cmd string command name
----@param args table|nil command arguments
----@return fun()
-function _G.cmd_fn(cmd, args)
-  return function() vim.cmd { cmd = cmd, args = args } end
+function _G.map_local(keys, buffer)
+  local lhs = keys[1]
+  local rhs = keys[2]
+  if not rhs then return end
+  local opts = {
+    desc = keys.desc,
+    noremap = keys.noremap,
+    remap = keys.remap,
+    expr = keys.expr,
+    silent = true,
+    buffer = buffer or 0,
+  }
+  vim.keymap.set(keys.mode or "n", lhs, rhs, opts)
 end
 
 ---check a plugin installed or not

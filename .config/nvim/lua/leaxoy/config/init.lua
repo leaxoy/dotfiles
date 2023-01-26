@@ -27,7 +27,8 @@ require("lazy").setup {
     { import = "leaxoy.plugins" },
   },
   checker = { enabled = true },
-  install = { colorscheme = { "tokyonight", "vscode", "habamax" } },
+  diff = { cmd = "diffview.nvim" },
+  install = { colorscheme = { "catppuccin", "vscode", "habamax" } },
   performance = {
     cache = { enabled = true },
     rtp = {

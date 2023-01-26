@@ -17,7 +17,7 @@ autocmd("FileType", {
   pattern = { "qf", "help", "man", "lspsagaoutline" },
   callback = function()
     vim.bo.buflisted = false
-    buffer_keymap("n", "q", "<CMD>q<CR>")
+    map_local { "q", "<CMD>q<CR>" }
   end,
 })
 --#endregion

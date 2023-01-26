@@ -19,6 +19,8 @@ return {
     { "fx", [[<CMD>Telescope diagnostics<CR>]], desc = "Diagnostics" },
     { "ft", [[<CMD>TodoTelescope<CR>]], desc = "Todo List" },
   },
+  -- load ui-select at startup to hook vim.ui.select
+  init = function() require("telescope").load_extension "ui-select" end,
   config = function()
     local telescope = require "telescope"
     local actions = require "telescope.actions"
@@ -114,11 +116,10 @@ return {
       },
     }
 
-    pcall(telescope.load_extension, "file_browser")
-    pcall(telescope.load_extension, "live_grep_args")
+    telescope.load_extension "file_browser"
+    telescope.load_extension "live_grep_args"
     pcall(telescope.load_extension, "todo-comments")
     pcall(telescope.load_extension, "notify")
-    pcall(telescope.load_extension, "ui-select")
     pcall(telescope.load_extension, "noice")
   end,
 }

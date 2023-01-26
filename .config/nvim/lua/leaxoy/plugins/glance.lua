@@ -1,7 +1,6 @@
 return {
   "dnlhc/glance.nvim",
-  event = "BufReadPost",
-  -- enabled = false,
+  cmd = "Glance",
   config = function()
     local glance = require "glance"
     glance.setup {

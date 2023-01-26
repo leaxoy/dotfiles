@@ -1,4 +1,3 @@
----@type Highlights
 local highlights = {
   Normal = { fg = "NONE" },
   NormalFloat = { link = "Normal" },
@@ -30,7 +29,6 @@ return {
   {
     "Mofiqul/vscode.nvim",
     priority = 1000,
-    enabled = false,
     config = function()
       require("vscode").setup {
         transparent = true,
@@ -74,27 +72,6 @@ return {
         },
       }
       vim.cmd.colorscheme "catppuccin"
-    end,
-  },
-  {
-    "folke/tokyonight.nvim",
-    priority = 1000,
-    enabled = false,
-    config = function()
-      require("tokyonight").setup {
-        use_background = "auto",
-        -- style = "night",
-        -- light_style = "day",
-        transparent = true,
-        sidebars = {},
-        styles = { sidebars = "normal", floats = "normal" },
-        on_highlights = function(hl, colors)
-          for name, highlight in pairs(highlights) do
-            hl[name] = highlight
-          end
-        end,
-      }
-      require("tokyonight").load {}
     end,
   },
 }

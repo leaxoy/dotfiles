@@ -31,6 +31,7 @@ return {
   "jose-elias-alvarez/null-ls.nvim",
   dependencies = { "jay-babu/mason-null-ls.nvim", "nvim-lua/plenary.nvim" },
   event = "BufReadPost",
+  init = function() map { "<leader>ln", "<CMD>NullLsInfo<CR>", desc = "Show NullLs Info" } end,
   config = function()
     --    config_settings()
 

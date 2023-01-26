@@ -1,5 +1,6 @@
 return {
   "mfussenegger/nvim-dap",
+  enabled = false,
   dependencies = {
     "rcarriga/nvim-dap-ui",
     "rcarriga/cmp-dap",
@@ -61,50 +62,50 @@ return {
       dapui_config = function(_, _) dapui.close {} end,
     }
     dapui.setup {
-      icons = { expanded = "▾", collapsed = "▸", current_frame = "" },
-      -- icons = { expanded = "", collapsed = "" },
-      mappings = {
-        -- Use a table to apply multiple mappings
-        expand = { "<CR>", "<2-LeftMouse>" },
-        open = "o",
-        remove = "d",
-        edit = "e",
-        repl = "r",
-      },
-      expand_lines = vim.fn.has "nvim-0.7",
-      layouts = {
-        {
-          elements = { "scopes", "breakpoints", "stacks", "watches" },
-          size = 0.25,
-          position = "left",
-        },
-        {
-          elements = { "repl", "console" },
-          size = 0.25,
-          position = "bottom",
-        },
-      },
-      controls = {
-        element = "repl",
-        icons = {
-          pause = "",
-          play = "",
-          step_into = "",
-          step_over = "",
-          step_out = "",
-          step_back = "",
-          run_last = "",
-          terminate = "",
-        },
-      },
-      floating = {
-        max_height = nil, -- These can be integers or a float between 0 and 1.
-        max_width = nil, -- Floats will be treated as percentage of your screen.
-        border = "rounded",
-        mappings = { close = { "q", "<Esc>" } },
-      },
-      windows = { indent = 1 },
-      render = {},
+      -- icons = { expanded = "▾", collapsed = "▸", current_frame = "" },
+      -- -- icons = { expanded = "", collapsed = "" },
+      -- mappings = {
+      --   -- Use a table to apply multiple mappings
+      --   expand = { "<CR>", "<2-LeftMouse>" },
+      --   open = "o",
+      --   remove = "d",
+      --   edit = "e",
+      --   repl = "r",
+      -- },
+      -- expand_lines = vim.fn.has "nvim-0.7",
+      -- layouts = {
+      --   {
+      --     elements = { "scopes", "breakpoints", "stacks", "watches" },
+      --     size = 0.25,
+      --     position = "left",
+      --   },
+      --   {
+      --     elements = { "repl", "console" },
+      --     size = 0.25,
+      --     position = "bottom",
+      --   },
+      -- },
+      -- controls = {
+      --   element = "repl",
+      --   icons = {
+      --     pause = "",
+      --     play = "",
+      --     step_into = "",
+      --     step_over = "",
+      --     step_out = "",
+      --     step_back = "",
+      --     run_last = "",
+      --     terminate = "",
+      --   },
+      -- },
+      -- floating = {
+      --   max_height = nil, -- These can be integers or a float between 0 and 1.
+      --   max_width = nil, -- Floats will be treated as percentage of your screen.
+      --   border = "rounded",
+      --   mappings = { close = { "q", "<Esc>" } },
+      -- },
+      -- windows = { indent = 1 },
+      -- render = {},
     }
 
     vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "ErrorMsg" })

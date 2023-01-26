@@ -5,6 +5,8 @@ return {
     { "gf", [[<CMD>Lspsaga lsp_finder<CR>]], desc = "[LSP] Finder" },
     { "gp", [[<CMD>Lspsaga peek_definition<CR>]], desc = "[LSP] Peek Definition" },
   },
+  cmd = "Lspsaga",
+  dependencies = { { "nvim-tree/nvim-web-devicons" } },
   config = function()
     require("lspsaga").setup {
       ui = {
@@ -57,15 +59,10 @@ return {
       rename = { quit = "<Esc>" },
     }
 
-    vim.keymap.del("n", "[x")
-    vim.keymap.del("n", "]x")
-    vim.keymap.del("n", "<leader>xx")
-    vim.keymap.del("n", "<leader>xb")
-    local m = keymap
-    m("n", "[x", [[<CMD>Lspsaga diagnostic_jump_prev<CR>]], { desc = "Prev Diagnostic" })
-    m("n", "]x", [[<CMD>Lspsaga diagnostic_jump_next<CR>]], { desc = "Next Diagnostic" })
-    m("n", "<leader>xc", "<CMD>Lspsaga show_cursor_diagnostics<CR>", { desc = "Cursor Diagnostic" })
-    m("n", "<leader>xx", "<CMD>Lspsaga show_line_diagnostics<CR>", { desc = "Line Diagnostics" })
-    m("n", "<leader>xb", "<CMD>Lspsaga show_buf_diagnostics<CR>", { desc = "Buffer Diagnostics" })
+    map { "[x", "<CMD>Lspsaga diagnostic_jump_prev<CR>", desc = "Previous Diagnostic" }
+    map { "]x", "<CMD>Lspsaga diagnostic_jump_next<CR>", desc = "Next Diagnostic" }
+    map { "<leader>xc", "<CMD>Lspsaga show_cursor_diagnostics<CR>", desc = "Cursor Diagnostic" }
+    map { "<leader>xx", "<CMD>Lspsaga show_line_diagnostics<CR>", desc = "Line Diagnostics" }
+    map { "<leader>xb", "<CMD>Lspsaga show_buf_diagnostics<CR>", desc = "Buffer Diagnostics" }
   end,
 }
