@@ -26,7 +26,7 @@ require("lazy").setup {
     { import = "leaxoy.plugins.extras.lang.rust" },
     { import = "leaxoy.plugins" },
   },
-  checker = { enabled = true },
+  checker = { enabled = true, frequency = 600 },
   diff = { cmd = "diffview.nvim" },
   install = { colorscheme = { "catppuccin", "vscode", "habamax" } },
   performance = {

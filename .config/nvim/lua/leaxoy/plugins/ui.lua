@@ -2,61 +2,55 @@ return {
   {
     "glepnir/dashboard-nvim",
     event = "VimEnter",
-    opts = {
-      theme = "doom",
-      config = {
-        header = {
-          "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⣤⣤⣴⣦⣤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-          "⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⣿⠿⠿⠿⠿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀",
-          "⠀⠀⠀⠀⣠⣾⣿⣿⡿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢿⣿⣿⣶⡀⠀⠀⠀⠀",
-          "⠀⠀⠀⣴⣿⣿⠟⠁⠀⠀⠀⣶⣶⣶⣶⡆⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣦⠀⠀⠀",
-          "⠀⠀⣼⣿⣿⠋⠀⠀⠀⠀⠀⠛⠛⢻⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣧⠀⠀",
-          "⠀⢸⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⡇⠀",
-          "⠀⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠀",
-          "⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⡟⢹⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⣹⣿⣿⠀",
-          "⠀⣿⣿⣷⠀⠀⠀⠀⠀⠀⣰⣿⣿⠏⠀⠀⢻⣿⣿⡄⠀⠀⠀⠀⠀⠀⣿⣿⡿⠀",
-          "⠀⢸⣿⣿⡆⠀⠀⠀⠀⣴⣿⡿⠃⠀⠀⠀⠈⢿⣿⣷⣤⣤⡆⠀⠀⣰⣿⣿⠇⠀",
-          "⠀⠀⢻⣿⣿⣄⠀⠀⠾⠿⠿⠁⠀⠀⠀⠀⠀⠘⣿⣿⡿⠿⠛⠀⣰⣿⣿⡟⠀⠀",
-          "⠀⠀⠀⠻⣿⣿⣧⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⠏⠀⠀⠀",
-          "⠀⠀⠀⠀⠈⠻⣿⣿⣷⣤⣄⡀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⠟⠁⠀⠀⠀⠀",
-          "⠀⠀⠀⠀⠀⠀⠈⠛⠿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀",
-          "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⠛⠛⠛⠛⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+    config = function()
+      ---@class Shortcut
+      ---@field icon string
+      ---@field icon_hl string|nil
+      ---@field desc string
+      ---@field desc_hl string|nil
+      ---@field key string
+      ---@field key_hl string|nil
+      ---@field keymap string|nil
+      ---@field action string|fun()
+      ---@param shortcut Shortcut
+      ---@return Shortcut
+      local function key(shortcut)
+        shortcut.icon_hl = shortcut.icon_hl or "Title"
+        shortcut.desc_hl = shortcut.desc_hl or "String"
+        shortcut.key_hl = shortcut.key_hl or "Number"
+        return shortcut
+      end
+      require("dashboard").setup {
+        theme = "doom",
+        config = {
+          header = {
+            "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⣤⣤⣴⣦⣤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⣿⠿⠿⠿⠿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⣠⣾⣿⣿⡿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢿⣿⣿⣶⡀⠀⠀⠀⠀",
+            "⠀⠀⠀⣴⣿⣿⠟⠁⠀⠀⠀⣶⣶⣶⣶⡆⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣦⠀⠀⠀",
+            "⠀⠀⣼⣿⣿⠋⠀⠀⠀⠀⠀⠛⠛⢻⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣧⠀⠀",
+            "⠀⢸⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⡇⠀",
+            "⠀⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠀",
+            "⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⡟⢹⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⣹⣿⣿⠀",
+            "⠀⣿⣿⣷⠀⠀⠀⠀⠀⠀⣰⣿⣿⠏⠀⠀⢻⣿⣿⡄⠀⠀⠀⠀⠀⠀⣿⣿⡿⠀",
+            "⠀⢸⣿⣿⡆⠀⠀⠀⠀⣴⣿⡿⠃⠀⠀⠀⠈⢿⣿⣷⣤⣤⡆⠀⠀⣰⣿⣿⠇⠀",
+            "⠀⠀⢻⣿⣿⣄⠀⠀⠾⠿⠿⠁⠀⠀⠀⠀⠀⠘⣿⣿⡿⠿⠛⠀⣰⣿⣿⡟⠀⠀",
+            "⠀⠀⠀⠻⣿⣿⣧⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⠏⠀⠀⠀",
+            "⠀⠀⠀⠀⠈⠻⣿⣿⣷⣤⣄⡀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⠟⠁⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⠀⠀⠈⠛⠿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⠛⠛⠛⠛⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+          },
+          center = {
+            key { icon = "  ", desc = "Telescopes", key = "fw", action = "Telescope" },
+            key { icon = "  ", desc = "Find File", key = "ff", action = "Telescope find_files" },
+            key { icon = "  ", desc = "Explorer", key = "fl", action = "Telescope file_browser" },
+            key { icon = "  ", desc = "Find Word", key = "fg", action = "Telescope live_grep" },
+            key { icon = "  ", desc = "Help", key = "fh", action = "Telescope help_tags" },
+          },
+          footer = { "🎉 No Code, No Bug 🎉" },
         },
-        center = {
-          {
-            icon = " ",
-            desc = "Commands                          ",
-            key = "  f w  ",
-            action = "Telescope",
-          },
-          {
-            icon = " ",
-            desc = "Find File                         ",
-            key = "  f f  ",
-            action = "Telescope find_files",
-          },
-          {
-            icon = " ",
-            desc = "File Browser                      ",
-            key = "  f l  ",
-            action = "Telescope file_browser",
-          },
-          {
-            icon = " ",
-            desc = "Find Word                         ",
-            key = "  f g  ",
-            action = "Telescope live_grep",
-          },
-          {
-            icon = " ",
-            desc = "Help                              ",
-            key = "  f h  ",
-            action = "Telescope help_tags",
-          },
-        },
-        footer = { "🎉 No Code, No Bug 🎉" },
-      },
-    },
+      }
+    end,
   },
   {
     "feline-nvim/feline.nvim",
@@ -142,77 +136,78 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     dependencies = { "MunifTanjim/nui.nvim" },
-    config = function()
-      require("noice").setup {
-        cmdline = { opts = { size = { min_width = 20 } } },
-        lsp = {
-          override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-            ["vim.lsp.util.stylize_markdown"] = true,
-            ["cmp.entry.get_documentation"] = true,
-          },
+    ---@type NoiceConfig
+    opts = {
+      cmdline = { opts = { size = { min_width = 20 } } },
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
         },
-        messages = { enabled = false },
-        popupmenu = { backend = "nui" },
-        presets = {
-          bottom_search = false,
-          command_palette = false,
-          long_message_to_split = true,
-          inc_rename = true,
+      },
+      messages = { enabled = false },
+      popupmenu = { backend = "nui" },
+      presets = {
+        bottom_search = false,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = true,
+      },
+      views = {
+        hover = {
+          border = { padding = { 0, 1 } },
+          size = { max_width = 80, max_height = 16 },
+          position = { row = 1, col = 0 },
         },
-        views = {
-          hover = {
-            border = { padding = { 0, 1 } },
-            size = { max_width = 80, max_height = 16 },
-            position = { row = 1, col = 0 },
-          },
-        },
-      }
-    end,
+      },
+    },
   },
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
-    config = function()
+    ---@type Options
+    opts = {
+      plugins = {
+        marks = true, -- shows a list of your marks on ' and `
+        registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+        spelling = { enabled = true, suggestions = 20 },
+        presets = {
+          operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
+          motions = false, -- adds help for motions
+          text_objects = true, -- help for text objects triggered after entering an operator
+          windows = true, -- default bindings on <c-w>
+          nav = true, -- misc bindings to work with windows
+          z = true, -- bindings for folds, spelling and others prefixed with z
+          g = true, -- bindings for prefixed with g
+        },
+      },
+      operators = { gc = "Comments" },
+      key_labels = { ["<space>"] = "SPC", ["<cr>"] = "RET", ["<tab>"] = "TAB" },
+      -- icons = { breadcrumb = "", separator = "", group = " " },
+      popup_mappings = { scroll_down = "<c-d>", scroll_up = "<c-u>" },
+      window = {
+        border = "rounded", -- none, single, double, shadow
+        --   position = "bottom", -- bottom, top
+        --   margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
+        --   padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+        --   winblend = 0,
+      },
+      layout = {
+        --   height = { min = 4, max = 25 }, -- min and max height of the columns
+        --   width = { min = 20, max = 50 }, -- min and max width of the columns
+        spacing = 3, -- spacing between columns
+        align = "center", -- align columns left, center or right
+      },
+      ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
+      hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
+      show_help = false, -- show help message on the command line when the popup is visible
+      triggers = "auto", -- automatically setup triggers
+      show_keys = true,
+    },
+    config = function(_, opts)
       local wk = require "which-key"
-      wk.setup {
-        plugins = {
-          marks = true, -- shows a list of your marks on ' and `
-          registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
-          spelling = { enabled = true, suggestions = 20 },
-          presets = {
-            operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
-            motions = false, -- adds help for motions
-            text_objects = true, -- help for text objects triggered after entering an operator
-            windows = true, -- default bindings on <c-w>
-            nav = true, -- misc bindings to work with windows
-            z = true, -- bindings for folds, spelling and others prefixed with z
-            g = true, -- bindings for prefixed with g
-          },
-        },
-        operators = { gc = "Comments" },
-        key_labels = { ["<space>"] = "SPC", ["<cr>"] = "RET", ["<tab>"] = "TAB" },
-        -- icons = { breadcrumb = "", separator = "", group = " " },
-        popup_mappings = { scroll_down = "<c-d>", scroll_up = "<c-u>" },
-        window = {
-          border = "rounded", -- none, single, double, shadow
-          --   position = "bottom", -- bottom, top
-          --   margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
-          --   padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
-          --   winblend = 0,
-        },
-        layout = {
-          --   height = { min = 4, max = 25 }, -- min and max height of the columns
-          --   width = { min = 20, max = 50 }, -- min and max width of the columns
-          spacing = 3, -- spacing between columns
-          align = "center", -- align columns left, center or right
-        },
-        ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
-        hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
-        show_help = false, -- show help message on the command line when the popup is visible
-        triggers = "auto", -- automatically setup triggers
-        show_keys = true,
-      }
+      wk.setup(opts)
       wk.register {
         mode = { "n", "v" },
         f = { name = "+Finder" },
@@ -223,7 +218,6 @@ return {
         ["["] = { name = "+Prev" },
         ["<leader>l"] = { name = "+Packager" },
         ["<leader>c"] = { name = "+Code" },
-        ["<leader>t"] = { name = "+Task" },
         ["<leader>v"] = { name = "+VCS" },
         ["<leader>x"] = { name = "+Diagnostics" },
         ["<leader>w"] = { name = "+Workspace" },
@@ -235,28 +229,25 @@ return {
     keys = {
       { "<C-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]] },
     },
-    config = function()
-      local toggleterm = (require "toggleterm")
+    init = function()
+      local function cb() map_local { "<Esc>", [[<C-\><C-n>]], mode = "t" } end
+      vim.api.nvim_create_autocmd("TermOpen", { pattern = "term://*", callback = cb })
 
-      toggleterm.setup {
-        open_mapping = [[<c-t>]],
-        size = function(term)
-          if term.direction == "horizontal" then
-            return 16
-          elseif term.direction == "vertical" then
-            return vim.o.columns * 0.4
-          end
-        end,
-        hidden = true,
-        hide_numbers = true,
-        direction = "horizontal",
-        shade_terminals = false,
-      }
-
-      vim.api.nvim_create_autocmd("TermOpen", {
-        pattern = "term://*",
-        callback = function() map_local { "<Esc>", "<C-\\><C-n>" } end,
-      })
+      local function gitui()
+        if not vim.fn.executable "gitui" then return end
+        local git = require("toggleterm.terminal").Terminal:new { cmd = "gitui" }
+        git:toggle()
+      end
+      map { "<leader>vv", gitui, desc = "GitUI" }
     end,
+    ---@type ToggleTermConfig
+    opts = {
+      open_mapping = [[<c-t>]],
+      size = 16,
+      hidden = true,
+      hide_numbers = true,
+      direction = "horizontal",
+      shade_terminals = false,
+    },
   },
 }

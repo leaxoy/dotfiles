@@ -47,14 +47,12 @@ return {
       { "<leader>w,", [[<CMD>Neoconf global<CR>]], desc = "Global Settings" },
       { "<leader>w.", [[<CMD>Neoconf local<CR>]], desc = "Local Settings" },
     },
-    config = function() require("neoconf").setup {} end,
+    config = true,
   },
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
-    init = function()
-      map { "<leader>lm", "<CMD>Mason<CR>", desc = "Manage Mason" }
-    end,
+    init = function() map { "<leader>lm", "<CMD>Mason<CR>", desc = "Manage Mason" } end,
     config = function()
       require("mason").setup {
         ui = {
@@ -72,13 +70,8 @@ return {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPre",
     init = function()
-      map { "<leader>vd", "<CMD>Gitsigns diffthis<CR>", desc = "Vcs Diff" }
-      map { "<leader>vp", "<CMD>Gitsigns preview_hunk<CR>", desc = "Vcs Preview Diff" }
-
-      if vim.fn.executable "gitui" and pcall(require, "toggleterm.terminal") then
-        local git = require("toggleterm.terminal").Terminal:new { cmd = "gitui" }
-        map { "<leader>vv", function() git:toggle() end, desc = "Git UI" }
-      end
+      map { "<leader>vd", "<CMD>Gitsigns diffthis<CR>", desc = "Diff This Hunk" }
+      map { "<leader>vp", "<CMD>Gitsigns preview_hunk_inline<CR>", desc = "Preview Diff" }
     end,
     opts = {
       current_line_blame = true,
@@ -93,7 +86,28 @@ return {
       "DiffviewToggle",
       "DiffviewFileHistory",
     },
-    config = function()
+    ---@type LazyKeys[]
+    keys = {
+      { "<leader>vh", "<CMD>DiffviewFileHistory<CR>", desc = "History" },
+    },
+    ---@type DiffViewOptions
+    opts = {
+      icons = {
+        folder_closed = " ",
+        folder_open = " ",
+      },
+      signs = {
+        fold_closed = "",
+        fold_open = "",
+        done = " ",
+      },
+      view = {
+        merge_tool = {
+          layout = "diff3_mixed",
+        },
+      },
+    },
+    config = function(_, opts)
       local diffview_status = false
       vim.api.nvim_create_user_command("DiffviewToggle", function()
         if diffview_status then
@@ -104,6 +118,7 @@ return {
           diffview_status = not diffview_status
         end
       end, { desc = "Toggle Diffview" })
+      require("diffview").setup(opts)
     end,
   },
 
@@ -115,7 +130,6 @@ return {
 
   {
     "luukvbaal/statuscol.nvim",
-    event = "BufWinEnter",
     enabled = has "nvim-0.9",
     config = function()
       local function click_diagnostic(args)
@@ -140,5 +154,19 @@ return {
         CodelensDebug = start_run,
       }
     end,
+  },
+
+  { "christoomey/vim-tmux-navigator" },
+
+  {
+    "axieax/urlview.nvim",
+    command = "UrlView",
+    ---@type LazyKeys[]
+    keys = {
+      { "fu", "<CMD>UrlView<CR>", desc = "Lookup buffer links" },
+      { "[u", [[<CMD>lua require("urlview.jump").prev_url()<CR>]], desc = "Previous link" },
+      { "]u", [[<CMD>lua require("urlview.jump").next_url()<CR>]], desc = "Next link" },
+    },
+    config = function(_, opts) require("urlview").setup(opts) end,
   },
 }

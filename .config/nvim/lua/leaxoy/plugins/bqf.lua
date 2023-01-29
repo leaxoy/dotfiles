@@ -34,7 +34,7 @@ return {
               fname = "[No Name]"
             else
               -- fname = fname:gsub("^" .. vim.env.HOME, "~")
-              fname = fname:gsub("^" .. vim.fn.getcwd(), "")
+              fname = fname:gsub("^" .. vim.loop.cwd(), "")
             end
             -- char in fname may occur more than 1 width, ignore this issue in order to keep performance
             if #fname <= limit then

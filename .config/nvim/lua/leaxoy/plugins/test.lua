@@ -11,28 +11,28 @@ return {
   },
   ---@type LazyKeys[]
   keys = {
-    { "tf", [[<CMD>lua require('neotest').run.run()<CR>]], desc = "Test Current Function" },
+    { "tf", [[<CMD>lua require("neotest").run.run()<CR>]], desc = "Test Current Function" },
     {
       "tr",
-      [[<CMD>lua require('neotest').run.run(vim.fn.expand '%')<CR>]],
+      [[<CMD>lua require("neotest").run.run(vim.fn.expand "%")<CR>]],
       desc = "Test Current File",
     },
-    { "tt", [[<CMD>lua require('neotest').run.run(vim.fn.getcwd())<CR>]], desc = "Test Project" },
-    { "td", [[<CMD>lua require('neotest').run.run { strategy = 'dap' }<CR>]], desc = "Debug Test" },
-    { "ts", [[<CMD>lua require('neotest').summary.toggle()<CR>]], desc = "Toggle Test Summary" },
+    { "tt", [[<CMD>lua require("neotest").run.run(vim.loop.cwd())<CR>]], desc = "Test Project" },
+    { "td", [[<CMD>lua require("neotest").run.run { strategy = "dap" }<CR>]], desc = "Debug Test" },
+    { "ts", [[<CMD>lua require("neotest").summary.toggle()<CR>]], desc = "Toggle Test Summary" },
     {
       "to",
-      [[<CMD>lua require('neotest').output.open { enter = true }<CR>]],
+      [[<CMD>lua require("neotest").output.open { enter = true }<CR>]],
       desc = "Toggle Test Output",
     },
     {
       "[t",
-      [[<CMD>lua require('neotest').jump.prev { status = "failed" }<CR>]],
+      [[<CMD>lua require("neotest").jump.prev { status = "failed" }<CR>]],
       desc = "Prev Failed TestCase",
     },
     {
       "]t",
-      [[<CMD>lua require('neotest').jump.next { status = "failed" }<CR>]],
+      [[<CMD>lua require("neotest").jump.next { status = "failed" }<CR>]],
       desc = "Next Failed TestCase",
     },
   },

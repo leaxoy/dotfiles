@@ -1,15 +1,34 @@
 -- Basic Keymaps
 
+local function get_visual_selection()
+  vim.cmd 'noau normal! "vy"'
+  local text = vim.fn.getreg "v"
+  vim.fn.setreg("v", {})
+
+  text = text:gsub("\n", "")
+  return #text > 0 and text or ""
+end
+
+local function open_link()
+  if vim_mode_in "vV" then
+    local selection = get_visual_selection()
+    if selection then
+      vim.cmd("!open " .. selection)
+      return
+    end
+  end
+  vim.cmd [[!open <cfile>]]
+end
+
+map { "go", open_link, desc = "Open link under cursor", mode = { "n", "v" } }
+
 --#region Window
-map { "<M-h>", "<C-w>10<", desc = "" }
-map { "<M-l>", "<C-w>10>", desc = "" }
-map { "<M-j>", "<C-w>4+", desc = "" }
-map { "<M-k>", "<C-w>4-", desc = "" }
-map { "<M-=>", "<C-w>=", desc = "" }
-map { "<C-h>", "<CMD>wincmd h<CR>", mode = { "n", "v", "t" } }
-map { "<C-l>", "<CMD>wincmd l<CR>", mode = { "n", "v", "t" } }
-map { "<C-j>", "<CMD>wincmd j<CR>", mode = { "n", "v", "t" } }
-map { "<C-k>", "<CMD>wincmd k<CR>", mode = { "n", "v", "t" } }
+map { "<M-h>", "<C-w>10<", desc = "Decrease window width" }
+map { "<M-l>", "<C-w>10>", desc = "Increase window width" }
+map { "<M-j>", "<C-w>4+", desc = "Increase window height" }
+map { "<M-k>", "<C-w>4-", desc = "Decrease window height" }
+map { "<M-=>", "<C-w>=", desc = "Equally window high and wide" }
+map { "<M-w>", "<C-w>w", desc = "Switch windows" }
 --#endregion
 
 --#region Cursor Movement

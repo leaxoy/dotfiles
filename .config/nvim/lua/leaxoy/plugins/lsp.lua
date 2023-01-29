@@ -143,51 +143,175 @@ vim.api.nvim_create_autocmd("LspAttach", {
 --#endregion
 
 return {
-  "neovim/nvim-lspconfig",
-  dependencies = {
-    "williamboman/mason-lspconfig.nvim",
-    "williamboman/mason.nvim",
-    "folke/neoconf.nvim",
-  },
-  event = "BufReadPost",
-  priority = 1000,
-  init = function()
-    map { "<leader>lr", "<CMD>LspRestart<CR>", desc = "Restart LSP Server" }
-    map { "<leader>li", "<CMD>LspInfo<CR>", desc = "Show LSPServer Info" }
-  end,
-  ---@class LspServerConfig
-  ---@field init_options table
-  ---@field settings table
-  ---@field on_new_config fun(LspServerConfig)
-  ---@class LazyLspConfig
-  ---@field servers table<string, LspServerConfig>
-  ---@field setups table<string, fun(LspServerConfig)>
-  opts = { servers = {}, setups = {} },
-  ---@param _ LazyPlugin
-  ---@param opts LazyLspConfig
-  config = function(_, opts)
-    require("lspconfig.ui.windows").default_options.border = "double"
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason-lspconfig.nvim",
+      "williamboman/mason.nvim",
+      "folke/neoconf.nvim",
+    },
+    event = "BufReadPre",
+    priority = 1000,
+    init = function()
+      map { "<leader>lr", "<CMD>LspRestart<CR>", desc = "Restart LSP Server" }
+      map { "<leader>li", "<CMD>LspInfo<CR>", desc = "Show LSPServer Info" }
+    end,
+    ---@class LspServerConfig
+    ---@field init_options table
+    ---@field settings table
+    ---@field on_new_config fun(LspServerConfig)
+    ---@class LazyLspConfig
+    ---@field servers table<string, LspServerConfig>
+    ---@field setups table<string, fun(LspServerConfig)>
+    opts = { servers = {}, setups = {} },
+    ---@param _ LazyPlugin
+    ---@param opts LazyLspConfig
+    config = function(_, opts)
+      require("lspconfig.ui.windows").default_options.border = "double"
 
-    local mason_adapter = require "mason-lspconfig"
-    local ensure_installed = {}
-    for _, name in pairs(vim.tbl_keys(opts.servers)) do
-      ensure_installed[name] = true
-    end
-    for _, name in pairs(vim.tbl_keys(opts.setups)) do
-      ensure_installed[name] = true
-    end
-    mason_adapter.setup {
-      automatic_installation = true,
-      ensure_installed = vim.tbl_keys(ensure_installed),
-    }
-    mason_adapter.setup_handlers {
-      function(server_name)
-        local server_opts = opts.servers[server_name] or {}
-        local setup = opts.setups[server_name]
-          or function(param) require("lspconfig")[server_name].setup(param) end
-        setup(server_opts)
-      end,
-      jdtls = function() end, -- NOTE: must setup in ftplugin
-    }
-  end,
+      local mason_adapter = require "mason-lspconfig"
+      local ensure_installed = {}
+      for _, name in pairs(vim.tbl_keys(opts.servers)) do
+        ensure_installed[name] = true
+      end
+      for _, name in pairs(vim.tbl_keys(opts.setups)) do
+        ensure_installed[name] = true
+      end
+      mason_adapter.setup {
+        automatic_installation = true,
+        ensure_installed = vim.tbl_keys(ensure_installed),
+      }
+      mason_adapter.setup_handlers {
+        function(server_name)
+          local server_opts = opts.servers[server_name] or {}
+          local setup = opts.setups[server_name]
+            or function(param) require("lspconfig")[server_name].setup(param) end
+          setup(server_opts)
+        end,
+        jdtls = function() end, -- NOTE: must setup in ftplugin
+      }
+    end,
+  },
+  {
+    "glepnir/lspsaga.nvim",
+    event = "LspAttach",
+    ---@type LazyKeys[]
+    keys = {
+      { "gf", "<CMD>Lspsaga lsp_finder<CR>", desc = "[LSP] Finder" },
+      { "gp", "<CMD>Lspsaga peek_definition<CR>", desc = "[LSP] Peek Definition" },
+    },
+    cmd = "Lspsaga",
+    dependencies = { { "nvim-tree/nvim-web-devicons" } },
+    config = function()
+      local function icon_kind()
+        return require("catppuccin.groups.integrations.lsp_saga").custom_kind()
+      end
+      require("lspsaga").setup {
+        ui = {
+          border = "rounded",
+          preview = " ",
+          expand = " ",
+          collapse = " ",
+          code_action = " ",
+          diagnostic = " ",
+          incoming = " ",
+          outgoing = " ",
+          kind = icon_kind(),
+        },
+        diagnostic = {},
+        symbol_in_winbar = {
+          enable = true,
+          in_custom = false,
+          show_file = true,
+          separator = "  ",
+          respect_root = true,
+        },
+        code_action = {
+          num_shortcut = true,
+          keys = { quit = "q", exec = "<CR>" },
+        },
+        lightbulb = {
+          enable = false,
+          enable_in_insert = false,
+          cache_code_action = true,
+          sign = false,
+          sign_priority = 40,
+          virtual_text = true,
+          update_time = 100,
+        },
+        preview = { lines_above = 0, lines_below = 20 },
+        scroll_preview = { scroll_down = "<C-d>", scroll_up = "<C-u>" },
+        outline = { auto_enter = false, keys = { jump = "<CR>" } },
+        callhierarchy = { show_detail = true, keys = { jump = "<CR>" } },
+        request_timeout = 5000,
+        finder = {
+          open = { "o", "<CR>" },
+          quit = { "q", "<Esc>" },
+          vsplit = "v",
+          split = "s",
+        },
+        definition = { quit = "q" },
+        rename = { quit = "<Esc>" },
+      }
+      map_local { "[x", "<CMD>Lspsaga diagnostic_jump_prev<CR>", desc = "Previous Diagnostic" }
+      map_local { "]x", "<CMD>Lspsaga diagnostic_jump_next<CR>", desc = "Next Diagnostic" }
+      map_local { "<leader>xc", "<CMD>Lspsaga show_cursor_diagnostics<CR>", desc = "Cursor" }
+      map_local { "<leader>xx", "<CMD>Lspsaga show_line_diagnostics<CR>", desc = "Line" }
+      map_local { "<leader>xb", "<CMD>Lspsaga show_buf_diagnostics<CR>", desc = "Buffer" }
+
+      -- update color highlight
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        callback = function()
+          require("lspsaga").config =
+            vim.tbl_extend("force", require("lspsaga").config, { ui = { kind = icon_kind() } })
+          require("lspsaga.highlight").init_highlight()
+          require("lspsaga.lspkind").init_kind_hl()
+        end,
+      })
+    end,
+  },
+  {
+    "dnlhc/glance.nvim",
+    cmd = "Glance",
+    config = function()
+      local glance = require "glance"
+      glance.setup {
+        border = { enable = true, top_char = "─", bottom_char = "─" },
+        folds = { folded = true, fold_open = "▾", fold_closed = "▸" },
+        list = { position = "right", width = 0.3 },
+        theme = { enable = true, mode = "auto" },
+        mappings = {
+          list = {
+            q = glance.actions.close,
+            v = glance.actions.jump_vsplit,
+            s = glance.actions.jump_split,
+            t = glance.actions.jump_tab,
+            ["<Esc>"] = glance.actions.close,
+            ["<Tab>"] = glance.actions.enter_win "preview",
+            ["<CR>"] = glance.actions.jump,
+          },
+          preview = {
+            q = glance.actions.close,
+            ["<Esc>"] = glance.actions.close,
+            ["<Tab>"] = glance.actions.enter_win "list",
+          },
+        },
+        winbar = { enable = false },
+        hooks = {
+          ---@param results table
+          ---@param open fun(table)
+          ---@param jump fun(any)
+          ---@param method string
+          ---@diagnostic disable-next-line: unused-local
+          before_open = function(results, open, jump, method)
+            if #results == 1 then
+              jump(results[1]) -- argument is optional
+            else
+              open(results) -- argument is optional
+            end
+          end,
+        },
+      }
+    end,
+  },
 }

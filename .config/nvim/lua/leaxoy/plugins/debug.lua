@@ -1,6 +1,5 @@
 return {
   "mfussenegger/nvim-dap",
-  enabled = false,
   dependencies = {
     "rcarriga/nvim-dap-ui",
     "rcarriga/cmp-dap",
@@ -37,6 +36,13 @@ return {
       mode = { "n", "v", "i" },
     },
   },
+  init = function()
+    vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "ErrorMsg" })
+    vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "ErrorMsg" })
+    vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "FoldColumn" })
+    vim.fn.sign_define("DapStopped", { text = "", texthl = "ErrorMsg" }) --  
+    vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "" })
+  end,
   config = function()
     local dap = require "dap"
     local dapui = require "dapui"
@@ -62,57 +68,51 @@ return {
       dapui_config = function(_, _) dapui.close {} end,
     }
     dapui.setup {
-      -- icons = { expanded = "▾", collapsed = "▸", current_frame = "" },
-      -- -- icons = { expanded = "", collapsed = "" },
-      -- mappings = {
-      --   -- Use a table to apply multiple mappings
-      --   expand = { "<CR>", "<2-LeftMouse>" },
-      --   open = "o",
-      --   remove = "d",
-      --   edit = "e",
-      --   repl = "r",
-      -- },
-      -- expand_lines = vim.fn.has "nvim-0.7",
-      -- layouts = {
-      --   {
-      --     elements = { "scopes", "breakpoints", "stacks", "watches" },
-      --     size = 0.25,
-      --     position = "left",
-      --   },
-      --   {
-      --     elements = { "repl", "console" },
-      --     size = 0.25,
-      --     position = "bottom",
-      --   },
-      -- },
-      -- controls = {
-      --   element = "repl",
-      --   icons = {
-      --     pause = "",
-      --     play = "",
-      --     step_into = "",
-      --     step_over = "",
-      --     step_out = "",
-      --     step_back = "",
-      --     run_last = "",
-      --     terminate = "",
-      --   },
-      -- },
-      -- floating = {
-      --   max_height = nil, -- These can be integers or a float between 0 and 1.
-      --   max_width = nil, -- Floats will be treated as percentage of your screen.
-      --   border = "rounded",
-      --   mappings = { close = { "q", "<Esc>" } },
-      -- },
-      -- windows = { indent = 1 },
-      -- render = {},
+      icons = { expanded = "▾", collapsed = "▸", current_frame = "" },
+      -- icons = { expanded = "", collapsed = "" },
+      mappings = {
+        -- Use a table to apply multiple mappings
+        expand = { "<CR>", "<2-LeftMouse>" },
+        open = "o",
+        remove = "d",
+        edit = "e",
+        repl = "r",
+      },
+      expand_lines = has "nvim-0.7",
+      layouts = {
+        {
+          elements = { "scopes", "breakpoints", "stacks", "watches" },
+          size = 0.25,
+          position = "left",
+        },
+        {
+          elements = { "repl", "console" },
+          size = 0.25,
+          position = "bottom",
+        },
+      },
+      controls = {
+        element = "repl",
+        icons = {
+          pause = "",
+          play = "",
+          step_into = "",
+          step_over = "",
+          step_out = "",
+          step_back = "",
+          run_last = "",
+          terminate = "",
+        },
+      },
+      floating = {
+        max_height = nil, -- These can be integers or a float between 0 and 1.
+        max_width = nil, -- Floats will be treated as percentage of your screen.
+        border = "rounded",
+        mappings = { close = { "q", "<Esc>" } },
+      },
+      windows = { indent = 1 },
+      render = {},
     }
-
-    vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "ErrorMsg" })
-    vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "ErrorMsg" })
-    vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "FoldColumn" })
-    vim.fn.sign_define("DapStopped", { text = "", texthl = "ErrorMsg" }) --  
-    vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "" })
 
     local mason_adapter = require "mason-nvim-dap"
 
@@ -149,25 +149,11 @@ return {
             program = function()
               return vim.fn.input {
                 prompt = "Path to executable: ",
-                default = vim.fn.getcwd() .. "/a.out",
+                default = vim.loop.cwd() .. "/a.out",
               }
             end,
             cwd = "${workspaceFolder}",
             stopOnEntry = true,
-            args = {},
-
-            -- 💀
-            -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
-            --
-            --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-            --
-            -- Otherwise you might get the following error:
-            --
-            --    Error on launch: Failed to attach to the target process
-            --
-            -- But you should be aware of the implications:
-            -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-            -- runInTerminal = false,
           },
         }
 
@@ -183,11 +169,8 @@ return {
         }
 
         local function python_path_fn()
-          -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
-          -- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
-          -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
           local virtual_env = vim.fn.getenv "VIRTUAL_ENV"
-          local cwd = vim.fn.getcwd()
+          local cwd = vim.loop.cwd()
           if vim.fn.executable(virtual_env .. "/bin/python") == 1 then
             return virtual_env .. "/bin/python"
           elseif vim.fn.executable(cwd .. "/venv/bin/python") == 1 then

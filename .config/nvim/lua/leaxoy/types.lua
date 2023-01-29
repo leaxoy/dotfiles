@@ -1,0 +1,3 @@
+---@class ClickArgs
+---@field mods '"l"' | '"r"'
+---@field button string

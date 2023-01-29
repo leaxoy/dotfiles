@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+local project_name = vim.fn.fnamemodify(vim.loop.cwd(), ":p:h:t")
 
 local function split_by_line(str) return vim.split(str, "\n", {}) end
 

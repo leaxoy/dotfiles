@@ -20,7 +20,17 @@ return {
     { "ft", [[<CMD>TodoTelescope<CR>]], desc = "Todo List" },
   },
   -- load ui-select at startup to hook vim.ui.select
-  init = function() require("telescope").load_extension "ui-select" end,
+  init = function()
+    local hooked = false
+    ---@diagnostic disable-next-line: duplicate-set-field
+    function vim.ui.select(...)
+      if not hooked then
+        require("telescope").load_extension "ui-select"
+        hooked = true
+      end
+      vim.ui.select(...)
+    end
+  end,
   config = function()
     local telescope = require "telescope"
     local actions = require "telescope.actions"

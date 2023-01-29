@@ -10,8 +10,7 @@ vim.opt.writebackup = false
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 if has "nvim-0.9" then vim.opt.splitkeep = "topline" end
-vim.opt.scrolloff = 10
-vim.opt.sidescrolloff = 10
+vim.opt.scrolloff = 999 -- pin cursor center the screen
 vim.opt.wrap = false
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
@@ -24,8 +23,8 @@ vim.opt.sessionoptions = "buffers,curdir,folds,help,options,tabpages,terminal,wi
 vim.opt.autoread = true
 vim.opt.confirm = true
 vim.opt.spelloptions = "camel,noplainbuffer"
-vim.opt.conceallevel = 2
-vim.opt.concealcursor = ""
+vim.opt.conceallevel = 3
+vim.opt.concealcursor = "nvi"
 vim.opt.signcolumn = "auto"
 --#endregion
 

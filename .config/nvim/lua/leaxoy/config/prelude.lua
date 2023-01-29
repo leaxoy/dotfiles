@@ -45,3 +45,17 @@ end
 ---@param feature string
 ---@return boolean
 function _G.has(feature) return vim.fn.has(feature) > 0 end
+
+---comment
+---@param mode string|string[]
+---@return boolean
+function _G.vim_mode_in(mode)
+  if type(mode) == "string" and mode:len() > 1 then mode = vim.split(mode, "") end
+  ---@type string
+  local vim_mode = vim.api.nvim_get_mode().mode
+  ---@cast mode string[]
+  for _, m in pairs(mode) do
+    if vim_mode:find(m) > 0 then return true end
+  end
+  return false
+end

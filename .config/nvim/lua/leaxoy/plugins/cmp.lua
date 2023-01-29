@@ -43,8 +43,8 @@ return {
         ---@return vim.CompletedItem
         format = function(entry, item)
           item.kind = vim.lsp.protocol.CompletionItemKind[item.kind] or item.kind
-          local shorten = string.sub(item.abbr, 0, 30)
-          if shorten ~= item.abbr then item.abbr = shorten .. " " end
+          local shorten = string.sub(item.abbr, 0, 20)
+          if shorten ~= item.abbr then item.abbr = shorten .. "  " end
           local completion_item = entry:get_completion_item()
           item.menu = completion_item and completion_item.detail
           return item
