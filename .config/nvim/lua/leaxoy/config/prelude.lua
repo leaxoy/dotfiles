@@ -55,7 +55,7 @@ function _G.vim_mode_in(mode)
   local vim_mode = vim.api.nvim_get_mode().mode
   ---@cast mode string[]
   for _, m in pairs(mode) do
-    if vim_mode:find(m) > 0 then return true end
+    if vim_mode:find(m) then return true end
   end
   return false
 end

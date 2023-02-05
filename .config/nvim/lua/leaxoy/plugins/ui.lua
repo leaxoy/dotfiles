@@ -17,7 +17,7 @@ return {
       local function key(shortcut)
         shortcut.icon_hl = shortcut.icon_hl or "Title"
         shortcut.desc_hl = shortcut.desc_hl or "String"
-        shortcut.key_hl = shortcut.key_hl or "Number"
+        shortcut.key_hl = shortcut.key_hl or "Keyword"
         return shortcut
       end
       require("dashboard").setup {
@@ -53,83 +53,47 @@ return {
     end,
   },
   {
-    "feline-nvim/feline.nvim",
+    "echasnovski/mini.statusline",
     event = "VeryLazy",
-    config = function()
-      local fe = require "feline"
+    config = function(_, opts)
+      local function statusline()
+        local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 120 }
+        local git = MiniStatusline.section_git { trunc_width = 75 }
+        local diagnostics = MiniStatusline.section_diagnostics { trunc_width = 75 }
+        local function lsp_client(args)
+          local clients = {}
+          for _, client in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
+            clients[#clients + 1] = client.name
+          end
+          table.sort(clients)
+          return #clients > 0 and " " .. table.concat(clients, " & ") or ""
+        end
 
-      local components = { active = {} }
+        local function lazy_status(args)
+          local lazy = require "lazy.status"
+          if lazy.has_updates() then return lazy.updates() .. " Plugin Updates" end
+          return ""
+        end
 
-      ---@param opts table|nil
-      local function hl_fn(opts) return vim.tbl_extend("force", { bg = "NONE" }, opts or {}) end
+        local search_count = MiniStatusline.section_searchcount {}
+        local location = MiniStatusline.section_location { trunc_width = 100 }
+        return MiniStatusline.combine_groups {
+          { hl = mode_hl, strings = { mode } },
+          { hl = "MiniStatuslineDevinfo", strings = { git } },
+          { hl = "@define", strings = { lazy_status {} } },
+          { hl = "Pmenu", strings = { "%=" } },
+          { hl = "ColorColumn", strings = { lsp_client {} } },
+          { hl = "Pmenu", strings = { "%=" } },
+          { hl = "@attribute", strings = { search_count } },
+          { hl = "MiniStatuslineDevinfo", strings = { diagnostics } },
+          { hl = mode_hl, strings = { location } },
+        }
+      end
+      opts.content = opts.content or {}
+      opts.content.active = statusline
+      opts.set_vim_settings = false
 
-      components.active[1] = {
-        { provider = "▊ ", hl = hl_fn { fg = "skyblue" } },
-        {
-          provider = "vi_mode",
-          hl = function()
-            return {
-              name = require("feline.providers.vi_mode").get_mode_highlight_name(),
-              fg = require("feline.providers.vi_mode").get_mode_color(),
-              bg = "NONE",
-              style = "bold",
-            }
-          end,
-          right_sep = { " ", { str = "slant_right_2_thin", hl = hl_fn { fg = "fg" } } },
-        },
-        { provider = "git_branch", hl = hl_fn { fg = "cyan", style = "bold" }, icon = "  " },
-        { provider = "git_diff_added", hl = hl_fn { fg = "green" }, icon = "  " },
-        { provider = "git_diff_removed", hl = hl_fn { fg = "red" }, icon = "  " },
-        { provider = "git_diff_changed", hl = hl_fn { fg = "orange" }, icon = "  " },
-      }
-
-      components.active[2] = {
-        {
-          provider = function()
-            local clients = {}
-
-            for _, client in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
-              clients[#clients + 1] = client.name
-            end
-            table.sort(clients)
-
-            return table.concat(clients, " & ")
-          end,
-          hl = hl_fn { fg = "teal" },
-          icon = " ",
-        },
-      }
-
-      components.active[3] = {
-        { provider = "search_count", hl = hl_fn { fg = "lightblue" }, icon = " " },
-        {
-          provider = function() return require("lazy.status").updates() .. " Plugin Updates" end,
-          hl = hl_fn { fg = "magenta" },
-          right_sep = { { str = " ", hl = hl_fn {} } },
-          enabled = require("lazy.status").has_updates,
-        },
-        { provider = "diagnostic_errors", hl = hl_fn { fg = "red" }, icon = "  " },
-        { provider = "diagnostic_warnings", hl = hl_fn { fg = "yellow" }, icon = "  " },
-        { provider = "diagnostic_hints", hl = hl_fn { fg = "cyan" }, icon = "  " },
-        { provider = "diagnostic_info", hl = hl_fn { fg = "skyblue" }, icon = "  " },
-        {
-          provider = "position",
-          hl = hl_fn { fg = "orange" },
-          icon = " ",
-          left_sep = { { str = " ", hl = hl_fn {} } },
-          right_sep = { { str = " ", hl = hl_fn {} } },
-        },
-        { provider = "scroll_bar", hl = hl_fn { fg = "skyblue", style = "bold" } },
-      }
-
-      fe.setup {
-        components = components,
-        conditional_components = {},
-        custom_providers = {},
-        theme = {},
-        separators = {},
-        force_inactive = {},
-      }
+      require("mini.statusline").setup(opts)
     end,
   },
   {
@@ -147,7 +111,7 @@ return {
         },
       },
       messages = { enabled = false },
-      popupmenu = { backend = "nui" },
+      popupmenu = { backend = "cmp", kind_icons = vim.lsp.protocol.CompletionItemKind },
       presets = {
         bottom_search = false,
         command_palette = true,
@@ -184,24 +148,28 @@ return {
       },
       operators = { gc = "Comments" },
       key_labels = { ["<space>"] = "SPC", ["<cr>"] = "RET", ["<tab>"] = "TAB" },
-      -- icons = { breadcrumb = "", separator = "", group = " " },
+      icons = {
+        breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+        separator = "▸", -- symbol used between a key and it's label
+        group = "+", -- symbol prepended to a group
+      },
       popup_mappings = { scroll_down = "<c-d>", scroll_up = "<c-u>" },
       window = {
-        border = "rounded", -- none, single, double, shadow
-        --   position = "bottom", -- bottom, top
-        --   margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
-        --   padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
-        --   winblend = 0,
+        -- border = "rounded", -- none, single, double, shadow
+        -- position = "bottom", -- bottom, top
+        -- margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
+        -- padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+        -- winblend = 0,
       },
       layout = {
-        --   height = { min = 4, max = 25 }, -- min and max height of the columns
-        --   width = { min = 20, max = 50 }, -- min and max width of the columns
+        height = { min = 2, max = 16 }, -- min and max height of the columns
+        width = { min = 10, max = 50 }, -- min and max width of the columns
         spacing = 3, -- spacing between columns
         align = "center", -- align columns left, center or right
       },
       ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
       hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
-      show_help = false, -- show help message on the command line when the popup is visible
+      show_help = true, -- show help message on the command line when the popup is visible
       triggers = "auto", -- automatically setup triggers
       show_keys = true,
     },
@@ -214,9 +182,10 @@ return {
         g = { name = "+Goto" },
         gh = { name = "+Hierarchy" },
         t = { name = "+Test" },
+        ["\\"] = { name = "+Toggle" },
         ["]"] = { name = "+Next" },
         ["["] = { name = "+Prev" },
-        ["<leader>l"] = { name = "+Packager" },
+        ["<leader>l"] = { name = "+Package" },
         ["<leader>c"] = { name = "+Code" },
         ["<leader>v"] = { name = "+VCS" },
         ["<leader>x"] = { name = "+Diagnostics" },
@@ -248,6 +217,102 @@ return {
       hide_numbers = true,
       direction = "horizontal",
       shade_terminals = false,
+    },
+  },
+  {
+    "kevinhwang91/nvim-bqf",
+    ft = "qf",
+    init = function()
+      local fn = vim.fn
+
+      function _G.qftf(info)
+        local items
+        local ret = {}
+        -- The name of item in list is based on the directory of quickfix window.
+        -- Change the directory for quickfix window make the name of item shorter.
+        -- It's a good opportunity to change current directory in quickfixtextfunc :)
+        --
+        -- local alterBufnr = fn.bufname('#') -- alternative buffer is the buffer before enter qf window
+        -- local root = getRootByAlterBufnr(alterBufnr)
+        -- vim.cmd(('noa lcd %s'):format(fn.fnameescape(root)))
+        --
+        if info.quickfix == 1 then
+          items = fn.getqflist({ id = info.id, items = 0 }).items
+        else
+          items = fn.getloclist(info.winid, { id = info.id, items = 0 }).items
+        end
+        local limit = 31
+        local fnameFmt1, fnameFmt2 = "%-" .. limit .. "s", "…%." .. (limit - 1) .. "s"
+        local validFmt = "%s │%4d:%-3d│%s %s"
+        for i = info.start_idx, info.end_idx do
+          local e = items[i]
+          local fname = ""
+          local str
+          if e.valid == 1 then
+            if e.bufnr > 0 then
+              fname = fn.bufname(e.bufnr)
+              if fname == "" then
+                fname = "[No Name]"
+              else
+                -- fname = fname:gsub("^" .. vim.env.HOME, "~")
+                fname = fname:gsub("^" .. vim.loop.cwd(), "")
+              end
+              -- char in fname may occur more than 1 width, ignore this issue in order to keep performance
+              if #fname <= limit then
+                fname = fnameFmt1:format(fname)
+              else
+                fname = fnameFmt2:format(fname:sub(1 - limit))
+              end
+            end
+            local lnum = e.lnum > 99999 and -1 or e.lnum
+            local col = e.col > 999 and -1 or e.col
+            local qtype = e.type == "" and "" or " " .. e.type:sub(1, 1):upper()
+            str = validFmt:format(fname, lnum, col, qtype, e.text)
+          else
+            str = e.text
+          end
+          table.insert(ret, str)
+        end
+        return ret
+      end
+
+      vim.o.qftf = "{info -> v:lua._G.qftf(info)}"
+    end,
+    config = function()
+      require("bqf").setup {
+        auto_enable = true,
+        auto_resize_height = true,
+        magic_window = true,
+        preview = { auto_preview = true, show_title = true },
+        filter = {
+          fzf = { extra_opts = { "--bind", "ctrl-o:toggle-all", "--delimiter", "│" } },
+        },
+      }
+    end,
+    {
+      "uga-rosa/ccc.nvim",
+      event = "BufReadPost",
+      opts = {
+        highlighter = {
+          auto_enable = true,
+        },
+      },
+      config = function(_, opts)
+        local cc = require "ccc"
+        local picker = cc.picker
+        opts.pickers = {
+          picker.hex,
+          picker.css_rgb,
+          picker.css_hsl,
+          picker.css_hwb,
+          picker.css_lab,
+          picker.css_lch,
+          picker.css_oklab,
+          picker.css_oklch,
+          picker.css_name,
+        }
+        cc.setup(opts)
+      end,
     },
   },
 }

@@ -7,6 +7,21 @@ return {
     end,
   },
 
+  {
+    "echasnovski/mini.basics",
+    opts = {
+      options = {
+        basic = true,
+      },
+      mappings = {
+        basic = true,
+        windows = true,
+      },
+      autocommands = {},
+    },
+    config = function(_, opts) require("mini.basics").setup(opts) end,
+  },
+
   "nvim-lua/plenary.nvim",
   "nvim-tree/nvim-web-devicons",
   {
@@ -37,7 +52,19 @@ return {
     },
   },
 
-  { "ThePrimeagen/refactoring.nvim", event = "BufReadPost" },
+  {
+    "ThePrimeagen/refactoring.nvim",
+    event = "BufReadPost",
+    opts = {
+      code_generation = {},
+      formatting = {},
+      extract_var_statements = {},
+      printf_statements = {},
+      print_var_statements = {},
+      prompt_func_return_type = { go = true, java = true, python = true },
+      prompt_func_param_type = { go = true, java = true, python = true },
+    },
+  },
 
   {
     "folke/neoconf.nvim",
@@ -52,8 +79,15 @@ return {
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
-    init = function() map { "<leader>lm", "<CMD>Mason<CR>", desc = "Manage Mason" } end,
-    config = function()
+    ---@type LazyKeys[]
+    keys = {
+      { "<leader>lm", "<CMD>Mason<CR>", desc = "Manage Mason" },
+    },
+    opts = {
+      ---@type table<string, string|string[]>
+      dependencies = {},
+    },
+    config = function(_, opts)
       require("mason").setup {
         ui = {
           border = "double",
@@ -64,15 +98,25 @@ return {
           },
         },
       }
+
+      local registry = require "mason-registry"
+      for _, dependence in pairs(opts.dependencies) do
+        local pkg = registry.get_package(dependence)
+        if not pkg:is_installed() then pkg:install {} end
+      end
     end,
   },
   {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPre",
-    init = function()
-      map { "<leader>vd", "<CMD>Gitsigns diffthis<CR>", desc = "Diff This Hunk" }
-      map { "<leader>vp", "<CMD>Gitsigns preview_hunk_inline<CR>", desc = "Preview Diff" }
-    end,
+    cmd = "Gitsigns",
+    ---@type LazyKeys[]
+    keys = {
+      { "<leader>vd", "<CMD>Gitsigns diffthis<CR>", desc = "Diff This Hunk" },
+      { "<leader>vp", "<CMD>Gitsigns preview_hunk_inline<CR>", desc = "Preview Diff" },
+      { "[h", "<CMD>Gitsigns prev_hunk<CR>", desc = "Previous hunk" },
+      { "]h", "<CMD>Gitsigns next_hunk<CR>", desc = "Next hunk" },
+    },
     opts = {
       current_line_blame = true,
       current_line_blame_opts = { delay = 150 },
@@ -83,12 +127,14 @@ return {
     "sindrets/diffview.nvim",
     cmd = {
       "DiffviewOpen",
+      "DiffviewClose",
       "DiffviewToggle",
       "DiffviewFileHistory",
     },
     ---@type LazyKeys[]
     keys = {
       { "<leader>vh", "<CMD>DiffviewFileHistory<CR>", desc = "History" },
+      { "<leader>vD", "<CMD>DiffviewToggle<CR>", desc = "Toggle" },
     },
     ---@type DiffViewOptions
     opts = {
@@ -108,24 +154,12 @@ return {
       },
     },
     config = function(_, opts)
-      local diffview_status = false
-      vim.api.nvim_create_user_command("DiffviewToggle", function()
-        if diffview_status then
-          vim.cmd [[DiffviewClose]]
-          diffview_status = not diffview_status
-        else
-          vim.cmd [[DiffviewOpen]]
-          diffview_status = not diffview_status
-        end
+      vim.api.nvim_create_user_command("DiffviewToggle", function(e)
+        local view = require("diffview.lib").get_current_view()
+        vim.cmd(view and "DiffviewClose" or "DiffviewOpen " .. e.args)
       end, { desc = "Toggle Diffview" })
       require("diffview").setup(opts)
     end,
-  },
-
-  {
-    "NvChad/nvim-colorizer.lua",
-    event = "BufReadPost",
-    config = true,
   },
 
   {

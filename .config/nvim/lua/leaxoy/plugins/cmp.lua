@@ -37,6 +37,7 @@ return {
       -- completion = { completeopt = "menu,menuone,noinsert" },
       experimental = { ghost_text = true },
       formatting = {
+        ---@type cmp.ItemField[]
         fields = { "kind", "abbr", "menu" },
         ---@param entry cmp.Entry
         ---@param item vim.CompletedItem
@@ -97,6 +98,7 @@ return {
         },
       },
       snippet = {
+        ---@param args cmp.SnippetExpansionParams
         expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
       },
       sorting = {
@@ -141,8 +143,10 @@ return {
         { name = "buffer" },
       },
       window = {
-        completion = cmp.config.window.bordered {},
-        documentation = cmp.config.window.bordered {},
+        -- completion = cmp.config.window.bordered {},
+        documentation = {
+          winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
+        },
       },
     }
 

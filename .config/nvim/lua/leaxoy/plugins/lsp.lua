@@ -9,35 +9,23 @@ local function resolve_text_document_capabilities(client, buffer)
   local function map(keys) map_local(keys, buffer) end
 
   local caps = client.server_capabilities
-  local has_glance = vim.fn.exists ":Glance"
-  local has_lspsaga = vim.fn.exists ":Lspsaga"
+  local has_lspsaga = vim.fn.exists ":Lspsaga" > 0
 
   if caps.declarationProvider then
     map { "gD", vim.lsp.buf.declaration, desc = "[LSP] Declaration" }
   end
   if caps.definitionProvider then
-    local def
-    if has_glance then
-      def = [[<CMD>Glance definitions<CR>]]
-    elseif has_lspsaga then
-      def = [[<CMD>Lspsaga goto_definition<CR>]]
-    else
-      def = vim.lsp.buf.definition
-    end
+    local def = has_lspsaga and [[<CMD>Lspsaga goto_definition<CR>]] or vim.lsp.buf.definition
     map { "gd", def, desc = "[LSP] Definition" }
   end
   if caps.typeDefinitionProvider then
-    local type_def = has_glance and [[<CMD>Glance type_definitions<CR>]]
-      or vim.lsp.buf.type_definition
-    map { "gt", type_def, desc = "[LSP] Type Definition" }
+    map { "gt", vim.lsp.buf.type_definition, desc = "[LSP] Type Definition" }
   end
   if caps.implementationProvider then
-    local impl = has_glance and [[<CMD>Glance implementations<CR>]] or vim.lsp.buf.implementation
-    map { "gi", impl, desc = "[LSP] Implementation" }
+    map { "gi", vim.lsp.buf.implementation, desc = "[LSP] Implementation" }
   end
   if caps.referencesProvider then
-    local ref = has_glance and [[<CMD>Glance references<CR>]] or vim.lsp.buf.references
-    map { "gr", ref, desc = "[LSP] References" }
+    map { "gr", vim.lsp.buf.references, desc = "[LSP] References" }
   end
   if caps.callHierarchyProvider then
     local incoming = has_lspsaga and "<CMD>Lspsaga incoming_calls<CR>" or vim.lsp.buf.incoming_calls
@@ -103,7 +91,7 @@ local function resolve_text_document_capabilities(client, buffer)
       buffer = buffer,
       callback = function() vim.lsp.buf.format() end,
     })
-    map { "<leader>cf", vim.lsp.buf.format, desc = "Format" }
+    map { "<leader>cf", vim.lsp.buf.format, desc = "Format", mode = { "n", "v" } }
   end
   if caps.renameProvider then
     local r = has_lspsaga and [[<CMD>Lspsaga rename<CR>]] or vim.lsp.buf.rename
@@ -133,7 +121,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     local buf = args.buf
-    -- client.offset_encoding = "utf-8"
 
     resolve_text_document_capabilities(client, buf)
     resolve_workspace_capabilities(client, buf)
@@ -199,6 +186,10 @@ return {
     keys = {
       { "gf", "<CMD>Lspsaga lsp_finder<CR>", desc = "[LSP] Finder" },
       { "gp", "<CMD>Lspsaga peek_definition<CR>", desc = "[LSP] Peek Definition" },
+      { "[x", "<CMD>Lspsaga diagnostic_jump_prev<CR>", desc = "Previous Diagnostic" },
+      { "]x", "<CMD>Lspsaga diagnostic_jump_next<CR>", desc = "Next Diagnostic" },
+      { "<leader>xc", "<CMD>Lspsaga show_cursor_diagnostics<CR>", desc = "Cursor" },
+      { "<leader>xx", "<CMD>Lspsaga show_line_diagnostics<CR>", desc = "Line" },
     },
     cmd = "Lspsaga",
     dependencies = { { "nvim-tree/nvim-web-devicons" } },
@@ -208,22 +199,26 @@ return {
       end
       require("lspsaga").setup {
         ui = {
-          border = "rounded",
+          border = "solid",
           preview = " ",
-          expand = " ",
-          collapse = " ",
+          expand = "▸ ",
+          collapse = "▾ ",
           code_action = " ",
           diagnostic = " ",
           incoming = " ",
           outgoing = " ",
           kind = icon_kind(),
         },
-        diagnostic = {},
+        diagnostic = {
+          keys = {
+            exec_action = "<CR>",
+            quit = "q",
+            go_action = "g",
+          },
+        },
         symbol_in_winbar = {
           enable = true,
-          in_custom = false,
           show_file = true,
-          separator = "  ",
           respect_root = true,
         },
         code_action = {
@@ -242,22 +237,40 @@ return {
         preview = { lines_above = 0, lines_below = 20 },
         scroll_preview = { scroll_down = "<C-d>", scroll_up = "<C-u>" },
         outline = { auto_enter = false, keys = { jump = "<CR>" } },
-        callhierarchy = { show_detail = true, keys = { jump = "<CR>" } },
+        callhierarchy = {
+          show_detail = true,
+          keys = {
+            edit = "e",
+            vsplit = ",",
+            split = "s",
+            tabe = "t",
+            quit = "q",
+            expand_collapse = "u",
+            jump = "<CR>",
+          },
+        },
         request_timeout = 5000,
         finder = {
-          open = { "o", "<CR>" },
-          quit = { "q", "<Esc>" },
-          vsplit = "v",
-          split = "s",
+          keys = {
+            jump_to = "p",
+            edit = { "o", "<CR>" },
+            vsplit = ",",
+            split = "s",
+            tabe = "t",
+            quit = { "q", "<ESC>" },
+            close_in_preview = "<ESC>",
+          },
         },
-        definition = { quit = "q" },
-        rename = { quit = "<Esc>" },
+        definition = {
+          edit = "<C-c>e",
+          vsplit = "<C-c>,",
+          split = "<C-c>s",
+          tabe = "<C-c>t",
+          quit = "q",
+          close = "<Esc>",
+        },
+        rename = { quit = "<Esc>", in_select = false },
       }
-      map_local { "[x", "<CMD>Lspsaga diagnostic_jump_prev<CR>", desc = "Previous Diagnostic" }
-      map_local { "]x", "<CMD>Lspsaga diagnostic_jump_next<CR>", desc = "Next Diagnostic" }
-      map_local { "<leader>xc", "<CMD>Lspsaga show_cursor_diagnostics<CR>", desc = "Cursor" }
-      map_local { "<leader>xx", "<CMD>Lspsaga show_line_diagnostics<CR>", desc = "Line" }
-      map_local { "<leader>xb", "<CMD>Lspsaga show_buf_diagnostics<CR>", desc = "Buffer" }
 
       -- update color highlight
       vim.api.nvim_create_autocmd("ColorScheme", {
@@ -268,50 +281,6 @@ return {
           require("lspsaga.lspkind").init_kind_hl()
         end,
       })
-    end,
-  },
-  {
-    "dnlhc/glance.nvim",
-    cmd = "Glance",
-    config = function()
-      local glance = require "glance"
-      glance.setup {
-        border = { enable = true, top_char = "─", bottom_char = "─" },
-        folds = { folded = true, fold_open = "▾", fold_closed = "▸" },
-        list = { position = "right", width = 0.3 },
-        theme = { enable = true, mode = "auto" },
-        mappings = {
-          list = {
-            q = glance.actions.close,
-            v = glance.actions.jump_vsplit,
-            s = glance.actions.jump_split,
-            t = glance.actions.jump_tab,
-            ["<Esc>"] = glance.actions.close,
-            ["<Tab>"] = glance.actions.enter_win "preview",
-            ["<CR>"] = glance.actions.jump,
-          },
-          preview = {
-            q = glance.actions.close,
-            ["<Esc>"] = glance.actions.close,
-            ["<Tab>"] = glance.actions.enter_win "list",
-          },
-        },
-        winbar = { enable = false },
-        hooks = {
-          ---@param results table
-          ---@param open fun(table)
-          ---@param jump fun(any)
-          ---@param method string
-          ---@diagnostic disable-next-line: unused-local
-          before_open = function(results, open, jump, method)
-            if #results == 1 then
-              jump(results[1]) -- argument is optional
-            else
-              open(results) -- argument is optional
-            end
-          end,
-        },
-      }
     end,
   },
 }

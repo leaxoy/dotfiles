@@ -1,3 +1,5 @@
+-- Basics config
+
 --#region base config
 vim.opt.mousemodel = "extend"
 vim.cmd [[aunmenu PopUp]]
@@ -11,6 +13,7 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 if has "nvim-0.9" then vim.opt.splitkeep = "topline" end
 vim.opt.scrolloff = 999 -- pin cursor center the screen
+vim.opt.sidescrolloff = 999 -- pin cursor center the screen
 vim.opt.wrap = false
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
@@ -87,6 +90,7 @@ vim.cmd [[let &t_Ce = "\e[4:0m"]]
 
 vim.filetype.add {
   extension = {
+    luau = "luau",
     thrift = "thrift",
   },
 }

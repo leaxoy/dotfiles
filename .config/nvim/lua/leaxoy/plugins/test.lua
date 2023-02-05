@@ -8,6 +8,7 @@ return {
     "nvim-neotest/neotest-go",
     "nvim-neotest/neotest-python",
     "rouge8/neotest-rust",
+    "andythigpen/nvim-coverage",
   },
   ---@type LazyKeys[]
   keys = {
@@ -52,5 +53,9 @@ return {
       },
       summary = { mappings = { jumpto = "<CR>", expand = "<TAB>" } },
     }
+
+    ---@type Configuration
+    local opts = {}
+    require('coverage').setup(opts)
   end,
 }

@@ -54,7 +54,7 @@ return {
         sorting_strategy = "ascending",
         results_title = false,
         file_ignore_patterns = {
-          ".git",
+          [[^.git]],
           "kitex_gen",
           "node_modules",
           "vendor",

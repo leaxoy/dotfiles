@@ -1,18 +1,9 @@
 local highlights = {
+  --#region nvim builtin
   Normal = { fg = "NONE" },
   NormalFloat = { link = "Normal" },
-  FloatTitle = { link = "Normal" },
-  FloatBorder = { link = "Normal" },
   CursorLine = { link = "CursorColumn" },
   Cursor = { link = "Normal" },
-
-  --#region Telescope
-  TelescopeNormal = { link = "Normal" },
-  TelescopeBorder = { link = "Normal" },
-  --#endregion
-
-  --#region WhichKey
-  WhichKeyFloat = { link = "Normal" },
   --#endregion
 
   --#region Lsp
@@ -23,6 +14,26 @@ local highlights = {
   LspCodeLensSeparator = { link = "@comment" },
   -- LspSignatureActiveParameter = { default = true },
   --#endregion
+
+  --#region Noice
+  NoiceCmdlinePopupBorder = { link = "Normal" },
+  NoiceCmdlinePrompt = { link = "Normal" },
+  NoicePopup = { link = "Pmenu" },
+  --#endregion
+
+  --#region Lspsaga
+  SagaNormal = { link = "Pmenu" },
+  SagaBorder = { link = "Pmenu" },
+  --#endregion
+
+  --#region Telescope
+  TelescopeNormal = { link = "Normal" },
+  TelescopeBorder = { link = "Normal" },
+  --#endregion
+
+  --#region WhichKey
+  WhichKeyFloat = { link = "Pmenu" },
+  --#endregion
 }
 
 return {
@@ -30,12 +41,35 @@ return {
     "Mofiqul/vscode.nvim",
     lazy = true,
     priority = 1000,
+    opts = {
+      transparent = true,
+      italic_comments = true,
+      group_overrides = highlights,
+    },
+  },
+  {
+    "ellisonleao/gruvbox.nvim",
+    lazy = true,
+    priority = 1000,
     config = function()
-      require("vscode").setup {
-        transparent = true,
-        italic_comments = true,
-        group_overrides = highlights,
+      require("gruvbox").setup {
+        undercurl = true,
+        underline = true,
+        bold = true,
+        italic = true,
+        strikethrough = true,
+        invert_selection = false,
+        invert_signs = false,
+        invert_tabline = false,
+        invert_intend_guides = false,
+        inverse = true, -- invert background for search, diffs, statuslines and errors
+        contrast = "", -- can be "hard", "soft" or empty string
+        palette_overrides = {},
+        overrides = highlights,
+        dim_inactive = false,
+        transparent_mode = false,
       }
+      vim.cmd.colorscheme "gruvbox"
     end,
   },
   {
@@ -63,10 +97,10 @@ return {
           gitsigns = true,
           lsp_saga = true,
           mason = true,
+          mini = true,
           neotest = true,
           noice = true,
           notify = true,
-          overseer = true,
           telescope = true,
           treesitter = true,
           which_key = true,

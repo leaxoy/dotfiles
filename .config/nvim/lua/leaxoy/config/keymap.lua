@@ -20,13 +20,28 @@ local function open_link()
   vim.cmd [[!open <cfile>]]
 end
 
-map { "go", open_link, desc = "Open link under cursor", mode = { "n", "v" } }
+map { "gx", open_link, desc = "Open link under cursor", mode = { "n", "v" } }
+
+local function resize(direction)
+  local count = vim.api.nvim_get_vvar "count"
+  if count == 0 then count = 1 end
+  local cmd = "resize"
+  local modifier = "+"
+  if direction == "h" or direction == "l" then cmd = "vertical resize" end
+  if direction == "h" or direction == "j" then modifier = "-" end
+  vim.cmd(string.format("%s %s%d", cmd, modifier, count))
+end
+
+--#region Tabpage
+map { "<M-[>", "<CMD>tabprevious<CR>", desc = "Previous tabpage" }
+map { "<M-]>", "<CMD>tabnext<CR>", desc = "Next tabpage" }
+--#endregion
 
 --#region Window
-map { "<M-h>", "<C-w>10<", desc = "Decrease window width" }
-map { "<M-l>", "<C-w>10>", desc = "Increase window width" }
-map { "<M-j>", "<C-w>4+", desc = "Increase window height" }
-map { "<M-k>", "<C-w>4-", desc = "Decrease window height" }
+map { "<M-h>", function() resize "h" end, desc = "Decrease window width" }
+map { "<M-l>", function() resize "l" end, desc = "Increase window width" }
+map { "<M-j>", function() resize "j" end, desc = "Increase window height" }
+map { "<M-k>", function() resize "k" end, desc = "Decrease window height" }
 map { "<M-=>", "<C-w>=", desc = "Equally window high and wide" }
 map { "<M-w>", "<C-w>w", desc = "Switch windows" }
 --#endregion

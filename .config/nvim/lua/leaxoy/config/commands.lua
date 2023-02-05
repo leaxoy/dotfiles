@@ -1,8 +1,17 @@
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 
+autocmd("VimEnter", { command = "clearjumps" })
+autocmd("VimEnter", { command = "messages clear" })
+
+-- Check if we need to reload the file when it changed
+autocmd({ "FocusGained", "TermClose", "TermLeave" }, { command = "checktime" })
+
+-- resize splits if window got resized
+autocmd("VimResized", { command = "tabdo wincmd =" })
+
 --#region filetype specific
-autocmd("Filetype", {
+autocmd("FileType", {
   pattern = { "go", "lua" },
   callback = function()
     vim.bo.tabstop = 2
@@ -21,18 +30,3 @@ autocmd("FileType", {
   end,
 })
 --#endregion
-
-autocmd("VimEnter", { callback = function() vim.cmd.clearjumps {} end })
-
-autocmd("TextYankPost", {
-  desc = "Highlight yanked text",
-  group = augroup("highlightyank", { clear = true }),
-  pattern = "*",
-  callback = function() vim.highlight.on_yank() end,
-})
-
--- autocmd({ "CursorHold", "CursorHoldI" }, {
---   group = augroup("diagnostic", {}),
---   callback = function() vim.diagnostic.open_float { scope = "cursor" } end,
---   desc = "automatic open float diagnostic window",
--- })

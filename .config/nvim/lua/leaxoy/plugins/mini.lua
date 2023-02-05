@@ -3,7 +3,16 @@ return {
     "echasnovski/mini.move",
     event = "BufReadPost",
     opts = {
-      mappings = { line_left = "", line_right = "", line_down = "", line_up = "" },
+      mappings = {
+        left = "<M-Left>",
+        right = "<M-Right>",
+        down = "<M-Down>",
+        up = "<M-Up>",
+        line_left = "<M-Left>",
+        line_right = "<M-Right>",
+        line_down = "<M-Down>",
+        line_up = "<M-Up>",
+      },
     },
     config = function(_, opts) require("mini.move").setup(opts) end,
   },
@@ -34,7 +43,7 @@ return {
     config = function(_, opts)
       require("mini.indentscope").setup(opts)
       vim.api.nvim_create_autocmd("Filetype", {
-        pattern = { "dashboard", "lspsaga*" },
+        pattern = { "dashboard", "lspsaga*", "sagacodeaction", "noice" },
         callback = function() vim.b.miniindentscope_disable = true end,
       })
     end,
@@ -58,9 +67,11 @@ return {
             a = { "@block.outer", "@conditional.outer", "@loop.outer" },
             i = { "@block.inner", "@conditional.inner", "@loop.inner" },
           }, {}),
-          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
+          f = ai.gen_spec.treesitter({
+            a = { "@call.outer", "@function.outer" },
+            i = { "@call.inner", "@function.inner" },
+          }, {}),
           c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
-          i = ai.gen_spec.treesitter({ a = "@call.outer", i = "@call.inner" }, {}),
         },
       }
     end,

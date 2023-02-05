@@ -5,13 +5,22 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
   },
   build = ":TSUpdate",
-  event = "BufReadPost",
+  event = "BufRead",
   config = function()
-    require "nvim-treesitter.configs".setup {
+    require("nvim-treesitter.configs").setup {
       auto_install = true,
       highlight = { enable = true },
       incremental_selection = { enable = false },
       indent = { enable = true },
+
+      ensure_installed = {
+        "bash",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "regex",
+        "vim",
+      },
 
       textobjects = {
         move = {
