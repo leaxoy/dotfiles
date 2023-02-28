@@ -5,7 +5,7 @@ return {
   },
   opts = {
     servers = {
-      sumneko_lua = {},
+      lua_ls = {},
     },
   },
 }

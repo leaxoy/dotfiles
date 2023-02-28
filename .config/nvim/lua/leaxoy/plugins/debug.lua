@@ -1,10 +1,34 @@
 return {
   "mfussenegger/nvim-dap",
   dependencies = {
-    "rcarriga/nvim-dap-ui",
-    "rcarriga/cmp-dap",
+    {
+      "rcarriga/nvim-dap-ui",
+      config = function() require("dapui").setup { icons = { current_frame = "" } } end,
+    },
+    {
+      "rcarriga/cmp-dap",
+      config = function()
+        require("cmp").setup.filetype({ "dap-repl" }, { sources = { { name = "dap" } } })
+      end,
+    },
     "hrsh7th/nvim-cmp",
-    "Weissle/persistent-breakpoints.nvim",
+    {
+      "Weissle/persistent-breakpoints.nvim",
+      config = function()
+        local bp = require "persistent-breakpoints"
+        local bp_api = require "persistent-breakpoints.api"
+
+        bp.setup {
+          save_dir = vim.fn.stdpath "data" .. "/dap",
+          load_breakpoints_event = "BufReadPost",
+        }
+
+        vim.api.nvim_create_autocmd(
+          { "VimLeave", "BufLeave" },
+          { callback = bp_api.store_breakpoints }
+        )
+      end,
+    },
     "jay-babu/mason-nvim-dap.nvim",
   },
   ---@type LazyKeys[]
@@ -37,26 +61,15 @@ return {
     },
   },
   init = function()
-    vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "ErrorMsg" })
-    vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "ErrorMsg" })
+    vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "WarningMsg" })
+    vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "WarningMsg" })
     vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "FoldColumn" })
-    vim.fn.sign_define("DapStopped", { text = "", texthl = "ErrorMsg" }) --  
+    vim.fn.sign_define("DapStopped", { text = "", texthl = "WarningMsg" }) --  
     vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "" })
   end,
   config = function()
     local dap = require "dap"
     local dapui = require "dapui"
-    local bp = require "persistent-breakpoints"
-    local bp_api = require "persistent-breakpoints.api"
-
-    bp.setup {
-      save_dir = vim.fn.stdpath "data" .. "/dap",
-      load_breakpoints_event = "BufReadPost",
-    }
-
-    vim.api.nvim_create_autocmd({ "VimLeave", "BufLeave" }, { callback = bp_api.store_breakpoints })
-
-    require("cmp").setup.filetype({ "dap-repl" }, { sources = { { name = "dap" } } })
 
     dap.listeners.after.event_initialized = {
       dapui_config = function(_, _) dapui.open {} end,
@@ -66,52 +79,6 @@ return {
     }
     dap.listeners.before.event_exited = {
       dapui_config = function(_, _) dapui.close {} end,
-    }
-    dapui.setup {
-      icons = { expanded = "▾", collapsed = "▸", current_frame = "" },
-      -- icons = { expanded = "", collapsed = "" },
-      mappings = {
-        -- Use a table to apply multiple mappings
-        expand = { "<CR>", "<2-LeftMouse>" },
-        open = "o",
-        remove = "d",
-        edit = "e",
-        repl = "r",
-      },
-      expand_lines = has "nvim-0.7",
-      layouts = {
-        {
-          elements = { "scopes", "breakpoints", "stacks", "watches" },
-          size = 0.25,
-          position = "left",
-        },
-        {
-          elements = { "repl", "console" },
-          size = 0.25,
-          position = "bottom",
-        },
-      },
-      controls = {
-        element = "repl",
-        icons = {
-          pause = "",
-          play = "",
-          step_into = "",
-          step_over = "",
-          step_out = "",
-          step_back = "",
-          run_last = "",
-          terminate = "",
-        },
-      },
-      floating = {
-        max_height = nil, -- These can be integers or a float between 0 and 1.
-        max_width = nil, -- Floats will be treated as percentage of your screen.
-        border = "rounded",
-        mappings = { close = { "q", "<Esc>" } },
-      },
-      windows = { indent = 1 },
-      render = {},
     }
 
     local mason_adapter = require "mason-nvim-dap"

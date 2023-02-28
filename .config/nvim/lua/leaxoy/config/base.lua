@@ -44,7 +44,7 @@ vim.opt.smartindent = true
 
 --#region fold config
 vim.opt.foldmethod = "indent"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false
 -- vim.opt.foldlevel = 99
 -- vim.opt.foldlevelstart = 99
@@ -64,7 +64,7 @@ vim.opt.cmdheight = 0
 vim.opt.termguicolors = true
 vim.opt.laststatus = 3
 vim.opt.cursorline = true
-vim.opt.cursorcolumn = true
+vim.opt.cursorcolumn = false
 vim.opt.ruler = true
 vim.opt.colorcolumn = "80"
 vim.opt.pumheight = 10
@@ -80,13 +80,9 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 
-vim.fn.sign_define {
-  { name = "CodelensRun", text = " ", texthl = "@attribute" },
-  { name = "CodelensDebug", text = " ", texthl = "@attribute" },
-}
-
-vim.cmd [[let &t_Cs = "\e[4:3m"]]
 vim.cmd [[let &t_Ce = "\e[4:0m"]]
+vim.cmd [[let &t_Co = 256]]
+vim.cmd [[let &t_Cs = "\e[4:3m"]]
 
 vim.filetype.add {
   extension = {

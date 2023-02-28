@@ -44,7 +44,6 @@ return {
     local sources = {
       ca.gitsigns,
       ca.gomodifytags,
-      ca.refactoring.with { extra_filetypes = { "c", "cpp", "java" } },
 
       diag.codespell.with { diagnostics_format = "[#{c}] #{m} (#{s})" },
       diag.fish.with { diagnostics_format = "[#{c}] #{m} (#{s})" },

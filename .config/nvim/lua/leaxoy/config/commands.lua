@@ -12,7 +12,7 @@ autocmd("VimResized", { command = "tabdo wincmd =" })
 
 --#region filetype specific
 autocmd("FileType", {
-  pattern = { "go", "lua" },
+  pattern = { "go", "json", "lua" },
   callback = function()
     vim.bo.tabstop = 2
     vim.bo.shiftwidth = 2

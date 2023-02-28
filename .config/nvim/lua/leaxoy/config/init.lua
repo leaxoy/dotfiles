@@ -19,6 +19,8 @@ vim.opt.runtimepath:prepend(lazypath)
 
 require("lazy").setup {
   spec = {
+    { import = "leaxoy.plugins.extras.lang.c" },
+    { import = "leaxoy.plugins.extras.lang.csharp" },
     { import = "leaxoy.plugins.extras.lang.go" },
     { import = "leaxoy.plugins.extras.lang.json" },
     { import = "leaxoy.plugins.extras.lang.lua" },
@@ -28,7 +30,14 @@ require("lazy").setup {
   },
   checker = { enabled = true, frequency = 600 },
   diff = { cmd = "diffview.nvim" },
-  install = { colorscheme = { "catppuccin", "vscode", "habamax" } },
+  install = {
+    colorscheme = {
+      "tokyonight",
+      "gruvbox",
+      -- "vscode",
+      -- "habamax",
+    },
+  },
   performance = {
     cache = { enabled = true },
     rtp = {

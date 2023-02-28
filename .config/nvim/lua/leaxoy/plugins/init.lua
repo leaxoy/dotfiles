@@ -7,23 +7,8 @@ return {
     end,
   },
 
-  {
-    "echasnovski/mini.basics",
-    opts = {
-      options = {
-        basic = true,
-      },
-      mappings = {
-        basic = true,
-        windows = true,
-      },
-      autocommands = {},
-    },
-    config = function(_, opts) require("mini.basics").setup(opts) end,
-  },
-
-  "nvim-lua/plenary.nvim",
-  "nvim-tree/nvim-web-devicons",
+  { "nvim-lua/plenary.nvim", lazy = true },
+  { "nvim-tree/nvim-web-devicons", lazy = true },
   {
     "rcarriga/nvim-notify",
     event = "VeryLazy",
@@ -53,20 +38,6 @@ return {
   },
 
   {
-    "ThePrimeagen/refactoring.nvim",
-    event = "BufReadPost",
-    opts = {
-      code_generation = {},
-      formatting = {},
-      extract_var_statements = {},
-      printf_statements = {},
-      print_var_statements = {},
-      prompt_func_return_type = { go = true, java = true, python = true },
-      prompt_func_param_type = { go = true, java = true, python = true },
-    },
-  },
-
-  {
     "folke/neoconf.nvim",
     priority = 1000,
     cmd = "Neoconf",
@@ -74,6 +45,10 @@ return {
       { "<leader>w,", [[<CMD>Neoconf global<CR>]], desc = "Global Settings" },
       { "<leader>w.", [[<CMD>Neoconf local<CR>]], desc = "Local Settings" },
     },
+    -- init = function()
+    --   map { "<leader>w,", [[<CMD>Neoconf global<CR>]], desc = "Global Settings" }
+    --   map { "<leader>w.", [[<CMD>Neoconf local<CR>]], desc = "Local Settings" }
+    -- end,
     config = true,
   },
   {
@@ -162,35 +137,7 @@ return {
     end,
   },
 
-  {
-    "luukvbaal/statuscol.nvim",
-    enabled = has "nvim-0.9",
-    config = function()
-      local function click_diagnostic(args)
-        if args.button == "l" then
-          vim.cmd [[Lspsaga show_line_diagnostics]]
-        elseif args.button == "r" then
-          vim.lsp.buf.code_action()
-        end
-      end
-
-      local function start_run(args)
-        if args.button == "l" then vim.lsp.codelens.run() end
-      end
-
-      require("statuscol").setup {
-        setopt = true,
-        DiagnosticSignError = click_diagnostic,
-        DiagnosticSignHint = click_diagnostic,
-        DiagnosticSignInfo = click_diagnostic,
-        DiagnosticSignWarn = click_diagnostic,
-        CodelensRun = start_run,
-        CodelensDebug = start_run,
-      }
-    end,
-  },
-
-  { "christoomey/vim-tmux-navigator" },
+  { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
 
   {
     "axieax/urlview.nvim",

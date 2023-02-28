@@ -23,13 +23,14 @@ end
 map { "gx", open_link, desc = "Open link under cursor", mode = { "n", "v" } }
 
 local function resize(direction)
-  local count = vim.api.nvim_get_vvar "count"
-  if count == 0 then count = 1 end
-  local cmd = "resize"
-  local modifier = "+"
-  if direction == "h" or direction == "l" then cmd = "vertical resize" end
-  if direction == "h" or direction == "j" then modifier = "-" end
-  vim.cmd(string.format("%s %s%d", cmd, modifier, count))
+  return function()
+    local count = vim.api.nvim_get_vvar "count1"
+    local cmd = "resize"
+    local modifier = "+"
+    if direction == "h" or direction == "l" then cmd = "vertical resize" end
+    if direction == "h" or direction == "j" then modifier = "-" end
+    vim.cmd(string.format("%s %s%d", cmd, modifier, count))
+  end
 end
 
 --#region Tabpage
@@ -38,10 +39,10 @@ map { "<M-]>", "<CMD>tabnext<CR>", desc = "Next tabpage" }
 --#endregion
 
 --#region Window
-map { "<M-h>", function() resize "h" end, desc = "Decrease window width" }
-map { "<M-l>", function() resize "l" end, desc = "Increase window width" }
-map { "<M-j>", function() resize "j" end, desc = "Increase window height" }
-map { "<M-k>", function() resize "k" end, desc = "Decrease window height" }
+map { "<M-h>", resize "h", desc = "Decrease window width" }
+map { "<M-l>", resize "l", desc = "Increase window width" }
+map { "<M-j>", resize "j", desc = "Increase window height" }
+map { "<M-k>", resize "k", desc = "Decrease window height" }
 map { "<M-=>", "<C-w>=", desc = "Equally window high and wide" }
 map { "<M-w>", "<C-w>w", desc = "Switch windows" }
 --#endregion
@@ -57,34 +58,28 @@ map { "L", "$", mode = { "n", "v" } }
 
 --#region Diagnostic
 local function cursor_diagnostic() vim.diagnostic.open_float { scope = "c" } end
-map { "<leader>xc", cursor_diagnostic, desc = "Cursor Diagnostic" }
-map { "<leader>xx", vim.diagnostic.open_float, desc = "Line Diagnostic" }
-map { "<leader>xb", vim.diagnostic.setloclist, desc = "Buffer Diagnostic" }
-map { "<leader>xw", vim.diagnostic.setqflist, desc = "Workspace Diagnostic" }
-map { "[x", vim.diagnostic.goto_prev, desc = "Previous Diagnostic" }
-map { "]x", vim.diagnostic.goto_next, desc = "Next Diagnostic" }
+map { "<leader>xc", cursor_diagnostic, desc = "Cursor" }
+map { "<leader>xx", vim.diagnostic.open_float, desc = "Line" }
+map { "<leader>xb", vim.diagnostic.setloclist, desc = "Buffer" }
+map { "<leader>xw", vim.diagnostic.setqflist, desc = "Workspace" }
+map { "[x", vim.diagnostic.goto_prev, desc = "Previous diagnostic" }
+map { "]x", vim.diagnostic.goto_next, desc = "Next diagnostic" }
 --#endregion
 
 --#region Editor
-map { "vv", "V", desc = "Visual Line" }
-map { "vc", "<C-v>", desc = "Visual Block" }
-map { "<", "<gv", mode = "v", desc = "Indent Left" }
-map { ">", ">gv", mode = "v", desc = "Indent Right" }
-map { "<CR>", "<CMD>nohlsearch<CR>", desc = "Clear Highlight" }
-map { ",", "<CMD>vsplit<CR>", desc = "Vertical Split" }
-if has "nvim-0.9" then
-  local function tree_layout() vim.treesitter.show_tree { command = "topleft 50vnew" } end
-  map { "<leader>ct", tree_layout, desc = "TreeSitter Playground" }
-end
+map { "vv", "V", desc = "Visual line" }
+map { "vc", "<C-v>", desc = "Visual block" }
+map { "<", "<gv", mode = "v", desc = "Indent left" }
+map { ">", ">gv", mode = "v", desc = "Indent right" }
+map { "<CR>", "<CMD>nohlsearch<CR>", desc = "Clear highlight" }
+map { ",", "<CMD>vsplit<CR>", desc = "Vertical split" }
+if has "nvim-0.9" then map { "<leader>ct", vim.treesitter.show_tree, desc = "TreeSitter playground" } end
 --#endregion
 
 --#region WorkBench
-if has "nvim-0.9" then map { "<leader>wi", "<CMD>Inspect<CR>", desc = "Inspect Position" } end
-local function toggle_theme()
-  local mode = vim.o.background == "dark" and "light" or "dark"
-  vim.opt.background = mode
-end
-map { "<leader>wt", toggle_theme, desc = "Switch Theme" }
+if has "nvim-0.9" then map { "<leader>wi", "<CMD>Inspect<CR>", desc = "Inspect position" } end
+local function toggle_theme() vim.opt.background = vim.o.background == "dark" and "light" or "dark" end
+map { "<leader>wt", toggle_theme, desc = "Switch theme" }
 --#endregion
 
 --#region Scroll disabled

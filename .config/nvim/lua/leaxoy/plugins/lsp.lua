@@ -15,8 +15,7 @@ local function resolve_text_document_capabilities(client, buffer)
     map { "gD", vim.lsp.buf.declaration, desc = "[LSP] Declaration" }
   end
   if caps.definitionProvider then
-    local def = has_lspsaga and [[<CMD>Lspsaga goto_definition<CR>]] or vim.lsp.buf.definition
-    map { "gd", def, desc = "[LSP] Definition" }
+    map { "gd", vim.lsp.buf.definition, desc = "[LSP] Definition" }
   end
   if caps.typeDefinitionProvider then
     map { "gt", vim.lsp.buf.type_definition, desc = "[LSP] Type Definition" }
@@ -107,7 +106,10 @@ local function resolve_workspace_capabilities(client, buffer)
 
   --#region workspace start
   if caps.workspaceSymbolProvider then
-    map { "<leader>cO", vim.lsp.buf.workspace_symbol, desc = "Workspace Symbol" }
+    local sym = vim.fn.exists ":Telescope" > 0
+        and [[<CMD>Telescope lsp_dynamic_workspace_symbols<CR>]]
+      or vim.lsp.buf.workspace_symbol
+    map { "<leader>cO", sym, desc = "Workspace Symbol" }
   end
   if caps.workspace and caps.workspace.workspaceFolders then
     map { "<leader>wa", vim.lsp.buf.add_workspace_folder, desc = "Add Workspace" }
@@ -194,9 +196,6 @@ return {
     cmd = "Lspsaga",
     dependencies = { { "nvim-tree/nvim-web-devicons" } },
     config = function()
-      local function icon_kind()
-        return require("catppuccin.groups.integrations.lsp_saga").custom_kind()
-      end
       require("lspsaga").setup {
         ui = {
           border = "solid",
@@ -207,9 +206,9 @@ return {
           diagnostic = " ",
           incoming = " ",
           outgoing = " ",
-          kind = icon_kind(),
         },
         diagnostic = {
+          on_insert_follow = true,
           keys = {
             exec_action = "<CR>",
             quit = "q",
@@ -223,6 +222,7 @@ return {
         },
         code_action = {
           num_shortcut = true,
+          extend_gitsigns = false,
           keys = { quit = "q", exec = "<CR>" },
         },
         lightbulb = {
@@ -238,7 +238,6 @@ return {
         scroll_preview = { scroll_down = "<C-d>", scroll_up = "<C-u>" },
         outline = { auto_enter = false, keys = { jump = "<CR>" } },
         callhierarchy = {
-          show_detail = true,
           keys = {
             edit = "e",
             vsplit = ",",
@@ -275,8 +274,6 @@ return {
       -- update color highlight
       vim.api.nvim_create_autocmd("ColorScheme", {
         callback = function()
-          require("lspsaga").config =
-            vim.tbl_extend("force", require("lspsaga").config, { ui = { kind = icon_kind() } })
           require("lspsaga.highlight").init_highlight()
           require("lspsaga.lspkind").init_kind_hl()
         end,

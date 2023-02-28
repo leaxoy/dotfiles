@@ -2,8 +2,8 @@ local highlights = {
   --#region nvim builtin
   Normal = { fg = "NONE" },
   NormalFloat = { link = "Normal" },
-  CursorLine = { link = "CursorColumn" },
   Cursor = { link = "Normal" },
+  SignColumn = { link = "Normal" },
   --#endregion
 
   --#region Lsp
@@ -13,17 +13,28 @@ local highlights = {
   LspCodeLens = { link = "@comment" },
   LspCodeLensSeparator = { link = "@comment" },
   -- LspSignatureActiveParameter = { default = true },
+  LspInfoBorder = { link = "Normal" },
   --#endregion
 
   --#region Noice
+  NoiceCmdlineIcon = { link = "Normal" },
+  NoiceCmdlineIconSearch = { link = "NoiceCmdlineIcon" },
+  -- NoiceCmdlinePopup = { link = "Pmenu" },
   NoiceCmdlinePopupBorder = { link = "Normal" },
-  NoiceCmdlinePrompt = { link = "Normal" },
+  NoiceCmdlinePopupBorderSearch = { link = "NoiceCmdlinePopupBorder" },
   NoicePopup = { link = "Pmenu" },
   --#endregion
 
   --#region Lspsaga
+  TitleString = { link = "Pmenu" },
+  TitleIcon = { link = "Pmenu" },
   SagaNormal = { link = "Pmenu" },
   SagaBorder = { link = "Pmenu" },
+  FinderSelection = { link = "Pmenu" },
+  FinderFileName = { link = "Pmenu" },
+  FinderCount = { link = "Label" },
+  FinderIcon = { link = "@keyword" },
+  FinderType = { link = "Pmenu" },
   --#endregion
 
   --#region Telescope
@@ -40,7 +51,6 @@ return {
   {
     "Mofiqul/vscode.nvim",
     lazy = true,
-    priority = 1000,
     opts = {
       transparent = true,
       italic_comments = true,
@@ -49,64 +59,42 @@ return {
   },
   {
     "ellisonleao/gruvbox.nvim",
-    lazy = true,
-    priority = 1000,
     config = function()
+      local overrides = vim.tbl_extend("force", highlights, {
+        GitSignsAdd = { link = "GruvboxGreen" },
+        GitSignsChange = { link = "GruvboxAqua" },
+        GitSignsDelete = { link = "GruvboxRed" },
+
+        DiagnosticSignWarn = { link = "GruvboxYellow" },
+        DiagnosticSignInfo = { link = "GruvboxBlue" },
+        DiagnosticSignHint = { link = "GruvboxAqua" },
+        DiagnosticSignError = { link = "GruvboxRed" },
+      })
       require("gruvbox").setup {
-        undercurl = true,
-        underline = true,
-        bold = true,
-        italic = true,
-        strikethrough = true,
-        invert_selection = false,
-        invert_signs = false,
-        invert_tabline = false,
-        invert_intend_guides = false,
-        inverse = true, -- invert background for search, diffs, statuslines and errors
-        contrast = "", -- can be "hard", "soft" or empty string
-        palette_overrides = {},
-        overrides = highlights,
-        dim_inactive = false,
-        transparent_mode = false,
+        overrides = overrides,
+        contrast = "hard",
       }
-      vim.cmd.colorscheme "gruvbox"
+      require("gruvbox").load()
     end,
   },
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    build = ":CatppuccinCompile",
-    priority = 1000,
+    "folke/tokyonight.nvim",
+    lazy = true,
     config = function()
-      require("catppuccin").setup {
-        compile_path = vim.fn.stdpath "cache" .. "/catppuccin",
-        -- transparent_background = true,
-        background = { -- :h background
-          light = "latte",
-          dark = "mocha",
-        },
-        term_colors = true,
-        custom_highlights = highlights,
-        integrations = {
-          cmp = true,
-          dap = {
-            enabled = true,
-            enable_ui = true,
-          },
-          dashboard = true,
-          gitsigns = true,
-          lsp_saga = true,
-          mason = true,
-          mini = true,
-          neotest = true,
-          noice = true,
-          notify = true,
-          telescope = true,
-          treesitter = true,
-          which_key = true,
-        },
+      require("tokyonight").load {
+        light_style = "day",
+        style = "night",
+        -- transparent = true,
+        ---@diagnostic disable-next-line: unused-local
+        on_highlights = function(h, colors)
+          for name, hl in pairs(highlights) do
+            h[name] = hl
+          end
+        end,
+        styles = { sidebars = "normal" },
+        sidebars = {},
+        use_background = true,
       }
-      vim.cmd.colorscheme "catppuccin"
     end,
   },
 }

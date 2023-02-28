@@ -53,47 +53,37 @@ return {
     end,
   },
   {
-    "echasnovski/mini.statusline",
-    event = "VeryLazy",
-    config = function(_, opts)
-      local function statusline()
-        local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 120 }
-        local git = MiniStatusline.section_git { trunc_width = 75 }
-        local diagnostics = MiniStatusline.section_diagnostics { trunc_width = 75 }
-        local function lsp_client(args)
-          local clients = {}
-          for _, client in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
-            clients[#clients + 1] = client.name
-          end
-          table.sort(clients)
-          return #clients > 0 and " " .. table.concat(clients, " & ") or ""
-        end
+    "nvim-neo-tree/neo-tree.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    init = function() vim.g.neo_tree_remove_legacy_commands = 1 end,
+    keys = {
+      { [[\\]], "<CMD>Neotree toggle<CR>", desc = "Toggle file explorer" },
+    },
+    config = function()
+      require("neo-tree").setup {
+        default_component_configs = {
+          icon = { folder_closed = "", folder_open = "", folder_empty = "" },
+          git_status = {
+            symbols = {
+              added = "",
+              modified = "",
+              deleted = "",
+              renamed = "",
 
-        local function lazy_status(args)
-          local lazy = require "lazy.status"
-          if lazy.has_updates() then return lazy.updates() .. " Plugin Updates" end
-          return ""
-        end
-
-        local search_count = MiniStatusline.section_searchcount {}
-        local location = MiniStatusline.section_location { trunc_width = 100 }
-        return MiniStatusline.combine_groups {
-          { hl = mode_hl, strings = { mode } },
-          { hl = "MiniStatuslineDevinfo", strings = { git } },
-          { hl = "@define", strings = { lazy_status {} } },
-          { hl = "Pmenu", strings = { "%=" } },
-          { hl = "ColorColumn", strings = { lsp_client {} } },
-          { hl = "Pmenu", strings = { "%=" } },
-          { hl = "@attribute", strings = { search_count } },
-          { hl = "MiniStatuslineDevinfo", strings = { diagnostics } },
-          { hl = mode_hl, strings = { location } },
-        }
-      end
-      opts.content = opts.content or {}
-      opts.content.active = statusline
-      opts.set_vim_settings = false
-
-      require("mini.statusline").setup(opts)
+              untracked = "",
+              ignored = "",
+              unstaged = "",
+              staged = "",
+              conflict = "",
+            },
+          },
+        },
+        source_selector = { winbar = true },
+      }
     end,
   },
   {
@@ -254,7 +244,6 @@ return {
               if fname == "" then
                 fname = "[No Name]"
               else
-                -- fname = fname:gsub("^" .. vim.env.HOME, "~")
                 fname = fname:gsub("^" .. vim.loop.cwd(), "")
               end
               -- char in fname may occur more than 1 width, ignore this issue in order to keep performance
@@ -278,41 +267,41 @@ return {
 
       vim.o.qftf = "{info -> v:lua._G.qftf(info)}"
     end,
-    config = function()
-      require("bqf").setup {
-        auto_enable = true,
-        auto_resize_height = true,
-        magic_window = true,
-        preview = { auto_preview = true, show_title = true },
-        filter = {
-          fzf = { extra_opts = { "--bind", "ctrl-o:toggle-all", "--delimiter", "│" } },
-        },
-      }
-    end,
-    {
-      "uga-rosa/ccc.nvim",
-      event = "BufReadPost",
-      opts = {
-        highlighter = {
-          auto_enable = true,
-        },
+    ---@type BqfConfig
+    opts = {
+      auto_enable = true,
+      auto_preview = true,
+      auto_resize_height = true,
+      magic_window = true,
+      preview = { auto_preview = true, show_title = true },
+      filter = {
+        fzf = { extra_opts = { "--bind", "ctrl-o:toggle-all", "--delimiter", "│" } },
       },
-      config = function(_, opts)
-        local cc = require "ccc"
-        local picker = cc.picker
-        opts.pickers = {
-          picker.hex,
-          picker.css_rgb,
-          picker.css_hsl,
-          picker.css_hwb,
-          picker.css_lab,
-          picker.css_lch,
-          picker.css_oklab,
-          picker.css_oklch,
-          picker.css_name,
-        }
-        cc.setup(opts)
-      end,
     },
+  },
+  {
+    "uga-rosa/ccc.nvim",
+    event = "BufReadPost",
+    opts = {
+      highlighter = {
+        auto_enable = true,
+      },
+    },
+    config = function(_, opts)
+      local cc = require "ccc"
+      local picker = cc.picker
+      opts.pickers = {
+        picker.hex,
+        picker.css_rgb,
+        picker.css_hsl,
+        picker.css_hwb,
+        picker.css_lab,
+        picker.css_lch,
+        picker.css_oklab,
+        picker.css_oklch,
+        picker.css_name,
+      }
+      cc.setup(opts)
+    end,
   },
 }
