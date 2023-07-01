@@ -36,6 +36,15 @@ return {
       window = { suffix = "w", options = {} },
       yank = { suffix = "y", options = {} },
     },
+    hipatterns = {
+      highlighters = {
+        -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+        fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+        hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+        todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+        note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+      },
+    },
     indentscope = { symbol = "│" },
     move = {
       mappings = {
@@ -49,12 +58,19 @@ return {
         line_up = "<M-Up>",
       },
     },
+    splitjoin = { mappings = { toggle = "J" } },
     statusline = { set_vim_settings = false },
     tabline = { set_vim_settings = false },
   },
   init = function()
-    vim.api.nvim_create_autocmd("Filetype", {
-      pattern = { "dashboard", "lspsaga*", "sagacodeaction", "noice" },
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = {
+        "dashboard",
+        "lspsaga*",
+        "sagacodeaction",
+        "noice",
+        "neotest-summary",
+      },
       callback = function()
         vim.b.miniindentscope_disable = true
         vim.b.ministatusline_disable = true
@@ -69,25 +85,33 @@ return {
     local ai = require "mini.ai"
     ai.setup {
       custom_textobjects = {
-        o = ai.gen_spec.treesitter({
+        o = ai.gen_spec.treesitter {
           a = { "@block.outer", "@conditional.outer", "@loop.outer" },
           i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-        }, {}),
-        f = ai.gen_spec.treesitter({
+        },
+        f = ai.gen_spec.treesitter {
           a = { "@call.outer", "@function.outer" },
           i = { "@call.inner", "@function.inner" },
-        }, {}),
-        c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
+        },
+        c = ai.gen_spec.treesitter { a = "@class.outer", i = "@class.inner" },
       },
     }
     require("mini.basics").setup(opts.basics)
     require("mini.bracketed").setup(opts.bracketed)
     require("mini.comment").setup(opts.comment)
+    local hi = require "mini.hipatterns"
+    local hi_opts = vim.tbl_extend(
+      "force",
+      opts.hipatterns.highlighters,
+      { hex_color = hi.gen_highlighter.hex_color() }
+    )
+    hi.setup(hi_opts)
+    require("mini.hipatterns").setup(opts.hipatterns)
     require("mini.indentscope").setup(opts.indentscope)
     require("mini.move").setup(opts.move)
     require("mini.pairs").setup(opts.pairs)
     require("mini.sessions").setup(opts.sessions)
-    require("mini.statusline").setup(opts.statusline)
+    require("mini.splitjoin").setup(opts.splitjoin)
     require("mini.surround").setup(opts.surround)
     require("mini.tabline").setup(opts.tabline)
   end,

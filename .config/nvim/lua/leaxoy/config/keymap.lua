@@ -1,4 +1,6 @@
 -- Basic Keymaps
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 local function get_visual_selection()
   vim.cmd 'noau normal! "vy"'
@@ -73,11 +75,11 @@ map { "<", "<gv", mode = "v", desc = "Indent left" }
 map { ">", ">gv", mode = "v", desc = "Indent right" }
 map { "<CR>", "<CMD>nohlsearch<CR>", desc = "Clear highlight" }
 map { ",", "<CMD>vsplit<CR>", desc = "Vertical split" }
-if has "nvim-0.9" then map { "<leader>ct", vim.treesitter.show_tree, desc = "TreeSitter playground" } end
+map { "<leader>ct", vim.treesitter.inspect_tree, desc = "TreeSitter playground" }
 --#endregion
 
 --#region WorkBench
-if has "nvim-0.9" then map { "<leader>wi", "<CMD>Inspect<CR>", desc = "Inspect position" } end
+map { "<leader>wi", "<CMD>Inspect<CR>", desc = "Inspect position" }
 local function toggle_theme() vim.opt.background = vim.o.background == "dark" and "light" or "dark" end
 map { "<leader>wt", toggle_theme, desc = "Switch theme" }
 --#endregion

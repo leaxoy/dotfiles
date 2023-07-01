@@ -4,6 +4,7 @@ require "leaxoy.config.commands"
 require "leaxoy.config.keymap"
 require "leaxoy.config.diagnostic"
 require "leaxoy.config.lsp"
+require "leaxoy.config.ui"
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -20,7 +21,7 @@ vim.opt.runtimepath:prepend(lazypath)
 require("lazy").setup {
   spec = {
     { import = "leaxoy.plugins.extras.lang.c" },
-    { import = "leaxoy.plugins.extras.lang.csharp" },
+    -- { import = "leaxoy.plugins.extras.lang.csharp" },
     { import = "leaxoy.plugins.extras.lang.go" },
     { import = "leaxoy.plugins.extras.lang.json" },
     { import = "leaxoy.plugins.extras.lang.lua" },
@@ -29,17 +30,8 @@ require("lazy").setup {
     { import = "leaxoy.plugins" },
   },
   checker = { enabled = true, frequency = 600 },
-  diff = { cmd = "diffview.nvim" },
-  install = {
-    colorscheme = {
-      "tokyonight",
-      "gruvbox",
-      -- "vscode",
-      -- "habamax",
-    },
-  },
+  install = { colorscheme = { "gruvbox", "tokyonight", "retrobox" } },
   performance = {
-    cache = { enabled = true },
     rtp = {
       disabled_plugins = {
         "gzip",
@@ -53,5 +45,4 @@ require("lazy").setup {
       },
     },
   },
-  ui = { border = "double" },
 }

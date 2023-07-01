@@ -1,4 +1,9 @@
 -- Basics config
+vim.cmd [[let &t_Ce = "\e[4:0m"]]
+vim.cmd [[let &t_Co = 256]]
+vim.cmd [[let &t_Cs = "\e[4:3m"]]
+vim.cmd [[let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"]]
+vim.cmd [[let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"]]
 
 --#region base config
 vim.opt.mousemodel = "extend"
@@ -11,7 +16,7 @@ vim.opt.backup = false
 vim.opt.writebackup = false
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-if has "nvim-0.9" then vim.opt.splitkeep = "topline" end
+vim.opt.splitkeep = "topline"
 vim.opt.scrolloff = 999 -- pin cursor center the screen
 vim.opt.sidescrolloff = 999 -- pin cursor center the screen
 vim.opt.wrap = false
@@ -29,6 +34,7 @@ vim.opt.spelloptions = "camel,noplainbuffer"
 vim.opt.conceallevel = 3
 vim.opt.concealcursor = "nvi"
 vim.opt.signcolumn = "auto"
+if has "nvim-0.10" then vim.opt.smoothscroll = true end
 --#endregion
 
 --#region indent config --
@@ -70,23 +76,9 @@ vim.opt.colorcolumn = "80"
 vim.opt.pumheight = 10
 --#endregion
 
---#region keymap config
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
---#endregion
-
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 
-vim.cmd [[let &t_Ce = "\e[4:0m"]]
-vim.cmd [[let &t_Co = 256]]
-vim.cmd [[let &t_Cs = "\e[4:3m"]]
-
-vim.filetype.add {
-  extension = {
-    luau = "luau",
-    thrift = "thrift",
-  },
-}
+vim.filetype.add { extension = { luau = "luau", thrift = "thrift", v = "v" } }

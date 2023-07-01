@@ -114,14 +114,18 @@ return {
         },
         sorting = {
           comparators = {
+            ---@param lhs cmp.Entry
+            ---@param rhs cmp.Entry
+            ---@return boolean
+            function(lhs, rhs) return lhs:get_kind() > rhs:get_kind() end,
             cmp.config.compare.offset,
             cmp.config.compare.exact,
             cmp.config.compare.score,
-            cmp.config.compare.recently_used,
             ---@param lhs cmp.Entry
             ---@param rhs cmp.Entry
             ---@return boolean
             function(lhs, rhs)
+              lhs:get_kind()
               local _, lhs_under = lhs.completion_item.label:find "^_+"
               local _, rhs_under = rhs.completion_item.label:find "^_+"
               lhs_under = lhs_under or 0

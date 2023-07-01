@@ -1,6 +1,6 @@
 return {
   {
-    "glepnir/dashboard-nvim",
+    "nvimdev/dashboard-nvim",
     event = "VimEnter",
     config = function()
       ---@class Shortcut
@@ -24,21 +24,20 @@ return {
         theme = "doom",
         config = {
           header = {
-            "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⣤⣤⣴⣦⣤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-            "⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⣿⠿⠿⠿⠿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀",
-            "⠀⠀⠀⠀⣠⣾⣿⣿⡿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢿⣿⣿⣶⡀⠀⠀⠀⠀",
-            "⠀⠀⠀⣴⣿⣿⠟⠁⠀⠀⠀⣶⣶⣶⣶⡆⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣦⠀⠀⠀",
-            "⠀⠀⣼⣿⣿⠋⠀⠀⠀⠀⠀⠛⠛⢻⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣧⠀⠀",
-            "⠀⢸⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⡇⠀",
-            "⠀⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠀",
-            "⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⡟⢹⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⣹⣿⣿⠀",
-            "⠀⣿⣿⣷⠀⠀⠀⠀⠀⠀⣰⣿⣿⠏⠀⠀⢻⣿⣿⡄⠀⠀⠀⠀⠀⠀⣿⣿⡿⠀",
-            "⠀⢸⣿⣿⡆⠀⠀⠀⠀⣴⣿⡿⠃⠀⠀⠀⠈⢿⣿⣷⣤⣤⡆⠀⠀⣰⣿⣿⠇⠀",
-            "⠀⠀⢻⣿⣿⣄⠀⠀⠾⠿⠿⠁⠀⠀⠀⠀⠀⠘⣿⣿⡿⠿⠛⠀⣰⣿⣿⡟⠀⠀",
-            "⠀⠀⠀⠻⣿⣿⣧⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⠏⠀⠀⠀",
-            "⠀⠀⠀⠀⠈⠻⣿⣿⣷⣤⣄⡀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⠟⠁⠀⠀⠀⠀",
-            "⠀⠀⠀⠀⠀⠀⠈⠛⠿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀",
-            "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⠛⠛⠛⠛⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+            "",
+            "",
+            "",
+            "",
+            "",
+            " ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗ ",
+            " ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║ ",
+            " ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║ ",
+            " ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║ ",
+            " ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║ ",
+            " ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝ ",
+            "",
+            "",
+            "",
           },
           center = {
             key { icon = "  ", desc = "Telescopes", key = "fw", action = "Telescope" },
@@ -47,42 +46,21 @@ return {
             key { icon = "  ", desc = "Find Word", key = "fg", action = "Telescope live_grep" },
             key { icon = "  ", desc = "Help", key = "fh", action = "Telescope help_tags" },
           },
-          footer = { "🎉 No Code, No Bug 🎉" },
+          footer = { "🎉 No Code, No Bug 🎉", "", "🎉 如无必要，勿增实体 🎉" },
         },
       }
     end,
   },
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    init = function() vim.g.neo_tree_remove_legacy_commands = 1 end,
-    keys = {
-      { [[\\]], "<CMD>Neotree toggle<CR>", desc = "Toggle file explorer" },
-    },
+    "nvim-tree/nvim-tree.lua",
+    keys = { { [[\\]], [[<CMD>NvimTreeToggle<CR>]] } },
     config = function()
-      require("neo-tree").setup {
-        default_component_configs = {
-          icon = { folder_closed = "", folder_open = "", folder_empty = "" },
-          git_status = {
-            symbols = {
-              added = "",
-              modified = "",
-              deleted = "",
-              renamed = "",
-
-              untracked = "",
-              ignored = "",
-              unstaged = "",
-              staged = "",
-              conflict = "",
-            },
-          },
+      require("nvim-tree").setup {
+        renderer = {
+          group_empty = true,
+          root_folder_label = false,
+          icons = { show = { folder_arrow = false } },
         },
-        source_selector = { winbar = true },
       }
     end,
   },
@@ -92,7 +70,13 @@ return {
     dependencies = { "MunifTanjim/nui.nvim" },
     ---@type NoiceConfig
     opts = {
-      cmdline = { opts = { size = { min_width = 20 } } },
+      cmdline = {
+        opts = { size = { min_width = 20 } },
+        format = {
+          search_up = { icon = " " },
+          search_down = { icon = " " },
+        },
+      },
       lsp = {
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -189,7 +173,13 @@ return {
       { "<C-t>", [[<CMD>execute v:count . "ToggleTerm"<CR>]] },
     },
     init = function()
-      local function cb() map_local { "<Esc>", [[<C-\><C-n>]], mode = "t" } end
+      local function cb()
+        map_local { "<Esc>", [[<C-\><C-n>]], mode = "t" }
+        map_local { "<C-h>", [[<C-w>h]], mode = { "i", "t" } }
+        map_local { "<C-j>", [[<C-w>j]], mode = { "i", "t" } }
+        map_local { "<C-k>", [[<C-w>k]], mode = { "i", "t" } }
+        map_local { "<C-l>", [[<C-w>l]], mode = { "i", "t" } }
+      end
       vim.api.nvim_create_autocmd("TermOpen", { pattern = "term://*", callback = cb })
 
       local function gitui()
@@ -278,30 +268,5 @@ return {
         fzf = { extra_opts = { "--bind", "ctrl-o:toggle-all", "--delimiter", "│" } },
       },
     },
-  },
-  {
-    "uga-rosa/ccc.nvim",
-    event = "BufReadPost",
-    opts = {
-      highlighter = {
-        auto_enable = true,
-      },
-    },
-    config = function(_, opts)
-      local cc = require "ccc"
-      local picker = cc.picker
-      opts.pickers = {
-        picker.hex,
-        picker.css_rgb,
-        picker.css_hsl,
-        picker.css_hwb,
-        picker.css_lab,
-        picker.css_lch,
-        picker.css_oklab,
-        picker.css_oklch,
-        picker.css_name,
-      }
-      cc.setup(opts)
-    end,
   },
 }

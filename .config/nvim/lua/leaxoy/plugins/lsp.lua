@@ -26,6 +26,7 @@ local function resolve_text_document_capabilities(client, buffer)
   if caps.referencesProvider then
     map { "gr", vim.lsp.buf.references, desc = "[LSP] References" }
   end
+  if caps.inlayHintProvider then vim.lsp.inlay_hint(buffer, true) end
   if caps.callHierarchyProvider then
     local incoming = has_lspsaga and "<CMD>Lspsaga incoming_calls<CR>" or vim.lsp.buf.incoming_calls
     local outgoing = has_lspsaga and "<CMD>Lspsaga outgoing_calls<CR>" or vim.lsp.buf.outgoing_calls
@@ -85,16 +86,17 @@ local function resolve_text_document_capabilities(client, buffer)
     map { "<leader>ca", code_action, desc = "Run Code Action", mode = { "n", "v" } }
   end
   if caps.documentFormattingProvider then
+    local function format() vim.lsp.buf.format { timeout_ms = 3000 } end
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = vim.api.nvim_create_augroup("document_formatting", {}),
       buffer = buffer,
-      callback = function() vim.lsp.buf.format() end,
+      callback = format,
     })
-    map { "<leader>cf", vim.lsp.buf.format, desc = "Format", mode = { "n", "v" } }
+    map { "<leader>cf", format, desc = "Format", mode = { "n", "v" } }
   end
   if caps.renameProvider then
-    local r = has_lspsaga and [[<CMD>Lspsaga rename<CR>]] or vim.lsp.buf.rename
-    map { "<leader>cr", r, desc = "Rename" }
+    local rn = has_lspsaga and [[<CMD>Lspsaga rename<CR>]] or vim.lsp.buf.rename
+    map { "<leader>cr", rn, desc = "Rename", mode = { "n", "v" } }
   end
 end
 
@@ -114,7 +116,7 @@ local function resolve_workspace_capabilities(client, buffer)
   if caps.workspace and caps.workspace.workspaceFolders then
     map { "<leader>wa", vim.lsp.buf.add_workspace_folder, desc = "Add Workspace" }
     map { "<leader>wr", vim.lsp.buf.remove_workspace_folder, desc = "Remove Workspace" }
-    local print_workspaces = function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end
+    local print_workspaces = function() vim.print(vim.lsp.buf.list_workspace_folders()) end
     map { "<leader>wl", print_workspaces, desc = "List Workspace" }
   end
 end
@@ -148,16 +150,17 @@ return {
     ---@class LspServerConfig
     ---@field init_options table
     ---@field settings table
-    ---@field on_new_config fun(LspServerConfig)
+    ---@field on_new_config fun(opts: LspServerConfig)
     ---@class LazyLspConfig
     ---@field servers table<string, LspServerConfig>
-    ---@field setups table<string, fun(LspServerConfig)>
+    ---@field setups table<string, fun(opts: LspServerConfig)>
     opts = { servers = {}, setups = {} },
     ---@param _ LazyPlugin
     ---@param opts LazyLspConfig
     config = function(_, opts)
       require("lspconfig.ui.windows").default_options.border = "double"
 
+      local lsp = require "lspconfig"
       local mason_adapter = require "mason-lspconfig"
       local ensure_installed = {}
       for _, name in pairs(vim.tbl_keys(opts.servers)) do
@@ -174,7 +177,7 @@ return {
         function(server_name)
           local server_opts = opts.servers[server_name] or {}
           local setup = opts.setups[server_name]
-            or function(param) require("lspconfig")[server_name].setup(param) end
+            or function(param) lsp[server_name].setup(param) end
           setup(server_opts)
         end,
         jdtls = function() end, -- NOTE: must setup in ftplugin
@@ -182,7 +185,7 @@ return {
     end,
   },
   {
-    "glepnir/lspsaga.nvim",
+    "nvimdev/lspsaga.nvim",
     event = "LspAttach",
     ---@type LazyKeys[]
     keys = {
@@ -199,16 +202,17 @@ return {
       require("lspsaga").setup {
         ui = {
           border = "solid",
-          preview = " ",
           expand = "▸ ",
           collapse = "▾ ",
           code_action = " ",
+          actionfix = " ",
           diagnostic = " ",
           incoming = " ",
           outgoing = " ",
         },
         diagnostic = {
           on_insert_follow = true,
+          text_hl_follow = true,
           keys = {
             exec_action = "<CR>",
             quit = "q",
@@ -219,6 +223,7 @@ return {
           enable = true,
           show_file = true,
           respect_root = true,
+          separator = "  ",
         },
         code_action = {
           num_shortcut = true,
@@ -236,7 +241,7 @@ return {
         },
         preview = { lines_above = 0, lines_below = 20 },
         scroll_preview = { scroll_down = "<C-d>", scroll_up = "<C-u>" },
-        outline = { auto_enter = false, keys = { jump = "<CR>" } },
+        outline = { auto_enter = false, keys = { expand_or_jump = "<CR>" }, auto_resize = true },
         callhierarchy = {
           keys = {
             edit = "e",
@@ -252,7 +257,7 @@ return {
         finder = {
           keys = {
             jump_to = "p",
-            edit = { "o", "<CR>" },
+            expand_or_jump = "<CR>",
             vsplit = ",",
             split = "s",
             tabe = "t",
@@ -266,7 +271,6 @@ return {
           split = "<C-c>s",
           tabe = "<C-c>t",
           quit = "q",
-          close = "<Esc>",
         },
         rename = { quit = "<Esc>", in_select = false },
       }

@@ -1,6 +1,6 @@
 vim.diagnostic.config {
-  virtual_text = false,
-  signs = true,
+  virtual_text = true,
+  signs = false,
   underline = { severity = { min = vim.diagnostic.severity.WARN } },
   float = {
     show_header = true,

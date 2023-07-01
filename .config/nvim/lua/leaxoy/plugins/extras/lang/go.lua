@@ -6,16 +6,15 @@ return {
       gopls = {
         init_options = {
           allExperiments = true,
-          semanticTokens = true,
         },
         settings = {
           gopls = {
             hints = {
               assignVariableTypes = true,
               compositeLiteralFields = true,
-              compositeLiteralTypes = true,
+              -- compositeLiteralTypes = true,
               constantValues = true,
-              functionTypeParameters = true,
+              -- functionTypeParameters = true,
               parameterNames = true,
               rangeVariableTypes = true,
             },
@@ -32,12 +31,6 @@ return {
               upgrade_dependency = true,
               vendor = true,
             },
-            ["ui.diagnostic.annotations"] = {
-              bounds = true,
-              escape = true,
-              inline = true,
-              ["nil"] = true,
-            },
             ["ui.diagnostic.analyses"] = {
               fieldalignment = true,
               nilness = true,
@@ -48,7 +41,6 @@ return {
               useany = true,
             },
             ["ui.diagnostic.staticcheck"] = true,
-            ["ui.semanticTokens"] = true,
           },
         },
       },

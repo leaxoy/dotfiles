@@ -1,14 +1,12 @@
 return {
   "nvim-neotest/neotest",
   dependencies = {
-    "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
-    "nvim-neotest/neotest-vim-test",
-    "vim-test/vim-test",
     "nvim-neotest/neotest-go",
     "nvim-neotest/neotest-python",
     "rouge8/neotest-rust",
   },
+  enabled = false,
   ---@type LazyKeys[]
   keys = {
     { "tf", [[<CMD>lua require("neotest").run.run()<CR>]], desc = "Current function" },
@@ -53,7 +51,6 @@ return {
         },
         require "neotest-go",
         require "neotest-rust",
-        require "neotest-vim-test" { ignore_file_types = { "python", "go", "rust" } },
       },
       summary = { mappings = { jumpto = "<CR>", expand = "<TAB>" } },
     }

@@ -1,6 +1,7 @@
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     "nvim-telescope/telescope-file-browser.nvim",
     "nvim-telescope/telescope-live-grep-args.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
@@ -17,7 +18,6 @@ return {
     { "fb", [[<CMD>Telescope buffers<CR>]], desc = "All Buffers" },
     { "fn", [[<CMD>Telescope notify<CR>]], desc = "Notifications" },
     { "fx", [[<CMD>Telescope diagnostics<CR>]], desc = "Diagnostics" },
-    { "ft", [[<CMD>TodoTelescope<CR>]], desc = "Todo List" },
   },
   -- load ui-select at startup to hook vim.ui.select
   init = function()
@@ -43,7 +43,7 @@ return {
         prompt_prefix = " ",
         selection_caret = "> ",
         multi_icon = "+",
-        initial_mode = "normal",
+        -- initial_mode = "normal",
         -- default border is ivy border config
         border = true,
         borderchars = {
@@ -72,9 +72,8 @@ return {
           "%.a",
           "%.o",
           "%.out",
-          "%.pyi",
         },
-        path_display = { shorten = 1 },
+        -- path_display = { shorten = 1 },
         dynamic_preview_title = true,
         -- layout_strategy = "horizontal",
         layout_strategy = "bottom_pane",
@@ -83,7 +82,7 @@ return {
           vertical = { width = 0.8, height = 0.8, prompt_position = "center" },
           center = { prompt_position = "top" },
           cursor = { height = 0.9 },
-          bottom_pane = { prompt_position = "top" },
+          bottom_pane = { prompt_position = "top", height = 0.6 },
 
           height = 0.5,
           preview_cutoff = 80,
@@ -110,37 +109,37 @@ return {
         buffer_previewer_maker = previewers.buffer_previewer_maker,
       },
       pickers = {
-        builtin = { previewer = false, initial_mode = "insert" },
+        builtin = { previewer = false },
         colorscheme = { enable_preview = true },
-        find_files = { hidden = true, initial_mode = "insert" },
+        find_files = { hidden = true },
       },
       extensions = {
+        fzf = {
+          fuzzy = true, -- false will only do exact matching
+          override_generic_sorter = true, -- override the generic sorter
+          override_file_sorter = true, -- override the file sorter
+          case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+          -- the default case_mode is "smart_case"
+        },
         file_browser = {
           theme = "dropdown",
           hijack_netrw = true,
-          mappings = {
-            ["i"] = {},
-            ["n"] = {},
-          },
           layout_config = { height = 0.6 },
           respect_gitignore = true,
           hidden = true,
           grouped = true,
           previewer = false,
-          -- initial_mode = "normal",
+          initial_mode = "normal",
         },
-        live_grep_args = {
-          auto_quoting = true,
-          initial_mode = "insert",
-        },
+        live_grep_args = { auto_quoting = true },
         notify = { initial_mode = "normal" },
         ["ui-select"] = { themes.get_dropdown {} },
       },
     }
 
+    telescope.load_extension "fzf"
     telescope.load_extension "file_browser"
     telescope.load_extension "live_grep_args"
-    pcall(telescope.load_extension, "todo-comments")
     pcall(telescope.load_extension, "notify")
     pcall(telescope.load_extension, "noice")
   end,

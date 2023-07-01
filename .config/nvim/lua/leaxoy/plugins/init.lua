@@ -17,27 +17,6 @@ return {
   { "mfussenegger/nvim-jdtls", lazy = true },
 
   {
-    "folke/todo-comments.nvim",
-    event = "BufReadPost",
-    ---@type LazyKeys[]
-    keys = {
-      { "[T", [[<CMD>lua require("todo-comments").jump_prev()<CR>]], desc = "Prev Todo" },
-      { "]T", [[<CMD>lua require("todo-comments").jump_next()<CR>]], desc = "Next Todo" },
-    },
-    opts = {
-      keywords = {
-        FIX = { icon = " ", color = "error", alt = { "FIXME", "BUG", "fixme", "bug" } },
-        TODO = { icon = " ", color = "info", alt = { "todo" } },
-        HACK = { icon = " ", color = "warning" },
-        WARN = { icon = " ", color = "warning", alt = { "WARNING", "warn" } },
-        PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-        NOTE = { icon = " ", color = "hint", alt = { "INFO", "info", "note" } },
-        TEST = { icon = " ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
-      },
-    },
-  },
-
-  {
     "folke/neoconf.nvim",
     priority = 1000,
     cmd = "Neoconf",
@@ -45,10 +24,6 @@ return {
       { "<leader>w,", [[<CMD>Neoconf global<CR>]], desc = "Global Settings" },
       { "<leader>w.", [[<CMD>Neoconf local<CR>]], desc = "Local Settings" },
     },
-    -- init = function()
-    --   map { "<leader>w,", [[<CMD>Neoconf global<CR>]], desc = "Global Settings" }
-    --   map { "<leader>w.", [[<CMD>Neoconf local<CR>]], desc = "Local Settings" }
-    -- end,
     config = true,
   },
   {
@@ -65,7 +40,7 @@ return {
     config = function(_, opts)
       require("mason").setup {
         ui = {
-          border = "double",
+          height = 0.8,
           icons = {
             package_installed = "",
             package_pending = "",
@@ -98,56 +73,9 @@ return {
       yadm = { enable = true },
     },
   },
-  {
-    "sindrets/diffview.nvim",
-    cmd = {
-      "DiffviewOpen",
-      "DiffviewClose",
-      "DiffviewToggle",
-      "DiffviewFileHistory",
-    },
-    ---@type LazyKeys[]
-    keys = {
-      { "<leader>vh", "<CMD>DiffviewFileHistory<CR>", desc = "History" },
-      { "<leader>vD", "<CMD>DiffviewToggle<CR>", desc = "Toggle" },
-    },
-    ---@type DiffViewOptions
-    opts = {
-      icons = {
-        folder_closed = " ",
-        folder_open = " ",
-      },
-      signs = {
-        fold_closed = "",
-        fold_open = "",
-        done = " ",
-      },
-      view = {
-        merge_tool = {
-          layout = "diff3_mixed",
-        },
-      },
-    },
-    config = function(_, opts)
-      vim.api.nvim_create_user_command("DiffviewToggle", function(e)
-        local view = require("diffview.lib").get_current_view()
-        vim.cmd(view and "DiffviewClose" or "DiffviewOpen " .. e.args)
-      end, { desc = "Toggle Diffview" })
-      require("diffview").setup(opts)
-    end,
-  },
+  { "tpope/vim-fugitive" },
 
   { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
 
-  {
-    "axieax/urlview.nvim",
-    command = "UrlView",
-    ---@type LazyKeys[]
-    keys = {
-      { "fu", "<CMD>UrlView<CR>", desc = "Lookup buffer links" },
-      { "[u", [[<CMD>lua require("urlview.jump").prev_url()<CR>]], desc = "Previous link" },
-      { "]u", [[<CMD>lua require("urlview.jump").next_url()<CR>]], desc = "Next link" },
-    },
-    config = function(_, opts) require("urlview").setup(opts) end,
-  },
+  { "zaldih/themery.nvim", config = function() require("themery").setup {} end },
 }
