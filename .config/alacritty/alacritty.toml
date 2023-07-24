@@ -1,0 +1,34 @@
+live_config_reload = true
+
+[env]
+TERM = "alacritty"
+
+[font]
+builtin_box_drawing = true
+size = 25.0
+
+[font.bold]
+style = "Bold"
+
+[font.bold_italic]
+style = "Bold Italic"
+
+[font.italic]
+style = "Italic"
+
+[font.normal]
+family = "BlexMono Nerd Font Mono"
+# family = "Hurmit Nerd Font Mono"
+# family = "IntelOneMono Nerd Font Mono"
+# family = "OperatorMono Nerd Font Mono"
+style = "Regular"
+
+[window]
+dynamic_title = true
+decorations = "buttonless"
+option_as_alt = "Both"
+resize_increments = true
+
+[window.dimensions]
+columns = 80
+lines = 24
