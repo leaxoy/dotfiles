@@ -8,9 +8,6 @@ local highlights = {
   --#endregion
 
   --#region Lsp
-  LspReferenceText = { default = true },
-  LspReferenceRead = { default = true },
-  LspReferenceWrite = { default = true },
   LspCodeLens = { link = "@comment" },
   LspCodeLensSeparator = { link = "@comment" },
   LspSignatureActiveParameter = { default = true },
@@ -47,8 +44,8 @@ local highlights = {
   --#region Lspsaga
   TitleString = { link = "Pmenu" },
   TitleIcon = { link = "Pmenu" },
-  SagaNormal = { link = "Pmenu" },
-  SagaBorder = { link = "Pmenu" },
+  -- SagaNormal = { link = "Pmenu" },
+  -- SagaBorder = { link = "Pmenu" },
   FinderSelection = { link = "Pmenu" },
   FinderFileName = { link = "Pmenu" },
   FinderBorder = { bg = "NONE" },
@@ -58,11 +55,6 @@ local highlights = {
   FinderType = { link = "Pmenu" },
   FinderTips = { link = "@keyword" },
   ActionPreviewTitle = { link = "Pmenu" },
-  --#endregion
-
-  --#region Telescope
-  TelescopeNormal = { link = "Normal" },
-  TelescopeBorder = { link = "Normal" },
   --#endregion
 
   --#region WhichKey

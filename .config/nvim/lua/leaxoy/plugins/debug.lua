@@ -85,87 +85,85 @@ return {
 
     mason_adapter.setup {
       automatic_installation = true,
-      automatic_setup = true,
       ensure_installed = { "delve", "javadbg", "javatest", "lldb", "python" },
-    }
+      handlers = {
+        codelldb = function()
+          local lldb_path = vim.fn.stdpath "data" .. "/mason/packages/codelldb/extension"
 
-    mason_adapter.setup_handlers {
-      codelldb = function()
-        local lldb_path = vim.fn.stdpath "data" .. "/mason/packages/codelldb/extension"
-
-        dap.adapters.codelldb = {
-          type = "server",
-          port = "${port}",
-          executable = {
-            -- command = "codelldb",
-            command = lldb_path .. "/adapter/codelldb",
-            args = {
-              "--port",
-              "${port}",
-              "--liblldb",
-              lldb_path .. "/lldb/lib/liblldb.dylib",
+          dap.adapters.codelldb = {
+            type = "server",
+            port = "${port}",
+            executable = {
+              -- command = "codelldb",
+              command = lldb_path .. "/adapter/codelldb",
+              args = {
+                "--port",
+                "${port}",
+                "--liblldb",
+                lldb_path .. "/lldb/lib/liblldb.dylib",
+              },
             },
-          },
-        }
+          }
 
-        local codelldb = {
-          {
-            name = "Launch",
-            type = "codelldb",
-            request = "launch",
-            program = function()
-              return vim.fn.input {
-                prompt = "Path to executable: ",
-                default = vim.loop.cwd() .. "/a.out",
-              }
-            end,
-            cwd = "${workspaceFolder}",
-            stopOnEntry = true,
-          },
-        }
+          local codelldb = {
+            {
+              name = "Launch",
+              type = "codelldb",
+              request = "launch",
+              program = function()
+                return vim.fn.input {
+                  prompt = "Path to executable: ",
+                  default = vim.loop.cwd() .. "/a.out",
+                }
+              end,
+              cwd = "${workspaceFolder}",
+              stopOnEntry = true,
+            },
+          }
 
-        dap.configurations.c = codelldb
-        dap.configurations.cpp = codelldb
-        dap.configurations.rust = codelldb
-      end,
-      python = function()
-        dap.adapters.python = {
-          type = "executable",
-          command = vim.fn.stdpath "data" .. "/mason/packages/debugpy/venv/bin/python3",
-          args = { "-m", "debugpy.adapter" },
-        }
+          dap.configurations.c = codelldb
+          dap.configurations.cpp = codelldb
+          dap.configurations.rust = codelldb
+        end,
+        python = function()
+          dap.adapters.python = {
+            type = "executable",
+            command = vim.fn.stdpath "data" .. "/mason/packages/debugpy/venv/bin/python3",
+            args = { "-m", "debugpy.adapter" },
+          }
 
-        local function python_path_fn()
-          local virtual_env = vim.fn.getenv "VIRTUAL_ENV"
-          local cwd = vim.loop.cwd()
-          if vim.fn.executable(virtual_env .. "/bin/python") == 1 then
-            return virtual_env .. "/bin/python"
-          elseif vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
-            return cwd .. "/venv/bin/python"
-          elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
-            return cwd .. "/.venv/bin/python"
-          else
-            return "/usr/local/bin/python3"
+          local function python_path_fn()
+            local virtual_env = vim.fn.getenv "VIRTUAL_ENV"
+            local cwd = vim.loop.cwd()
+            if vim.fn.executable(virtual_env .. "/bin/python") == 1 then
+              return virtual_env .. "/bin/python"
+            elseif vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
+              return cwd .. "/venv/bin/python"
+            elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
+              return cwd .. "/.venv/bin/python"
+            else
+              return "/usr/local/bin/python3"
+            end
           end
-        end
 
-        dap.configurations.python = {
-          {
-            -- The first three options are required by nvim-dap
-            type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
-            request = "launch",
-            name = "Python: Launch File",
+          dap.configurations.python = {
+            {
+              -- The first three options are required by nvim-dap
+              type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
+              request = "launch",
+              name = "Python: Launch File",
 
-            -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+              -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
 
-            program = "${file}", -- This configuration will launch the current file if used.
-            justMyCode = true,
-            cwd = "${workspaceFolder}",
-            env = { PYTHONPATH = "${env:PYTHONPATH}:${workspaceFolder}" },
-            pythonPath = python_path_fn,
-          },
-        }
-      end,
+              program = "${file}", -- This configuration will launch the current file if used.
+              justMyCode = true,
+              cwd = "${workspaceFolder}",
+              env = { PYTHONPATH = "${env:PYTHONPATH}:${workspaceFolder}" },
+              pythonPath = python_path_fn,
+            },
+          }
+        end,
+      },
     }
   end,
 }

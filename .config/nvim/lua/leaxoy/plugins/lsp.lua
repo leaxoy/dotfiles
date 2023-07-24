@@ -1,4 +1,6 @@
 --#region Lsp Client Configuration
+---@param client lsp.Client
+---@param buffer integer
 local function resolve_text_document_capabilities(client, buffer)
   --#region HACK
   --hack ruff_lsp
@@ -9,6 +11,7 @@ local function resolve_text_document_capabilities(client, buffer)
   local function map(keys) map_local(keys, buffer) end
 
   local caps = client.server_capabilities
+  assert(caps)
   local has_lspsaga = vim.fn.exists ":Lspsaga" > 0
 
   if caps.declarationProvider then
@@ -45,24 +48,6 @@ local function resolve_text_document_capabilities(client, buffer)
       buffer = buffer,
       callback = vim.lsp.buf.clear_references,
     })
-  end
-  if caps.hoverProvider then
-    local function hover()
-      if vim.tbl_contains({}, vim.bo.filetype) then
-        vim.cmd.help { args = { vim.fn.expand "<cword>" } }
-      elseif vim.bo.filetype == "man" then
-        vim.cmd.Man { args = { vim.fn.expand "<cword>" } }
-      elseif
-        vim.fn.expand "%:t" == "Cargo.toml"
-        and is_plugin_installed "crates"
-        and require("crates").popup_available()
-      then
-        require("crates").show_popup()
-      else
-        vim.lsp.buf.hover()
-      end
-    end
-    map { "K", hover, desc = "Hover" }
   end
   if caps.codeLensProvider then
     vim.api.nvim_create_autocmd({ "BufEnter", "TextChanged" }, {
@@ -108,8 +93,7 @@ local function resolve_workspace_capabilities(client, buffer)
 
   --#region workspace start
   if caps.workspaceSymbolProvider then
-    local sym = vim.fn.exists ":Telescope" > 0
-        and [[<CMD>Telescope lsp_dynamic_workspace_symbols<CR>]]
+    local sym = vim.fn.exists ":FzfLua" > 0 and [[<CMD>FzfLua lsp_live_workspace_symbols<CR>]]
       or vim.lsp.buf.workspace_symbol
     map { "<leader>cO", sym, desc = "Workspace Symbol" }
   end
@@ -125,6 +109,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     local buf = args.buf
+    assert(client)
 
     resolve_text_document_capabilities(client, buf)
     resolve_workspace_capabilities(client, buf)
@@ -189,7 +174,7 @@ return {
     event = "LspAttach",
     ---@type LazyKeys[]
     keys = {
-      { "gf", "<CMD>Lspsaga lsp_finder<CR>", desc = "[LSP] Finder" },
+      { "gf", "<CMD>Lspsaga finder def+ref+imp<CR>", desc = "[LSP] Finder" },
       { "gp", "<CMD>Lspsaga peek_definition<CR>", desc = "[LSP] Peek Definition" },
       { "[x", "<CMD>Lspsaga diagnostic_jump_prev<CR>", desc = "Previous Diagnostic" },
       { "]x", "<CMD>Lspsaga diagnostic_jump_next<CR>", desc = "Next Diagnostic" },
@@ -200,88 +185,16 @@ return {
     dependencies = { { "nvim-tree/nvim-web-devicons" } },
     config = function()
       require("lspsaga").setup {
-        ui = {
-          border = "solid",
-          expand = "▸ ",
-          collapse = "▾ ",
-          code_action = " ",
-          actionfix = " ",
-          diagnostic = " ",
-          incoming = " ",
-          outgoing = " ",
-        },
-        diagnostic = {
-          on_insert_follow = true,
-          text_hl_follow = true,
-          keys = {
-            exec_action = "<CR>",
-            quit = "q",
-            go_action = "g",
-          },
-        },
-        symbol_in_winbar = {
-          enable = true,
-          show_file = true,
-          respect_root = true,
-          separator = "  ",
-        },
-        code_action = {
-          num_shortcut = true,
-          extend_gitsigns = false,
-          keys = { quit = "q", exec = "<CR>" },
-        },
-        lightbulb = {
-          enable = false,
-          enable_in_insert = false,
-          cache_code_action = true,
-          sign = false,
-          sign_priority = 40,
-          virtual_text = true,
-          update_time = 100,
-        },
-        preview = { lines_above = 0, lines_below = 20 },
-        scroll_preview = { scroll_down = "<C-d>", scroll_up = "<C-u>" },
-        outline = { auto_enter = false, keys = { expand_or_jump = "<CR>" }, auto_resize = true },
-        callhierarchy = {
-          keys = {
-            edit = "e",
-            vsplit = ",",
-            split = "s",
-            tabe = "t",
-            quit = "q",
-            expand_collapse = "u",
-            jump = "<CR>",
-          },
-        },
+        ui = { code_action = " ", actionfix = " ", imp_sign = " " },
+        finder = { silent = true, default = "def+imp+ref", keys = { quit = { "q", "<Esc>" } } },
+        callhierarchy = { keys = { toggle_or_req = "o" } },
+        implement = { enable = true },
+        lightbulb = { sign = false },
+        outline = { auto_enter = false, auto_resize = true },
         request_timeout = 5000,
-        finder = {
-          keys = {
-            jump_to = "p",
-            expand_or_jump = "<CR>",
-            vsplit = ",",
-            split = "s",
-            tabe = "t",
-            quit = { "q", "<ESC>" },
-            close_in_preview = "<ESC>",
-          },
-        },
-        definition = {
-          edit = "<C-c>e",
-          vsplit = "<C-c>,",
-          split = "<C-c>s",
-          tabe = "<C-c>t",
-          quit = "q",
-        },
-        rename = { quit = "<Esc>", in_select = false },
+        rename = { in_select = false, keys = { quit = "<Esc>" } },
+        scroll_preview = { scroll_down = "<C-d>", scroll_up = "<C-u>" },
       }
-
-      -- update color highlight
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        callback = function()
-          require("lspsaga.highlight").init_highlight()
-          require("lspsaga.lspkind").init_kind_hl()
-        end,
-      })
     end,
   },
 }

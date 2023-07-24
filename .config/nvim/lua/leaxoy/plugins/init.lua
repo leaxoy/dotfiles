@@ -73,9 +73,6 @@ return {
       yadm = { enable = true },
     },
   },
-  { "tpope/vim-fugitive" },
 
   { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
-
-  { "zaldih/themery.nvim", config = function() require("themery").setup {} end },
 }

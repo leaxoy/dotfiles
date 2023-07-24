@@ -6,34 +6,18 @@ return {
     "nvim-neotest/neotest-python",
     "rouge8/neotest-rust",
   },
-  enabled = false,
+  cmd = "Neotest",
   ---@type LazyKeys[]
   keys = {
-    { "tf", [[<CMD>lua require("neotest").run.run()<CR>]], desc = "Current function" },
-    {
-      "tr",
-      [[<CMD>lua require("neotest").run.run(vim.fn.expand "%")<CR>]],
-      desc = "Current file",
-    },
-    { "tt", [[<CMD>lua require("neotest").run.run(vim.loop.cwd())<CR>]], desc = "Project" },
-    { "td", [[<CMD>lua require("neotest").run.run { strategy = "dap" }<CR>]], desc = "Debug" },
-    { "ta", [[<CMD>lua require("neotest").run.attach()<CR>]], desc = "Attach test" },
-    { "ts", [[<CMD>lua require("neotest").summary.toggle()<CR>]], desc = "Explorer" },
-    {
-      "to",
-      [[<CMD>lua require("neotest").output.open { enter = true }<CR>]],
-      desc = "Toggle output",
-    },
-    {
-      "[t",
-      [[<CMD>lua require("neotest").jump.prev { status = "failed" }<CR>]],
-      desc = "Prev failed testCase",
-    },
-    {
-      "]t",
-      [[<CMD>lua require("neotest").jump.next { status = "failed" }<CR>]],
-      desc = "Next failed testCase",
-    },
+    { "tf", [[<CMD>Neotest run<CR>]], desc = "Current Function" },
+    { "tr", [[<CMD>Neotest run file<CR>]], desc = "Current file" },
+    { "tt", string.format("<CMD>Neotest run %s<CR>", vim.loop.cwd()), desc = "Project" },
+    { "td", [[<CMD>Neotest run strategy=dap<CR>]], desc = "Debug" },
+    { "ta", [[<CMD>Neotest attach<CR>]], desc = "Attach Test" },
+    { "ts", [[<CMD>Neotest summary toggle<CR>]], desc = "Test Explorer" },
+    { "to", [[<CMD>Neotest output-panel<CR>]], desc = "Toggle Output" },
+    { "[t", [[<CMD>Neotest jump prev status=failed<CR>]], desc = "Prev Failed TestCase" },
+    { "]t", [[<CMD>Neotest jump next status=failed<CR>]], desc = "Next Failed TestCase" },
   },
   config = function()
     local neotest = (require "neotest")

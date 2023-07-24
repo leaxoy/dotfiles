@@ -2,7 +2,6 @@ local status, jdtls = pcall(require, "jdtls")
 if not status then return end
 
 jdtls.setup_dap { hotcodereplace = "auto" }
-jdtls.setup.add_commands()
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   callback = jdtls.organize_imports,

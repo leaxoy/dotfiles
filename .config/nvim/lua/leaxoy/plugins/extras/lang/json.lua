@@ -11,6 +11,14 @@ return {
         ---@type lspconfig.settings.jsonls
         settings = {},
       },
+      yamlls = {
+        on_new_config = function(new_config)
+          new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}
+          vim.list_extend(new_config.settings.yaml.schemas, require("schemastore").json.schemas())
+        end,
+        ---@type lspconfig.settings.yamlls
+        settings = {},
+      },
     },
   },
 }

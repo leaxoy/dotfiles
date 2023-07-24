@@ -1,6 +1,8 @@
 return {
   "echasnovski/mini.nvim",
   event = "VeryLazy",
+  ---@type LazyKeys[]
+  keys = { { [[\f]], "<CMD>lua MiniFiles.open()<CR>" } },
   dependencies = {
     {
       "nvim-treesitter/nvim-treesitter-textobjects",
@@ -99,6 +101,7 @@ return {
     require("mini.basics").setup(opts.basics)
     require("mini.bracketed").setup(opts.bracketed)
     require("mini.comment").setup(opts.comment)
+    require("mini.files").setup(opts.files)
     local hi = require "mini.hipatterns"
     local hi_opts = vim.tbl_extend(
       "force",

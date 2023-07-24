@@ -7,7 +7,7 @@ require "leaxoy.config.lsp"
 require "leaxoy.config.ui"
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system {
     "git",
     "clone",
@@ -20,8 +20,7 @@ vim.opt.runtimepath:prepend(lazypath)
 
 require("lazy").setup {
   spec = {
-    { import = "leaxoy.plugins.extras.lang.c" },
-    -- { import = "leaxoy.plugins.extras.lang.csharp" },
+    { import = "leaxoy.plugins.extras.lang.efm" },
     { import = "leaxoy.plugins.extras.lang.go" },
     { import = "leaxoy.plugins.extras.lang.json" },
     { import = "leaxoy.plugins.extras.lang.lua" },
@@ -40,7 +39,7 @@ require("lazy").setup {
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
-        "tutor",
+        -- "tutor",
         "zipPlugin",
       },
     },

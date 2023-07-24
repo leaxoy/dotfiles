@@ -4,11 +4,9 @@ return {
   opts = {
     servers = {
       gopls = {
-        init_options = {
-          allExperiments = true,
-        },
         settings = {
           gopls = {
+            semanticTokens = true,
             hints = {
               assignVariableTypes = true,
               compositeLiteralFields = true,
@@ -18,10 +16,10 @@ return {
               parameterNames = true,
               rangeVariableTypes = true,
             },
-            ["formatting.gofumpt"] = true,
-            ["ui.completion.experimentalPostfixCompletions"] = true,
-            ["ui.completion.usePlaceholders"] = true,
-            ["ui.codelenses"] = {
+            completeUnimported = true,
+            gofumpt = true,
+            usePlaceholders = true,
+            codelenses = {
               gc_details = true,
               generate = true,
               regenerate_cgo = true,
@@ -31,7 +29,7 @@ return {
               upgrade_dependency = true,
               vendor = true,
             },
-            ["ui.diagnostic.analyses"] = {
+            analyses = {
               fieldalignment = true,
               nilness = true,
               shadow = true,
@@ -40,7 +38,7 @@ return {
               unusedwrite = true,
               useany = true,
             },
-            ["ui.diagnostic.staticcheck"] = true,
+            staticcheck = true,
           },
         },
       },
